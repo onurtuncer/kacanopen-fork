@@ -30,16 +30,16 @@
  */
 
 #include <signal.h>
+#include <boost/filesystem.hpp>
 #include <chrono>
 #include <iostream>
 #include <memory>
 #include <vector>
-#include "../tools/include/parse_sdo.h"
-#include "../tools/src/parse_sdo.cpp"
 #include "core.h"
 #include "device.h"
 #include "logger.h"
 #include "master.h"
+#include "parse_sdo.h"
 
 static volatile int keepRunning = 1;
 
@@ -100,8 +100,9 @@ int main() {
         found_node = true;
 
         device.reset(new kaco::Device(core, node_id));
-        device->load_dictionary_from_eds(
-            "/home/mhs/Desktop/EDS/roboteq_motor_controllers_v80beta.eds");
+        boost::filesystem::path full_path = boost::filesystem::system_complete(
+            "src/kacanopen/examples/roboteq_motor_controllers_v80beta.eds");
+        device->load_dictionary_from_eds(full_path.string());
 
         device->set_entry("cmd_cango/cmd_cango_1", channel1_speed_ref,
                           kaco::WriteAccessMethod::pdo);

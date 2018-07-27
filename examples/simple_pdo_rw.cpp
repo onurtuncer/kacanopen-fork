@@ -30,6 +30,7 @@
  */
 
 #include <signal.h>
+#include <boost/filesystem.hpp>
 #include <chrono>
 #include <iostream>
 #include <memory>
@@ -45,7 +46,6 @@
 #include "receive_pdo_mapping.h"
 static volatile int keepRunning = 1;
 
-
 void intHandler(int dummy) {
   (void)dummy;
   keepRunning = 0;
@@ -58,9 +58,9 @@ void intHandler(int dummy) {
 void initializeDevice(std::shared_ptr<kaco::Device> device,
                       uint16_t heartbeat_interval, uint8_t node_id) {
   // Load eds
-  device->load_dictionary_from_eds(
-      "/home/mhs/bor/test/CANopenSocket/canopend/objDict/"
-      "roboteq_motor_controllers_v80beta.eds");
+  boost::filesystem::path full_path = boost::filesystem::system_complete(
+      "src/kacanopen/examples/roboteq_motor_controllers_v80beta.eds");
+  device->load_dictionary_from_eds(full_path.string());
 
   // set the our desired heartbeat_interval time
   device->set_entry(0x1017, 0x0, heartbeat_interval,
@@ -121,7 +121,7 @@ int main() {
 
   // Set the name of your CAN bus. "slcan0" is a common bus name
   // for the first SocketCAN device on a Linux system.
-  const std::string busname = "slcan0";
+  const std::string busname = "can0";
 
   // Set the baudrate of your CAN bus. Most drivers support the values
   // "1M", "500K", "125K", "100K", "50K", "20K", "10K" and "5K".

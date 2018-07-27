@@ -1,5 +1,5 @@
 [Comments]
-Lines=62
+Lines=89
 Line1=Electronic Data Sheet file matching the
 Line2="CANopen Task Setup" file with the same name
 Line3=
@@ -62,9 +62,36 @@ Line59=
 Line60=
 Line61=
 Line62=
+Line63=
+Line64=
+Line65=
+Line66=
+Line67=
+Line68=
+Line69=
+Line70=
+Line71=
+Line72=
+Line73=
+Line74=
+Line75=
+Line76=
+Line77=
+Line78=
+Line79=
+Line80=
+Line81=
+Line82=
+Line83=
+Line84=
+Line85=
+Line86=
+Line87=
+Line88=
+Line89=
 
 [FileInfo]
-FileName=C:\cvs_projects\RobotARM\CANOpen\ODFilesV6\roboteq_motor_controllers_v60.eds
+FileName=E:\Cosma\Projects\RobotARM\CANOpen\ODFilesV8\roboteq_motor_controllers_v80beta.eds
 FileVersion=10
 FileRevision=11
 EDSVersion=4.0
@@ -72,8 +99,8 @@ Description=Device Profile 401 - Generic I/O - Generic Version
 CreationTime=02:45PM
 CreationDate=03-07-2016
 CreatedBy=Roboteq
-ModificationTime=07:04PM
-ModificationDate=11-10-2016
+ModificationTime=04:49PM
+ModificationDate=05-01-2018
 ModifiedBy=Roboteq
 
 [DeviceInfo]
@@ -93,7 +120,7 @@ BaudRate_800=1
 BaudRate_1000=1
 SimpleBootUpMaster=0
 SimpleBootUpSlave=1
-Granularity=0
+Granularity=1
 DynamicChannelsSupported=0
 GroupMessaging=0
 NrOfRXPDO=4
@@ -140,7 +167,7 @@ ObjFlags=0x0
 
 [1018]
 ParameterName=Identity Object
-SubNumber=4
+SubNumber=2
 ObjectType=0x8
 
 [1018sub0]
@@ -150,7 +177,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=3
+DefaultValue=0x01
 PDOMapping=0
 ObjFlags=0x0
 
@@ -160,61 +187,107 @@ ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
-AccessType=ro
-DefaultValue=0x00000000
-PDOMapping=0
-ObjFlags=0x0
-
-[1018sub2]
-ParameterName=Product code
-ObjectType=0x7
-DataType=0x0007
-LowLimit=
-HighLimit=
-AccessType=ro
-DefaultValue=0xFFFFFFFF
-PDOMapping=0
-ObjFlags=0x0
-
-[1018sub3]
-ParameterName=Revision number
-ObjectType=0x7
-DataType=0x0007
-LowLimit=
-HighLimit=
-AccessType=ro
-DefaultValue=0xFFFFFFFF
+AccessType=const
+DefaultValue=0x00000469
 PDOMapping=0
 ObjFlags=0x0
 
 [OptionalObjects]
-SupportedObjects=26
+SupportedObjects=94
 1=0x1008
 2=0x1009
 3=0x100A
-4=0x1016
-5=0x1017
-6=0x1400
-7=0x1401
-8=0x1402
-9=0x1403
-10=0x1600
-11=0x1601
-12=0x1602
-13=0x1603
-14=0x1800
-15=0x1801
-16=0x1802
-17=0x1803
-18=0x1A00
-19=0x1A01
-20=0x1A02
-21=0x1A03
-22=0x6400
-23=0x6401
-24=0x6402
-25=0x6403
-26=0x6404
+4=0x100C
+5=0x100D
+6=0x1016
+7=0x1017
+8=0x1400
+9=0x1401
+10=0x1402
+11=0x1403
+12=0x1600
+13=0x1601
+14=0x1602
+15=0x1603
+16=0x1800
+17=0x1801
+18=0x1802
+19=0x1803
+20=0x1A00
+21=0x1A01
+22=0x1A02
+23=0x1A03
+24=0x6040
+25=0x6041
+26=0x6042
+27=0x6043
+28=0x6044
+29=0x6046
+30=0x6048
+31=0x6049
+32=0x6060
+33=0x6061
+34=0x6064
+35=0x606C
+36=0x6071
+37=0x6077
+38=0x607A
+39=0x6081
+40=0x6083
+41=0x6084
+42=0x6087
+43=0x60FF
+44=0x6400
+45=0x6401
+46=0x6402
+47=0x6403
+48=0x6404
+49=0x6502
+50=0x67FE
+51=0x6840
+52=0x6841
+53=0x6842
+54=0x6843
+55=0x6844
+56=0x6846
+57=0x6848
+58=0x6849
+59=0x6860
+60=0x6861
+61=0x6864
+62=0x686C
+63=0x6871
+64=0x6877
+65=0x687A
+66=0x6881
+67=0x6883
+68=0x6884
+69=0x6887
+70=0x68FF
+71=0x6D02
+72=0x6FFE
+73=0x7040
+74=0x7041
+75=0x7042
+76=0x7043
+77=0x7044
+78=0x7046
+79=0x7048
+80=0x7049
+81=0x7060
+82=0x7061
+83=0x7064
+84=0x706C
+85=0x7071
+86=0x7077
+87=0x707A
+88=0x7081
+89=0x7083
+90=0x7084
+91=0x7087
+92=0x70FF
+93=0x7502
+94=0x77FE
 
 [1008]
 ParameterName=Manufacturer Device Name
@@ -249,6 +322,28 @@ DefaultValue=2
 PDOMapping=0
 ObjFlags=0x0
 
+[100C]
+ParameterName=Guard Time
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+ObjFlags=0x0
+
+[100D]
+ParameterName=Life Time Factor
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+ObjFlags=0x0
+
 [1016]
 ParameterName=Consumer Heartbeat Time
 SubNumber=5
@@ -261,7 +356,7 @@ DataType=0x0005
 LowLimit=0x1
 HighLimit=
 AccessType=ro
-DefaultValue=4
+DefaultValue=0x04
 PDOMapping=0
 ObjFlags=0x0
 
@@ -332,7 +427,7 @@ DataType=0x0005
 LowLimit=0x02
 HighLimit=0x05
 AccessType=ro
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
@@ -342,7 +437,7 @@ ObjectType=0x7
 DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
-AccessType=ro
+AccessType=rw
 DefaultValue=$NODEID+0x200
 PDOMapping=0
 ObjFlags=0x0
@@ -353,7 +448,7 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=ro
+AccessType=rw
 DefaultValue=255
 PDOMapping=0
 ObjFlags=0x0
@@ -370,7 +465,7 @@ DataType=0x0005
 LowLimit=0x02
 HighLimit=0x05
 AccessType=ro
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
@@ -380,7 +475,7 @@ ObjectType=0x7
 DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
-AccessType=ro
+AccessType=rw
 DefaultValue=$NODEID+0x300
 PDOMapping=0
 ObjFlags=0x0
@@ -391,7 +486,7 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=ro
+AccessType=rw
 DefaultValue=255
 PDOMapping=0
 ObjFlags=0x0
@@ -408,7 +503,7 @@ DataType=0x0005
 LowLimit=0x02
 HighLimit=0x05
 AccessType=ro
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
@@ -418,7 +513,7 @@ ObjectType=0x7
 DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
-AccessType=ro
+AccessType=rw
 DefaultValue=$NODEID+0x400
 PDOMapping=0
 ObjFlags=0x0
@@ -429,7 +524,7 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=ro
+AccessType=rw
 DefaultValue=255
 PDOMapping=0
 ObjFlags=0x0
@@ -446,7 +541,7 @@ DataType=0x0005
 LowLimit=0x02
 HighLimit=0x05
 AccessType=ro
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
@@ -456,7 +551,7 @@ ObjectType=0x7
 DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
-AccessType=ro
+AccessType=rw
 DefaultValue=$NODEID+0x500
 PDOMapping=0
 ObjFlags=0x0
@@ -467,7 +562,7 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=ro
+AccessType=rw
 DefaultValue=255
 PDOMapping=0
 ObjFlags=0x0
@@ -484,29 +579,29 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
 [1600sub1]
-ParameterName=PDO Mapping Entry - Cmd_VAR 1
+ParameterName=PDO Mapping Entry - Cmd_VAR 9
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x20050120
+DefaultValue=0x20050920
 PDOMapping=0
 ObjFlags=0x0
 
 [1600sub2]
-ParameterName=PDO Mapping Entry - Cmd_VAR 2
+ParameterName=PDO Mapping Entry - Cmd_VAR 10
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x20050220
+DefaultValue=0x20050A20
 PDOMapping=0
 ObjFlags=0x0
 
@@ -522,29 +617,29 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
 [1601sub1]
-ParameterName=PDO Mapping Entry - Cmd_VAR 3
+ParameterName=PDO Mapping Entry - Cmd_VAR 11
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x20050320
+DefaultValue=0x20050B20
 PDOMapping=0
 ObjFlags=0x0
 
 [1601sub2]
-ParameterName=PDO Mapping Entry - Cmd_VAR 4
+ParameterName=PDO Mapping Entry - Cmd_VAR 12
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x20050420
+DefaultValue=0x20050C20
 PDOMapping=0
 ObjFlags=0x0
 
@@ -560,29 +655,29 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
 [1602sub1]
-ParameterName=PDO Mapping Entry - Cmd_VAR 5
+ParameterName=PDO Mapping Entry - Cmd_VAR 13
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x20050520
+DefaultValue=0x20050D20
 PDOMapping=0
 ObjFlags=0x0
 
 [1602sub2]
-ParameterName=PDO Mapping Entry - Cmd_VAR 6
+ParameterName=PDO Mapping Entry - Cmd_VAR 14
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x20050620
+DefaultValue=0x20050E20
 PDOMapping=0
 ObjFlags=0x0
 
@@ -598,29 +693,29 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
 [1603sub1]
-ParameterName=PDO Mapping Entry - Cmd_VAR 7
+ParameterName=PDO Mapping Entry - Cmd_VAR 15
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x20050720
+DefaultValue=0x20050F20
 PDOMapping=0
 ObjFlags=0x0
 
 [1603sub2]
-ParameterName=PDO Mapping Entry - Cmd_VAR 8
+ParameterName=PDO Mapping Entry - Cmd_VAR 16
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x20050820
+DefaultValue=0x20051020
 PDOMapping=0
 ObjFlags=0x0
 
@@ -636,7 +731,7 @@ DataType=0x0005
 LowLimit=0x02
 HighLimit=0x05
 AccessType=ro
-DefaultValue=5
+DefaultValue=0x05
 PDOMapping=0
 ObjFlags=0x0
 
@@ -646,8 +741,8 @@ ObjectType=0x7
 DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
-AccessType=ro
-DefaultValue=$NODEID+0x180
+AccessType=rw
+DefaultValue=$NODEID+0x40000180
 PDOMapping=0
 ObjFlags=0x0
 
@@ -657,7 +752,7 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=ro
+AccessType=rw
 DefaultValue=255
 PDOMapping=0
 ObjFlags=0x0
@@ -668,8 +763,8 @@ ObjectType=0x7
 DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=ro
-DefaultValue=10
+AccessType=rw
+DefaultValue=0
 PDOMapping=0
 ObjFlags=0x0
 
@@ -679,7 +774,7 @@ ObjectType=0x7
 DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=ro
+AccessType=rw
 DefaultValue=0
 PDOMapping=0
 ObjFlags=0x0
@@ -696,7 +791,7 @@ DataType=0x0005
 LowLimit=0x02
 HighLimit=0x05
 AccessType=ro
-DefaultValue=5
+DefaultValue=0x05
 PDOMapping=0
 ObjFlags=0x0
 
@@ -706,8 +801,8 @@ ObjectType=0x7
 DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
-AccessType=ro
-DefaultValue=$NODEID+0x280
+AccessType=rw
+DefaultValue=$NODEID+0x40000280
 PDOMapping=0
 ObjFlags=0x0
 
@@ -717,7 +812,7 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=ro
+AccessType=rw
 DefaultValue=255
 PDOMapping=0
 ObjFlags=0x0
@@ -728,8 +823,8 @@ ObjectType=0x7
 DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=ro
-DefaultValue=10
+AccessType=rw
+DefaultValue=0
 PDOMapping=0
 ObjFlags=0x0
 
@@ -739,7 +834,7 @@ ObjectType=0x7
 DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=ro
+AccessType=rw
 DefaultValue=0
 PDOMapping=0
 ObjFlags=0x0
@@ -756,7 +851,7 @@ DataType=0x0005
 LowLimit=0x02
 HighLimit=0x05
 AccessType=ro
-DefaultValue=5
+DefaultValue=0x05
 PDOMapping=0
 ObjFlags=0x0
 
@@ -766,8 +861,8 @@ ObjectType=0x7
 DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
-AccessType=ro
-DefaultValue=$NODEID+0x380
+AccessType=rw
+DefaultValue=$NODEID+0x40000380
 PDOMapping=0
 ObjFlags=0x0
 
@@ -777,7 +872,7 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=ro
+AccessType=rw
 DefaultValue=255
 PDOMapping=0
 ObjFlags=0x0
@@ -788,8 +883,8 @@ ObjectType=0x7
 DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=ro
-DefaultValue=10
+AccessType=rw
+DefaultValue=0
 PDOMapping=0
 ObjFlags=0x0
 
@@ -799,7 +894,7 @@ ObjectType=0x7
 DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=ro
+AccessType=rw
 DefaultValue=0
 PDOMapping=0
 ObjFlags=0x0
@@ -816,7 +911,7 @@ DataType=0x0005
 LowLimit=0x02
 HighLimit=0x05
 AccessType=ro
-DefaultValue=5
+DefaultValue=0x05
 PDOMapping=0
 ObjFlags=0x0
 
@@ -826,8 +921,8 @@ ObjectType=0x7
 DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
-AccessType=ro
-DefaultValue=$NODEID+0x480
+AccessType=rw
+DefaultValue=$NODEID+0x40000480
 PDOMapping=0
 ObjFlags=0x0
 
@@ -837,7 +932,7 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=ro
+AccessType=rw
 DefaultValue=255
 PDOMapping=0
 ObjFlags=0x0
@@ -848,8 +943,8 @@ ObjectType=0x7
 DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=ro
-DefaultValue=10
+AccessType=rw
+DefaultValue=0
 PDOMapping=0
 ObjFlags=0x0
 
@@ -859,7 +954,7 @@ ObjectType=0x7
 DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=ro
+AccessType=rw
 DefaultValue=0
 PDOMapping=0
 ObjFlags=0x0
@@ -876,29 +971,62 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
 [1A00sub1]
-ParameterName=PDO Mapping Entry - Qry_VAR 9
+ParameterName=PDO Mapping Entry - Qry_VAR 1
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x21060920
+DefaultValue=0x21060120
 PDOMapping=0
 ObjFlags=0x0
 
 [1A00sub2]
-ParameterName=PDO Mapping Entry - Qry_VAR 10
+ParameterName=PDO Mapping Entry - Qry_VAR 2
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x21060A20
+DefaultValue=0x21060220
+PDOMapping=0
+ObjFlags=0x0
+
+[1A00sub3]
+ParameterName=PDO Mapping Entry - Qry_VAR 2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060220
+PDOMapping=0
+ObjFlags=0x0
+
+[1A00sub4]
+ParameterName=PDO Mapping Entry - Qry_VAR 2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060220
+PDOMapping=0
+ObjFlags=0x0
+
+[1A00sub5]
+ParameterName=PDO Mapping Entry - Qry_VAR 2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060220
 PDOMapping=0
 ObjFlags=0x0
 
@@ -914,36 +1042,68 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
 [1A01sub1]
-ParameterName=PDO Mapping Entry - Qry_VAR 11
+ParameterName=PDO Mapping Entry - Qry_VAR 3
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x21060B20
+DefaultValue=0x21060320
 PDOMapping=0
 ObjFlags=0x0
 
 [1A01sub2]
-ParameterName=PDO Mapping Entry - Qry_VAR 12
+ParameterName=PDO Mapping Entry - Qry_VAR 4
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x21060C20
+DefaultValue=0x21060420
 PDOMapping=0
 ObjFlags=0x0
 
+[1A01sub3]
+ParameterName=PDO Mapping Entry - Qry_VAR 4
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060420
+PDOMapping=0
+ObjFlags=0x0
+
+[1A01sub4]
+ParameterName=PDO Mapping Entry - Qry_VAR 4
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060420
+PDOMapping=0
+ObjFlags=0x0
 [1A02]
 ParameterName=3rd Transmit PDO Mapping Parameter
 SubNumber=3
 ObjectType=0x8
+
+[1A01sub5]
+ParameterName=PDO Mapping Entry - Qry_VAR 4
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060420
+PDOMapping=0
+ObjFlags=0x0
 
 [1A02sub0]
 ParameterName=Number of entries
@@ -952,29 +1112,62 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
 [1A02sub1]
-ParameterName=PDO Mapping Entry - Qry_VAR 13
+ParameterName=PDO Mapping Entry - Qry_VAR 5
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x21060D20
+DefaultValue=0x21060520
 PDOMapping=0
 ObjFlags=0x0
 
 [1A02sub2]
-ParameterName=PDO Mapping Entry - Qry_VAR 14
+ParameterName=PDO Mapping Entry - Qry_VAR 6
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x21060E20
+DefaultValue=0x21060620
+PDOMapping=0
+ObjFlags=0x0
+
+[1A02sub3]
+ParameterName=PDO Mapping Entry - Qry_VAR 6
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060620
+PDOMapping=0
+ObjFlags=0x0
+
+[1A02sub4]
+ParameterName=PDO Mapping Entry - Qry_VAR 6
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060620
+PDOMapping=0
+ObjFlags=0x0
+
+[1A02sub5]
+ParameterName=PDO Mapping Entry - Qry_VAR 6
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060620
 PDOMapping=0
 ObjFlags=0x0
 
@@ -990,30 +1183,436 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
 [1A03sub1]
-ParameterName=PDO Mapping Entry - Qry_VAR 15
+ParameterName=PDO Mapping Entry - Qry_VAR 7
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x21060F20
+DefaultValue=0x21060720
 PDOMapping=0
 ObjFlags=0x0
 
 [1A03sub2]
-ParameterName=PDO Mapping Entry - Qry_VAR 16
+ParameterName=PDO Mapping Entry - Qry_VAR 8
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=rw
-DefaultValue=0x21061020
+DefaultValue=0x21060820
 PDOMapping=0
+ObjFlags=0x0
+
+[1A03sub3]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A03sub4]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A03sub5]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A04]
+ParameterName=5th Transmit PDO Mapping Parameter
+SubNumber=3
+ObjectType=0x8
+
+[1A04sub0]
+ParameterName=Number of entries
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[1A04sub1]
+ParameterName=PDO Mapping Entry - Qry_VAR 7
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060720
+PDOMapping=0
+ObjFlags=0x0
+
+[1A04sub2]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A04sub3]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A04sub4]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A04sub5]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+
+[6040]
+ParameterName=Control Word 1
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6041]
+ParameterName=Status Word 1
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6042]
+ParameterName=Target Velocity 1
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6043]
+ParameterName=VL Velocity Demand 1
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6044]
+ParameterName=VL Velocity Actual Value 1
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6046]
+ParameterName=VL Velocity Min Max Amount 1
+SubNumber=3
+ObjectType=0x8
+
+[6046sub0]
+ParameterName=Highest Subindex
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[6046sub1]
+ParameterName=VL Velocity Min Amount
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6046sub2]
+ParameterName=VL Velocity Max Amount
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6048]
+ParameterName=Velocity Acceleration 1
+SubNumber=3
+ObjectType=0x9
+
+[6048sub0]
+ParameterName=Number of Entries
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[6048sub1]
+ParameterName=Delta Speed
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6048sub2]
+ParameterName=Delta Time
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6049]
+ParameterName=Velocity Deceleration 1
+SubNumber=3
+ObjectType=0x9
+
+[6049sub0]
+ParameterName=Number of Entries
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[6049sub1]
+ParameterName=Delta Speed
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6049sub2]
+ParameterName=Delta Time
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6060]
+ParameterName=Modes of Operation 1
+ObjectType=0x7
+DataType=0x0002
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6061]
+ParameterName=Modes of Operation Display 1
+ObjectType=0x7
+DataType=0x0002
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+ObjFlags=0x0
+
+[6064]
+ParameterName=Position Actual Value 1
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[606C]
+ParameterName=Velocity Actual Value 1
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6071]
+ParameterName=Target Torque 1
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=0
+PDOMapping=1
+ObjFlags=0x0
+
+[6077]
+ParameterName=Torque Actual Value 1
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[607A]
+ParameterName=Target Position 1
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6081]
+ParameterName=Profile Velocity 1
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6083]
+ParameterName=Profile Acceleration 1
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6084]
+ParameterName=Profile Deceleration 1
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6087]
+ParameterName=Torque Slope 1
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[60FF]
+ParameterName=Target Velocity 1
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
 ObjFlags=0x0
 
 [6400]
@@ -1028,7 +1627,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=15
+DefaultValue=0x13
 PDOMapping=0
 ObjFlags=0x0
 
@@ -1253,7 +1852,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=8
+DefaultValue=0x0B
 PDOMapping=0
 ObjFlags=0x0
 
@@ -1390,7 +1989,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=8
+DefaultValue=0x0B
 PDOMapping=1
 ObjFlags=0x0
 
@@ -1527,7 +2126,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=6
+DefaultValue=0x08
 PDOMapping=0
 ObjFlags=0x0
 
@@ -1631,7 +2230,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=6
+DefaultValue=0x08
 PDOMapping=0
 ObjFlags=0x0
 
@@ -1723,8 +2322,676 @@ DefaultValue=
 PDOMapping=1
 ObjFlags=0x0
 
+[6502]
+ParameterName=Supported Drive Modes  1
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=const
+DefaultValue=0x0000000F
+PDOMapping=0
+ObjFlags=0x0
+
+[67FE]
+ParameterName=Version Number 1
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=const
+DefaultValue=0x00040100
+PDOMapping=0
+ObjFlags=0x0
+
+[6840]
+ParameterName=Control Word 2
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6841]
+ParameterName=Status Word 2
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6842]
+ParameterName=Target Velocity 2
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6843]
+ParameterName=VL Velocity Demand 2
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6844]
+ParameterName=VL Velocity Actual Value 2
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6846]
+ParameterName=VL Velocity Min Max Amount 2
+SubNumber=3
+ObjectType=0x8
+
+[6846sub0]
+ParameterName=Highest Subindex
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[6846sub1]
+ParameterName=VL Velocity Min Amount
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6846sub2]
+ParameterName=VL Velocity Max Amount
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6848]
+ParameterName=Velocity Acceleration 2
+SubNumber=3
+ObjectType=0x9
+
+[6848sub0]
+ParameterName=Number of Entries
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[6848sub1]
+ParameterName=Delta Speed
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6848sub2]
+ParameterName=Delta Time
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6849]
+ParameterName=Velocity Deceleration 2
+SubNumber=3
+ObjectType=0x9
+
+[6849sub0]
+ParameterName=Number of Entries
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[6849sub1]
+ParameterName=Delta Speed
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6849sub2]
+ParameterName=Delta Time
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6860]
+ParameterName=Modes of Operation 2
+ObjectType=0x7
+DataType=0x0002
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6861]
+ParameterName=Modes of Operation Display 2
+ObjectType=0x7
+DataType=0x0002
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+ObjFlags=0x0
+
+[6864]
+ParameterName=Position Actual Value 2
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[686C]
+ParameterName=Velocity Actual Value 2
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6871]
+ParameterName=Target Torque 2
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=0
+PDOMapping=1
+ObjFlags=0x0
+
+[6877]
+ParameterName=Torque Actual Value 2
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[687A]
+ParameterName=Target Position 2
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6881]
+ParameterName=Profile Velocity 2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6883]
+ParameterName=Profile Acceleration 2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6884]
+ParameterName=Profile Deceleration 2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6887]
+ParameterName=Torque Slope 2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[68FF]
+ParameterName=Target Velocity 2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[6D02]
+ParameterName=Supported Drive Modes  2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=const
+DefaultValue=0x0000000F
+PDOMapping=0
+ObjFlags=0x0
+
+[6FFE]
+ParameterName=Version Number 2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=const
+DefaultValue=0x00040100
+PDOMapping=0
+ObjFlags=0x0
+
+[7040]
+ParameterName=Control Word 3
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7041]
+ParameterName=Status Word 3
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7042]
+ParameterName=Target Velocity 3
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7043]
+ParameterName=VL Velocity Demand 3
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7044]
+ParameterName=VL Velocity Actual Value 3
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7046]
+ParameterName=VL Velocity Min Max Amount 3
+SubNumber=3
+ObjectType=0x8
+
+[7046sub0]
+ParameterName=Highest Subindex
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[7046sub1]
+ParameterName=VL Velocity Min Amount
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7046sub2]
+ParameterName=VL Velocity Max Amount
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7048]
+ParameterName=Velocity Acceleration 3
+SubNumber=3
+ObjectType=0x9
+
+[7048sub0]
+ParameterName=Number of Entries
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[7048sub1]
+ParameterName=Delta Speed
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7048sub2]
+ParameterName=Delta Time
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7049]
+ParameterName=Velocity Deceleration 3
+SubNumber=3
+ObjectType=0x9
+
+[7049sub0]
+ParameterName=Number of Entries
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[7049sub1]
+ParameterName=Delta Speed
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7049sub2]
+ParameterName=Delta Time
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7060]
+ParameterName=Modes of Operation 3
+ObjectType=0x7
+DataType=0x0002
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7061]
+ParameterName=Modes of Operation Display 3
+ObjectType=0x7
+DataType=0x0002
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+ObjFlags=0x0
+
+[7064]
+ParameterName=Position Actual Value 3
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[706C]
+ParameterName=Velocity Actual Value 3
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7071]
+ParameterName=Target Torque 3
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=0
+PDOMapping=1
+ObjFlags=0x0
+
+[7077]
+ParameterName=Torque Actual Value 3
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[707A]
+ParameterName=Target Position 3
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7081]
+ParameterName=Profile Velocity 3
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7083]
+ParameterName=Profile Acceleration 3
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7084]
+ParameterName=Profile Deceleration 3
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7087]
+ParameterName=Torque Slope 3
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[70FF]
+ParameterName=Target Velocity 3
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rww
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[7502]
+ParameterName=Supported Drive Modes  3
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=const
+DefaultValue=0x0000000F
+PDOMapping=0
+ObjFlags=0x0
+
+[77FE]
+ParameterName=Version Number 3
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=const
+DefaultValue=0x00040100
+PDOMapping=0
+ObjFlags=0x0
+
 [ManufacturerObjects]
-SupportedObjects=68
+SupportedObjects=75
 1=0x2000
 2=0x2001
 3=0x2002
@@ -1750,49 +3017,56 @@ SupportedObjects=68
 23=0x2016
 24=0x2017
 25=0x2018
-26=0x2100
-27=0x2101
-28=0x2102
-29=0x2103
-30=0x2104
-31=0x2105
-32=0x2106
-33=0x2107
-34=0x2108
-35=0x2109
-36=0x210A
-37=0x210B
-38=0x210C
-39=0x210D
-40=0x210E
-41=0x210F
-42=0x2110
-43=0x2111
-44=0x2112
-45=0x2113
-46=0x2114
-47=0x2115
-48=0x2116
-49=0x2117
-50=0x2118
-51=0x2119
-52=0x211A
-53=0x211B
-54=0x211C
-55=0x211D
-56=0x211E
-57=0x211F
-58=0x2120
-59=0x2121
-60=0x2122
-61=0x2123
-62=0x2124
-63=0x2125
-64=0x2132
-65=0x2133
-66=0x2134
-67=0x2135
-68=0x2136
+26=0x201F
+27=0x2100
+28=0x2101
+29=0x2102
+30=0x2103
+31=0x2104
+32=0x2105
+33=0x2106
+34=0x2107
+35=0x2108
+36=0x2109
+37=0x210A
+38=0x210B
+39=0x210C
+40=0x210D
+41=0x210E
+42=0x210F
+43=0x2110
+44=0x2111
+45=0x2112
+46=0x2113
+47=0x2114
+48=0x2115
+49=0x2116
+50=0x2117
+51=0x2118
+52=0x2119
+53=0x211A
+54=0x211B
+55=0x211C
+56=0x211D
+57=0x211E
+58=0x211F
+59=0x2120
+60=0x2121
+61=0x2122
+62=0x2123
+63=0x2124
+64=0x2125
+65=0x2132
+66=0x2133
+67=0x2134
+68=0x2135
+69=0x2136
+70=0x2137
+71=0x2138
+72=0x213C
+73=0x213D
+74=0x213E
+75=0x213F
 
 [2000]
 ParameterName=Cmd_CANGO
@@ -1806,7 +3080,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -1855,7 +3129,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -1904,14 +3178,14 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
-PDOMapping=1
+DefaultValue=0x03
+PDOMapping=0
 ObjFlags=0x0
 
 [2002sub1]
 ParameterName=Velocity 1
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0003
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -1922,7 +3196,7 @@ ObjFlags=0x0
 [2002sub2]
 ParameterName=Velocity 2
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0003
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -1933,7 +3207,7 @@ ObjFlags=0x0
 [2002sub3]
 ParameterName=Velocity 3
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0003
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -1953,7 +3227,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=1
 ObjFlags=0x0
 
@@ -2232,7 +3506,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=2
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -2281,7 +3555,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=2
+DefaultValue=0x03
 PDOMapping=1
 ObjFlags=0x0
 
@@ -2363,7 +3637,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -2445,7 +3719,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -2494,7 +3768,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -2543,7 +3817,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=2
+DefaultValue=0x03
 PDOMapping=1
 ObjFlags=0x0
 
@@ -2592,7 +3866,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -2641,7 +3915,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -2690,7 +3964,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -2730,7 +4004,7 @@ ObjFlags=0x0
 [2015]
 ParameterName=Cmd_BOOL
 SubNumber=17
-ObjectType=0x9
+ObjectType=0x8
 
 [2015sub0]
 ParameterName=Highest Subindex
@@ -2746,7 +4020,7 @@ ObjFlags=0x0
 [2015sub1]
 ParameterName=Cmd_BOOL 1
 ObjectType=0x7
-DataType=0x0005
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2757,7 +4031,7 @@ ObjFlags=0x0
 [2015sub2]
 ParameterName=Cmd_BOOL 2
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2768,7 +4042,7 @@ ObjFlags=0x0
 [2015sub3]
 ParameterName=Cmd_BOOL 3
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2779,7 +4053,7 @@ ObjFlags=0x0
 [2015sub4]
 ParameterName=Cmd_BOOL 4
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2790,7 +4064,7 @@ ObjFlags=0x0
 [2015sub5]
 ParameterName=Cmd_BOOL 5
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2801,7 +4075,7 @@ ObjFlags=0x0
 [2015sub6]
 ParameterName=Cmd_BOOL 6
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2812,7 +4086,7 @@ ObjFlags=0x0
 [2015sub7]
 ParameterName=Cmd_BOOL 7
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2823,7 +4097,7 @@ ObjFlags=0x0
 [2015sub8]
 ParameterName=Cmd_BOOL 8
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2834,7 +4108,7 @@ ObjFlags=0x0
 [2015sub9]
 ParameterName=Cmd_BOOL 9
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2845,7 +4119,7 @@ ObjFlags=0x0
 [2015subA]
 ParameterName=Cmd_BOOL 10
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2856,7 +4130,7 @@ ObjFlags=0x0
 [2015subB]
 ParameterName=Cmd_BOOL 11
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2867,7 +4141,7 @@ ObjFlags=0x0
 [2015subC]
 ParameterName=Cmd_BOOL 12
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2878,7 +4152,7 @@ ObjFlags=0x0
 [2015subD]
 ParameterName=Cmd_BOOL 13
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2889,7 +4163,7 @@ ObjFlags=0x0
 [2015subE]
 ParameterName=Cmd_BOOL 14
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2900,7 +4174,7 @@ ObjFlags=0x0
 [2015subF]
 ParameterName=Cmd_BOOL 15
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2911,7 +4185,7 @@ ObjFlags=0x0
 [2015sub10]
 ParameterName=Cmd_BOOL 16
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=wo
@@ -2979,6 +4253,44 @@ DefaultValue=
 PDOMapping=1
 ObjFlags=0x0
 
+[201F]
+ParameterName=Cmd_CSS
+SubNumber=3
+ObjectType=0x8
+
+[201Fsub0]
+ParameterName=Number of entries
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[201Fsub1]
+ParameterName=Sensor 1
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=wo
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[201Fsub2]
+ParameterName=Sensor 2
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=wo
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
 [2100]
 ParameterName=Qry_MOTAMPS
 SubNumber=4
@@ -2991,7 +4303,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=1
 ObjFlags=0x0
 
@@ -3040,7 +4352,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=1
 ObjFlags=0x0
 
@@ -3089,7 +4401,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=1
 ObjFlags=0x0
 
@@ -3138,7 +4450,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=1
 ObjFlags=0x0
 
@@ -3187,7 +4499,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=1
 ObjFlags=0x0
 
@@ -3274,7 +4586,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=16
+DefaultValue=0x10
 PDOMapping=1
 ObjFlags=0x0
 
@@ -3466,7 +4778,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=1
 ObjFlags=0x0
 
@@ -3515,7 +4827,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=1
 ObjFlags=0x0
 
@@ -3678,7 +4990,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=1
 ObjFlags=0x0
 
@@ -3787,7 +5099,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=3
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -3814,7 +5126,7 @@ PDOMapping=1
 ObjFlags=0x0
 
 [210Fsub3]
-ParameterName=Qry_TEMP_CH1
+ParameterName=Qry_TEMP_CH2
 ObjectType=0x7
 DataType=0x0002
 LowLimit=
@@ -3836,14 +5148,14 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
 [2110sub1]
 ParameterName=Qry_FEEDBACK 1
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0003
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -3854,7 +5166,7 @@ ObjFlags=0x0
 [2110sub2]
 ParameterName=Qry_FEEDBACK 2
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0003
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -3865,7 +5177,7 @@ ObjFlags=0x0
 [2110sub3]
 ParameterName=Qry_FEEDBACK 3
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0003
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -3898,7 +5210,7 @@ ObjFlags=0x0
 [2113]
 ParameterName=Qry_DIGOUT
 ObjectType=0x7
-DataType=0x0005
+DataType=0x0006
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -3918,7 +5230,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=2
+DefaultValue=0x02
 PDOMapping=1
 ObjFlags=0x0
 
@@ -3963,7 +5275,7 @@ ObjFlags=0x0
 [2115sub1]
 ParameterName=Qry_BOOL 1
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -3974,7 +5286,7 @@ ObjFlags=0x0
 [2115sub2]
 ParameterName=Qry_BOOL 2
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -3985,7 +5297,7 @@ ObjFlags=0x0
 [2115sub3]
 ParameterName=Qry_BOOL 3
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -3996,7 +5308,7 @@ ObjFlags=0x0
 [2115sub4]
 ParameterName=Qry_BOOL 4
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4007,7 +5319,7 @@ ObjFlags=0x0
 [2115sub5]
 ParameterName=Qry_BOOL 5
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4018,7 +5330,7 @@ ObjFlags=0x0
 [2115sub6]
 ParameterName=Qry_BOOL 6
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4029,7 +5341,7 @@ ObjFlags=0x0
 [2115sub7]
 ParameterName=Qry_BOOL 7
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4040,7 +5352,7 @@ ObjFlags=0x0
 [2115sub8]
 ParameterName=Qry_BOOL 8
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4051,7 +5363,7 @@ ObjFlags=0x0
 [2115sub9]
 ParameterName=Qry_BOOL 9
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4062,7 +5374,7 @@ ObjFlags=0x0
 [2115subA]
 ParameterName=Qry_BOOL 10
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4073,7 +5385,7 @@ ObjFlags=0x0
 [2115subB]
 ParameterName=Qry_BOOL 11
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4084,7 +5396,7 @@ ObjFlags=0x0
 [2115subC]
 ParameterName=Qry_BOOL 12
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4095,7 +5407,7 @@ ObjFlags=0x0
 [2115subD]
 ParameterName=Qry_BOOL 13
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4106,7 +5418,7 @@ ObjFlags=0x0
 [2115subE]
 ParameterName=Qry_BOOL 14
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4117,7 +5429,7 @@ ObjFlags=0x0
 [2115subF]
 ParameterName=Qry_BOOL 15
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4128,7 +5440,7 @@ ObjFlags=0x0
 [2115sub10]
 ParameterName=Qry_BOOL 16
 ObjectType=0x7
-DataType=0x0004
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -4148,7 +5460,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -4197,7 +5509,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -4246,7 +5558,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -4399,7 +5711,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
@@ -4448,7 +5760,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x03
+DefaultValue=0x04
 PDOMapping=0
 ObjFlags=0x0
 
@@ -4515,34 +5827,34 @@ ObjFlags=0x0
 [211Dsub1]
 ParameterName=Qry_MGDET 1
 ObjectType=0x7
-DataType=0x0006
+DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Dsub2]
 ParameterName=Qry_MGDET 2
 ObjectType=0x7
-DataType=0x0006
+DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Dsub3]
 ParameterName=Qry_MGDET 3
 ObjectType=0x7
-DataType=0x0006
+DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211E]
@@ -4567,9 +5879,9 @@ ObjectType=0x7
 DataType=0x0003
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Esub2]
@@ -4578,9 +5890,9 @@ ObjectType=0x7
 DataType=0x0003
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Esub3]
@@ -4589,9 +5901,9 @@ ObjectType=0x7
 DataType=0x0003
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Esub4]
@@ -4600,9 +5912,9 @@ ObjectType=0x7
 DataType=0x0003
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Esub5]
@@ -4611,9 +5923,9 @@ ObjectType=0x7
 DataType=0x0003
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Esub6]
@@ -4622,9 +5934,9 @@ ObjectType=0x7
 DataType=0x0003
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Esub7]
@@ -4633,9 +5945,9 @@ ObjectType=0x7
 DataType=0x0003
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Esub8]
@@ -4644,9 +5956,9 @@ ObjectType=0x7
 DataType=0x0003
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Esub9]
@@ -4655,9 +5967,9 @@ ObjectType=0x7
 DataType=0x0003
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211F]
@@ -4682,9 +5994,9 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Fsub2]
@@ -4693,9 +6005,9 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Fsub3]
@@ -4704,9 +6016,9 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Fsub4]
@@ -4715,9 +6027,9 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Fsub5]
@@ -4726,9 +6038,9 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [211Fsub6]
@@ -4737,9 +6049,9 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2120]
@@ -4764,9 +6076,9 @@ ObjectType=0x7
 DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2120sub2]
@@ -4775,9 +6087,9 @@ ObjectType=0x7
 DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2120sub3]
@@ -4786,9 +6098,9 @@ ObjectType=0x7
 DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2121]
@@ -4852,41 +6164,41 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x02
+DefaultValue=0x03
 PDOMapping=0
 ObjFlags=0x0
 
 [2122sub1]
 ParameterName=Qry_MOTFLAGS 1
 ObjectType=0x7
-DataType=0x0007
+DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2122sub2]
 ParameterName=Qry_MOTFLAGS 2
 ObjectType=0x7
-DataType=0x0007
+DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2122sub3]
 ParameterName=Qry_MOTFLAGS 3
 ObjectType=0x7
-DataType=0x0007
+DataType=0x0006
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2123]
@@ -4911,9 +6223,9 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2123sub2]
@@ -4922,9 +6234,9 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2124]
@@ -4957,34 +6269,34 @@ ObjFlags=0x0
 [2125sub1]
 ParameterName=Qry_TR 1
 ObjectType=0x7
-DataType=0x0007
+DataType=0x0004
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2125sub2]
 ParameterName=Qry_TR 2
 ObjectType=0x7
-DataType=0x0007
+DataType=0x0004
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2125sub3]
 ParameterName=Qry_TR 3
 ObjectType=0x7
-DataType=0x0007
+DataType=0x0004
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2132]
@@ -4999,7 +6311,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x03
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
@@ -5028,7 +6340,7 @@ ObjFlags=0x0
 [2133]
 ParameterName=Qry_SCC
 ObjectType=0x7
-DataType=0x0005
+DataType=0x0007
 LowLimit=
 HighLimit=
 AccessType=ro
@@ -5042,9 +6354,9 @@ ObjectType=0x7
 DataType=0x0005
 LowLimit=
 HighLimit=
-AccessType=rw
+AccessType=ro
 DefaultValue=
-PDOMapping=0
+PDOMapping=1
 ObjFlags=0x0
 
 [2135]
@@ -5059,7 +6371,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x03
+DefaultValue=0x2
 PDOMapping=0
 ObjFlags=0x0
 
@@ -5097,7 +6409,7 @@ DataType=0x0005
 LowLimit=
 HighLimit=
 AccessType=ro
-DefaultValue=0x03
+DefaultValue=0x02
 PDOMapping=0
 ObjFlags=0x0
 
@@ -5116,6 +6428,267 @@ ObjFlags=0x0
 ParameterName=Qry_SL 2
 ObjectType=0x7
 DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[2137]
+ParameterName=Qry_FIN
+SubNumber=5
+ObjectType=0x8
+
+[2137sub0]
+ParameterName=Highest Subindex
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x04
+PDOMapping=0
+ObjFlags=0x0
+
+[2137sub1]
+ParameterName=Qry_FIN Version
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[2137sub2]
+ParameterName=Qry_FIN Month
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[2137sub3]
+ParameterName=Qry_FIN Day
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[2137sub4]
+ParameterName=Qry_FIN Year
+ObjectType=0x7
+DataType=0x0006
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[2138]
+ParameterName=Qry_MGX
+SubNumber=4
+ObjectType=0x8
+
+[2138sub0]
+ParameterName=Highest Subindex
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+ObjFlags=0x0
+
+[2138sub1]
+ParameterName=Qry_MGX 1
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[2138sub2]
+ParameterName=Qry_MGX 2
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[2138sub3]
+ParameterName=Qry_MGX 3
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[213C]
+ParameterName=Qry_SS
+SubNumber=3
+ObjectType=0x8
+
+[213Csub0]
+ParameterName=Highest Subindex
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[213Csub1]
+ParameterName=Sensor 1
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[213Csub2]
+ParameterName=Sensor 2
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[213D]
+ParameterName=Qry_SSR
+SubNumber=3
+ObjectType=0x8
+
+[213Dsub0]
+ParameterName=Highest Subindex
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[213Dsub1]
+ParameterName=Sensor 1
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[213Dsub2]
+ParameterName=Sensor 2
+ObjectType=0x7
+DataType=0x0003
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[213E]
+ParameterName=Qry_CSS
+SubNumber=3
+ObjectType=0x8
+
+[213Esub0]
+ParameterName=Highest Subindex
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[213Esub1]
+ParameterName=Sensor 1
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[213Esub2]
+ParameterName=Sensor 2
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[213F]
+ParameterName=Qry_CSR
+SubNumber=3
+ObjectType=0x8
+
+[213Fsub0]
+ParameterName=Highest Subindex
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[213Fsub1]
+ParameterName=Sensor 1
+ObjectType=0x7
+DataType=0x0004
+LowLimit=
+HighLimit=
+AccessType=ro
+DefaultValue=
+PDOMapping=1
+ObjFlags=0x0
+
+[213Fsub2]
+ParameterName=Sensor 2
+ObjectType=0x7
+DataType=0x0004
 LowLimit=
 HighLimit=
 AccessType=ro

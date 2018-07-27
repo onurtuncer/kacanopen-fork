@@ -30,6 +30,7 @@
  */
 
 #include <signal.h>
+#include <boost/filesystem.hpp>
 #include <chrono>
 #include <iostream>
 #include <memory>
@@ -126,8 +127,9 @@ int main() {
       if (!found_node) {
         found_node = true;
         device.reset(new kaco::Device(core, node_id));
-        device->load_dictionary_from_eds(
-            "/home/mhs/Desktop/EDS/roboteq_motor_controllers_v80beta.eds");
+        boost::filesystem::path full_path = boost::filesystem::system_complete(
+            "src/kacanopen/examples/roboteq_motor_controllers_v80beta.eds");
+        device->load_dictionary_from_eds(full_path.string());
         device->start();
         // device->load_dictionary_from_library();
         std::vector<uint8_t> read_device_type =

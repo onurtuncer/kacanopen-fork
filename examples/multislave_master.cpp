@@ -30,6 +30,7 @@
  */
 
 #include <signal.h>
+#include <boost/filesystem.hpp>
 #include <chrono>
 #include <cstring>
 #include <iostream>
@@ -41,7 +42,6 @@
 #include "device_rpdo.h"
 #include "device_tpdo.h"
 #include "logger.h"
-#include "master.h"
 #include "parse_sdo.h"
 #include "receive_pdo_mapping.h"
 
@@ -51,11 +51,6 @@ void intHandler(int dummy) {
   (void)dummy;
   keepRunning = 0;
 }
-
-// void qry_abspeed_channel_1_callback(const kaco::ReceivePDOMapping& mapping,
-//                                    std::vector<uint8_t> data) {
-//  std::cout << "hola" << std::endl;
-//}
 
 bool printDeviceInfo(std::shared_ptr<kaco::Device> device_) {
   try {
@@ -95,10 +90,9 @@ bool printDeviceInfo(std::shared_ptr<kaco::Device> device_) {
 void initializeDevice(std::shared_ptr<kaco::Device> device,
                       uint16_t heartbeat_interval, uint8_t node_id) {
   // Load eds
-  device->load_dictionary_from_eds(
-      "/home/mhs/bor/test/CANopenSocket/canopend/objDict/"
-      "roboteq_motor_controllers_v80beta.eds");
-
+  boost::filesystem::path full_path = boost::filesystem::system_complete(
+      "src/kacanopen/examples/roboteq_motor_controllers_v80beta.eds");
+  device->load_dictionary_from_eds(full_path.string());
   // set the our desired heartbeat_interval time
   device->set_entry(0x1017, 0x0, heartbeat_interval,
                     kaco::WriteAccessMethod::sdo);
@@ -155,7 +149,10 @@ int main() {
   // A Roboteq motor driver was used to test this program.//
 
   // The node ID of the slave we want to communicate with.
-  uint8_t node_id[2] = {3, 4};
+  uint8_t node_id[3] = {
+      4, 3, 2,
+  };
+  uint8_t no_of_device_connected = 0;
 
   // Set the name of your CAN bus. "slcan0" is a common bus name
   // for the first SocketCAN device on a Linux system.
@@ -182,107 +179,119 @@ int main() {
   // Create core.
   // kaco::Core core;
 
-  kaco::Master master;
-
+  // kaco::Master master;
+  kaco::Core core;
   std::mutex device_mutex;
+  bool found_node[3] = {false, false, false};
+  bool device_connected[3] = {false, false, false};
 
   std::cout << "Starting master (connect to the driver and start the receiver "
                "thread)..."
             << std::endl;
-  if (!master.start(busname, baudrate)) {
+  if (!core.start(busname, baudrate)) {
     std::cout << "Starting master failed." << std::endl;
     return EXIT_FAILURE;
   }
-  const size_t number_of_devices = master.num_devices();
-  std::shared_ptr<kaco::Device> device[2];
-  bool found_node = false;
-  // memset(found_node, false, sizeof found_node);
-  // memset(found_node, 0, sizeof(found_node));
-  bool device_connected[2] = {false, false};
+  std::shared_ptr<kaco::Device> device[3];
+  std::cout << "Registering a callback which is called when a device is "
+               "detected via NMT..."
+            << std::endl;
 
-  std::cout << "Total number of device found on the bus \"" << busname
-            << "\" = " << number_of_devices << std::endl;
-
-  if (!found_node) {
-    std::cout << "Initial config loop" << std::endl;
-    found_node = true;
-    for (size_t i = 0; i < 2; i++) {
-      uint8_t temp_node_id = master.get_device(i).get_node_id();
-      if (temp_node_id == node_id[0] || temp_node_id == node_id[1]) {
-        device[i].reset(new kaco::Device(master.core, temp_node_id));
-        std::cout << "Found device[" << i << "]"
-                  << "with node id= " << temp_node_id << std::endl;
-        PRINT("Starting");
-        device[i]->start();
-        initializeDevice(device[i], heartbeat_interval, temp_node_id);
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        device_connected[i] = true;
+  core.nmt.register_device_alive_callback([&](const uint8_t new_node_id) {
+    // Check if this is the node we are looking for.
+    for (uint8_t i = 0; i < 3; i++) {
+      if ((new_node_id == node_id[0]) && (!found_node[0])) {
+        found_node[0] = true;
+        // Lock device mutex
+        std::lock_guard<std::mutex> lock(device_mutex);
+        try {
+          // Initialize the device
+          device[0].reset(new kaco::Device(core, node_id[i]));
+          initializeDevice(device[0], heartbeat_interval, node_id[0]);
+          device_connected[0] = true;
+        } catch (...) {
+          std::cout << "Exception in device alive!" << std::endl;
+          found_node[0] = false;
+          device_connected[0] = false;
+        }
+      } else if ((new_node_id == node_id[1]) && (!found_node[1])) {
+        found_node[1] = true;
+        // Lock device mutex
+        std::lock_guard<std::mutex> lock(device_mutex);
+        try {
+          // Initialize the device
+          device[1].reset(new kaco::Device(core, node_id[i]));
+          initializeDevice(device[1], heartbeat_interval, node_id[1]);
+          device_connected[1] = true;
+        } catch (...) {
+          std::cout << "Exception in device alive!" << std::endl;
+          found_node[1] = false;
+          device_connected[1] = false;
+        }
+      } else if ((new_node_id == node_id[2]) && (!found_node[2])) {
+        found_node[2] = true;
+        // Lock device mutex
+        std::lock_guard<std::mutex> lock(device_mutex);
+        try {
+          // Initialize the device
+          device[2].reset(new kaco::Device(core, node_id[i]));
+          initializeDevice(device[2], heartbeat_interval, node_id[2]);
+          device_connected[2] = true;
+        } catch (...) {
+          std::cout << "Exception in device alive!" << std::endl;
+          found_node[2] = false;
+          device_connected[2] = false;
+        }
       }
     }
-  }
-  // Create device pointer
-  // std::shared_ptr<kaco::Device> device;
-  // This will be set to true by the callback below.
-
-  //  std::cout << "Registering a callback which is called when a device is "
-  //               "detected via NMT..."
-  //            << std::endl;
-
-  //  core.nmt.register_device_alive_callback([&](const uint8_t new_node_id) {
-  //    // Check if this is the node we are looking for.
-  //    if (new_node_id == node_id) {
-  //      // lock
-  //      if (!found_node) {
-  //        found_node = true;
-  //        // Lock device mutex
-  //        std::lock_guard<std::mutex> lock(device_mutex);
-  //        try {
-  //          // Initialize the device
-  //          device.reset(new kaco::Device(core, node_id));
-  //          initializeDevice(device, heartbeat_interval, node_id);
-  //          device_connected = true;
-  //        } catch (...) {
-  //          std::cout << "Exception in device alive!" << std::endl;
-  //          found_node = false;
-  //          device_connected = false;
-  //        }
-  //      }
-  //    }
-  //  });
-  //  core.nmt.register_device_dead_callback(
-  //      [&](const uint8_t current_node_id) mutable {
-  //        if (device_connected && found_node) {
-  //          // Lock device mutex
-  //          std::lock_guard<std::mutex> lock(device_mutex);
-  //          // Check if our node is disconnected.
-  //          found_node = false;
-  //          device_connected = false;
-  //          device.reset();
-
-  //          std::cout << "Device with Node ID=0x" << std::hex <<
-  //          current_node_id
-  //                    << " is disconnected...." << std::endl;
-  //          // exit(1); // TO DO the
-  //          // This callback idealy should reinitiate the connection with
-  //          the
-  //          // device
-  //        }
-  //      });
-
+  });
+  core.nmt.register_device_dead_callback([&](const uint8_t current_node_id) {
+    for (uint8_t i = 0; i < 3; i++) {
+      if (device_connected[i] && found_node[i]) {
+        if (current_node_id == node_id[0]) {
+          // Lock device mutex
+          std::lock_guard<std::mutex> lock(device_mutex);
+          // Check if our node is disconnected.
+          found_node[0] = false;
+          device_connected[0] = false;
+          device[0].reset();
+          std::cout << "Device with Node ID=0x" << std::hex << current_node_id
+                    << " is disconnected...." << std::endl;
+          // This callback idealy should reinitiate the connection with the
+          // device
+        } else if (current_node_id == node_id[1]) {
+          // Lock device mutex
+          std::lock_guard<std::mutex> lock(device_mutex);
+          // Check if our node is disconnected.
+          found_node[1] = false;
+          device_connected[1] = false;
+          device[1].reset();
+          std::cout << "Device with Node ID=0x" << std::hex << current_node_id
+                    << " is disconnected...." << std::endl;
+        } else if (current_node_id == node_id[2]) {
+          // Lock device mutex
+          std::lock_guard<std::mutex> lock(device_mutex);
+          // Check if our node is disconnected.
+          found_node[2] = false;
+          device_connected[2] = false;
+          device[2].reset();
+          std::cout << "Device with Node ID=0x" << std::hex << current_node_id
+                    << " is disconnected...." << std::endl;
+        }
+      }
+    }
+  });
   int channel1_speed_ref = 0;
   int channel2_speed_ref = 0;
   bool max = false;
-  uint8_t i = 0;
+
   while (keepRunning) {
-    if (device_connected[i]) {
-      if (device[i]->get_node_id() == 4) {
+    for (uint8_t i = 0; i < 3; i++) {
+      if (device_connected[i]) {
         // Lock device mutex
-        // std::lock_guard<std::mutex> lock(device_mutex);
-        std::cout << "" << std::endl;
-        std::cout << "" << std::endl;
-        std::cout << "Controlling device with node id=4" << std::endl;
-        std::cout << "" << std::endl;
-        std::cout << "" << std::endl;
+        std::lock_guard<std::mutex> lock(device_mutex);
+        std::cout << "Now controlling device with node id= " << std::hex
+                  << node_id[i] << std::endl;
         try {
           // Early exception handling
           //      try {
@@ -303,18 +312,17 @@ int main() {
           //      }
 
           // Prepare the commands; master side tpdo1 and tpdo2
-
-          if (3000 > channel1_speed_ref && max == false) {
+          if (800 > channel1_speed_ref && max == false) {
             // channel1_speed_ref++;
-            channel1_speed_ref = channel1_speed_ref + 100;
-            if (3000 == channel1_speed_ref) {
+            channel1_speed_ref = channel1_speed_ref + 10;
+            if (800 == channel1_speed_ref) {
               max = true;
             }
           }
-          if (-3000 < channel1_speed_ref && max == true) {
+          if (-800 < channel1_speed_ref && max == true) {
             // channel1_speed_ref--;
-            channel1_speed_ref = channel1_speed_ref - 100;
-            if (-3000 == channel1_speed_ref) {
+            channel1_speed_ref = channel1_speed_ref - 10;
+            if (-800 == channel1_speed_ref) {
               max = false;
             }
           }
@@ -367,19 +375,17 @@ int main() {
         } catch (...) {
           std::cout << "Exception in main!" << std::endl;
         }
-      } else if (device[i]->get_node_id() == 3) {
-        std::cout << "" << std::endl;
-        std::cout << "" << std::endl;
-        std::cout << "Controlling device with node id=3" << std::endl;
-        std::cout << "" << std::endl;
-        std::cout << "" << std::endl;
-        printDeviceInfo(device[i]);
       }
     }
-    i++;
-    if (i > 1) {
-      i = 0;
-    }
+    std::cout << "Device connection status" << std::endl;
+    // for (uint8_t i = 0; i < 3; i++) {
+    std::cout << "Node Id=0x" << std::hex << node_id[0]
+              << "   Connection status=" << device_connected[0] << std::endl;
+    std::cout << "Node Id=0x" << std::hex << node_id[1]
+              << "   Connection status=" << device_connected[1] << std::endl;
+    std::cout << "Node Id=0x" << std::hex << node_id[2]
+              << "   Connection status=" << device_connected[2] << std::endl;
+    //}
     // Sleep
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
