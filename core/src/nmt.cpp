@@ -209,10 +209,10 @@ void NMT::check_alive_devices()
       device.second = false;
 
     // Sleep for some time
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 
     // Check if they are alive
-    for (auto& device: alive_devices_){
+     reset_map_iterator: for (auto& device: alive_devices_){
       if (!device.second){
         // Remove it from the map
         alive_devices_.erase(device.first);
@@ -225,9 +225,9 @@ void NMT::check_alive_devices()
           // blocks until callback has finished.
           std::lock_guard<std::mutex> scoped_lock(m_callback_futures_mutex);
           m_callback_futures.push_front(
-            std::async(std::launch::async, callback, device.first)
-          );
+            std::async(std::launch::async, callback, device.first));
         }
+         goto reset_map_iterator;
       }
     }
   }
