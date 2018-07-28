@@ -42,8 +42,6 @@
 #include "device_rpdo.h"
 #include "device_tpdo.h"
 #include "logger.h"
-#include "parse_sdo.h"
-#include "receive_pdo_mapping.h"
 
 static volatile int keepRunning = 1;
 
@@ -89,14 +87,15 @@ bool printDeviceInfo(std::shared_ptr<kaco::Device> device_) {
 
 void initializeDevice(std::shared_ptr<kaco::Device> device,
                       uint16_t heartbeat_interval, uint8_t node_id) {
-  // Load eds
+  // Load eds file. The eds file must be in the same folder in which the
+  // binary is being executed.
   boost::filesystem::path full_path = boost::filesystem::system_complete(
-      "src/kacanopen/examples/roboteq_motor_controllers_v80beta.eds");
+      "roboteq_motor_controllers_v80beta.eds");
   device->load_dictionary_from_eds(full_path.string());
   // set the our desired heartbeat_interval time
   device->set_entry(0x1017, 0x0, heartbeat_interval,
                     kaco::WriteAccessMethod::sdo);
-
+  //This is optional verbosity
   device->print_dictionary();
 
   // Master side rpdo1 mapping
@@ -148,11 +147,8 @@ int main() {
 
   // A Roboteq motor driver was used to test this program.//
 
-  // The node ID of the slave we want to communicate with.
-  uint8_t node_id[3] = {
-      4, 3, 2,
-  };
-  uint8_t no_of_device_connected = 0;
+  // This example allows to control multiple similar CANOpen slave devices. All
+  // the devices must of same type.
 
   // Set the name of your CAN bus. "slcan0" is a common bus name
   // for the first SocketCAN device on a Linux system.
@@ -165,6 +161,9 @@ int main() {
   // Set the heartbeat interval for slave device. Most drivers support the
   // values can be "125", "250", "500" and "1000" millisecond.
   const uint16_t heartbeat_interval = 250;
+
+  // Define the node_id list for the slaves we want to communicate with.
+  uint8_t node_id[] = {5, 4, 3, 2, 7};
 
   // Set the heartbeat time out, after which the system should detect slave
   // disconnection; values can be "250", "500", "1000" and "2000" millisecond.
@@ -182,8 +181,6 @@ int main() {
   // kaco::Master master;
   kaco::Core core;
   std::mutex device_mutex;
-  bool found_node[3] = {false, false, false};
-  bool device_connected[3] = {false, false, false};
 
   std::cout << "Starting master (connect to the driver and start the receiver "
                "thread)..."
@@ -192,102 +189,51 @@ int main() {
     std::cout << "Starting master failed." << std::endl;
     return EXIT_FAILURE;
   }
-  std::shared_ptr<kaco::Device> device[3];
+  std::shared_ptr<kaco::Device> device[sizeof(node_id)];
+  std::unordered_map<uint8_t, std::shared_ptr<kaco::Device>> DeviceMap;
+
   std::cout << "Registering a callback which is called when a device is "
                "detected via NMT..."
             << std::endl;
 
   core.nmt.register_device_alive_callback([&](const uint8_t new_node_id) {
     // Check if this is the node we are looking for.
-    for (uint8_t i = 0; i < 3; i++) {
-      if ((new_node_id == node_id[0]) && (!found_node[0])) {
-        found_node[0] = true;
-        // Lock device mutex
-        std::lock_guard<std::mutex> lock(device_mutex);
-        try {
-          // Initialize the device
-          device[0].reset(new kaco::Device(core, node_id[i]));
-          initializeDevice(device[0], heartbeat_interval, node_id[0]);
-          device_connected[0] = true;
-        } catch (...) {
-          std::cout << "Exception in device alive!" << std::endl;
-          found_node[0] = false;
-          device_connected[0] = false;
-        }
-      } else if ((new_node_id == node_id[1]) && (!found_node[1])) {
-        found_node[1] = true;
-        // Lock device mutex
-        std::lock_guard<std::mutex> lock(device_mutex);
-        try {
-          // Initialize the device
-          device[1].reset(new kaco::Device(core, node_id[i]));
-          initializeDevice(device[1], heartbeat_interval, node_id[1]);
-          device_connected[1] = true;
-        } catch (...) {
-          std::cout << "Exception in device alive!" << std::endl;
-          found_node[1] = false;
-          device_connected[1] = false;
-        }
-      } else if ((new_node_id == node_id[2]) && (!found_node[2])) {
-        found_node[2] = true;
-        // Lock device mutex
-        std::lock_guard<std::mutex> lock(device_mutex);
-        try {
-          // Initialize the device
-          device[2].reset(new kaco::Device(core, node_id[i]));
-          initializeDevice(device[2], heartbeat_interval, node_id[2]);
-          device_connected[2] = true;
-        } catch (...) {
-          std::cout << "Exception in device alive!" << std::endl;
-          found_node[2] = false;
-          device_connected[2] = false;
-        }
+    if (std::any_of(std::begin(node_id), std::end(node_id),
+                    [=](uint8_t n) { return n == new_node_id; })) {
+      std::lock_guard<std::mutex> lock(device_mutex);
+      // Check whether we already have this node in the Device map
+      if (DeviceMap.find(new_node_id) == DeviceMap.end()) {
+        // finding the node_id index
+        auto index = std::distance(
+            std::begin(node_id),
+            std::find(std::begin(node_id), std::end(node_id), new_node_id));
+        // reseting the device pointer with new_node_id
+        device[index].reset(new kaco::Device(core, new_node_id));
+        // Adding the device pointer in Device map
+        DeviceMap.insert({new_node_id, device[index]});
+        // Initialize the new node
+        initializeDevice(device[index], heartbeat_interval, new_node_id);
       }
     }
   });
+
   core.nmt.register_device_dead_callback([&](const uint8_t current_node_id) {
-    for (uint8_t i = 0; i < 3; i++) {
-      if (device_connected[i] && found_node[i]) {
-        if (current_node_id == node_id[0]) {
-          // Lock device mutex
-          std::lock_guard<std::mutex> lock(device_mutex);
-          // Check if our node is disconnected.
-          found_node[0] = false;
-          device_connected[0] = false;
-          device[0].reset();
-          std::cout << "Device with Node ID=0x" << std::hex << current_node_id
-                    << " is disconnected...." << std::endl;
-          // This callback idealy should reinitiate the connection with the
-          // device
-        } else if (current_node_id == node_id[1]) {
-          // Lock device mutex
-          std::lock_guard<std::mutex> lock(device_mutex);
-          // Check if our node is disconnected.
-          found_node[1] = false;
-          device_connected[1] = false;
-          device[1].reset();
-          std::cout << "Device with Node ID=0x" << std::hex << current_node_id
-                    << " is disconnected...." << std::endl;
-        } else if (current_node_id == node_id[2]) {
-          // Lock device mutex
-          std::lock_guard<std::mutex> lock(device_mutex);
-          // Check if our node is disconnected.
-          found_node[2] = false;
-          device_connected[2] = false;
-          device[2].reset();
-          std::cout << "Device with Node ID=0x" << std::hex << current_node_id
-                    << " is disconnected...." << std::endl;
-        }
-      }
+    // Check whether we have this current_node_id in the Device map
+    if (DeviceMap.find(current_node_id) != DeviceMap.end()) {
+      std::lock_guard<std::mutex> lock(device_mutex);
+      // Remove the device map entry for this current_node_id
+      DeviceMap.erase(DeviceMap.find(current_node_id));
     }
+
   });
+
   int channel1_speed_ref = 0;
   int channel2_speed_ref = 0;
   bool max = false;
 
   while (keepRunning) {
-    for (uint8_t i = 0; i < 3; i++) {
-      if (device_connected[i]) {
+    for (uint8_t i = 0; i < sizeof(node_id); i++) {
+      if (DeviceMap.find(node_id[i]) != DeviceMap.end()) {
         // Lock device mutex
         std::lock_guard<std::mutex> lock(device_mutex);
         std::cout << "Now controlling device with node id= " << std::hex
@@ -327,65 +273,75 @@ int main() {
             }
           }
           channel2_speed_ref = channel1_speed_ref;
-          device[i]->set_entry("cmd_cango/cmd_cango_1",
-                               static_cast<int>(channel1_speed_ref),
-                               kaco::WriteAccessMethod::pdo);
+          DeviceMap.at(node_id[i])
+              ->set_entry("cmd_cango/cmd_cango_1",
+                          static_cast<int>(channel1_speed_ref),
+                          kaco::WriteAccessMethod::pdo);
           std::cout << "Channel 1 speed command = " << std::dec
                     << channel1_speed_ref << std::endl;
-          int16_t ch1_speed_feedback = device[i]->get_entry(
-              "qry_abspeed/channel_1",
-              kaco::ReadAccessMethod::pdo_request_and_wait);
+          int16_t ch1_speed_feedback =
+              DeviceMap.at(node_id[i])
+                  ->get_entry("qry_abspeed/channel_1",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
           std::cout << "Channel 1 speed feedback = " << std::dec
                     << (ch1_speed_feedback) << std::endl;
-          device[i]->set_entry("cmd_cango/cmd_cango_2",
-                               static_cast<int>(channel2_speed_ref),
-                               kaco::WriteAccessMethod::pdo);
+          DeviceMap.at(node_id[i])
+              ->set_entry("cmd_cango/cmd_cango_2",
+                          static_cast<int>(channel2_speed_ref),
+                          kaco::WriteAccessMethod::pdo);
           std::cout << "Channel 2 speed command = " << std::dec
                     << channel1_speed_ref << std::endl;
-          int16_t ch2_speed_feedback = device[i]->get_entry(
-              "qry_abspeed/channel_2",
-              kaco::ReadAccessMethod::pdo_request_and_wait);
+          int16_t ch2_speed_feedback =
+              DeviceMap.at(node_id[i])
+                  ->get_entry("qry_abspeed/channel_2",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
           std::cout << "Channel 2 speed feedback = " << std::dec
                     << ch2_speed_feedback << std::endl;
-          uint16_t v_int = device[i]->get_entry(
-              "qry_volts/v_int", kaco::ReadAccessMethod::pdo_request_and_wait);
+          uint16_t v_int =
+              DeviceMap.at(node_id[i])
+                  ->get_entry("qry_volts/v_int",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
           std::cout << "Internal Voltage = " << std::dec
                     << static_cast<float>(static_cast<float>(v_int) /
                                           static_cast<float>(10))
                     << "V" << std::endl;
-          uint16_t v_bat = device[i]->get_entry(
-              "qry_volts/v_bat", kaco::ReadAccessMethod::pdo_request_and_wait);
+          uint16_t v_bat =
+              DeviceMap.at(node_id[i])
+                  ->get_entry("qry_volts/v_bat",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
           std::cout << "Battery Voltage = " << std::dec
                     << static_cast<float>(static_cast<float>(v_bat) /
                                           static_cast<float>(10))
                     << "V" << std::endl;
-          uint16_t v_5vout = device[i]->get_entry(
-              "qry_volts/v_5vout",
-              kaco::ReadAccessMethod::pdo_request_and_wait);
+          uint16_t v_5vout =
+              DeviceMap.at(node_id[i])
+                  ->get_entry("qry_volts/v_5vout",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
           std::cout << "Internal 5V supply = " << std::dec
                     << static_cast<float>(static_cast<float>(v_5vout) /
                                           static_cast<float>(1000))
                     << "V" << std::endl;
-          uint16_t digout = device[i]->get_entry(
-              "qry_digout", kaco::ReadAccessMethod::pdo_request_and_wait);
+          uint16_t digout =
+              DeviceMap.at(node_id[i])
+                  ->get_entry("qry_digout",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
           std::cout << "Status of Digital Outs = " << std::hex << digout << ""
                     << std::endl;
-
-          std::cout << "Step in main!" << std::endl;
         } catch (...) {
           std::cout << "Exception in main!" << std::endl;
         }
       }
     }
-    std::cout << "Device connection status" << std::endl;
-    // for (uint8_t i = 0; i < 3; i++) {
-    std::cout << "Node Id=0x" << std::hex << node_id[0]
-              << "   Connection status=" << device_connected[0] << std::endl;
-    std::cout << "Node Id=0x" << std::hex << node_id[1]
-              << "   Connection status=" << device_connected[1] << std::endl;
-    std::cout << "Node Id=0x" << std::hex << node_id[2]
-              << "   Connection status=" << device_connected[2] << std::endl;
-    //}
+
+    for (uint8_t i = 0; i < sizeof(node_id); i++) {
+      auto temp = DeviceMap.find(node_id[i]);
+      if (temp != DeviceMap.end()) {
+        std::cout << "Node id=0x" << node_id[i] << " is connected" << std::endl;
+      } else {
+        std::cout << "Node id=0x" << node_id[i] << " is disconnected"
+                  << std::endl;
+      }
+    }
     // Sleep
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
