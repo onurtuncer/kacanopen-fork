@@ -127,8 +127,10 @@ int main() {
       if (!found_node) {
         found_node = true;
         device.reset(new kaco::Device(core, node_id));
+        // Load eds file. The eds file must be in the same folder in which the
+        // binary is being executed.
         boost::filesystem::path full_path = boost::filesystem::system_complete(
-            "src/kacanopen/examples/roboteq_motor_controllers_v80beta.eds");
+            "roboteq_motor_controllers_v80beta.eds");
         device->load_dictionary_from_eds(full_path.string());
         device->start();
         // device->load_dictionary_from_library();

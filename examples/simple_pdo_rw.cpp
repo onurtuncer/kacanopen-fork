@@ -42,8 +42,6 @@
 #include "device_tpdo.h"
 #include "logger.h"
 #include "master.h"
-#include "parse_sdo.h"
-#include "receive_pdo_mapping.h"
 static volatile int keepRunning = 1;
 
 void intHandler(int dummy) {
@@ -57,9 +55,10 @@ void intHandler(int dummy) {
 
 void initializeDevice(std::shared_ptr<kaco::Device> device,
                       uint16_t heartbeat_interval, uint8_t node_id) {
-  // Load eds
+  // Load eds file. The eds file must be in the same folder in which the
+  // binary is being executed.
   boost::filesystem::path full_path = boost::filesystem::system_complete(
-      "src/kacanopen/examples/roboteq_motor_controllers_v80beta.eds");
+      "roboteq_motor_controllers_v80beta.eds");
   device->load_dictionary_from_eds(full_path.string());
 
   // set the our desired heartbeat_interval time
@@ -183,23 +182,19 @@ int main() {
       }
     }
   });
-  core.nmt.register_device_dead_callback(
-      [&](const uint8_t current_node_id) mutable {
-        if (device_connected && found_node) {
-          // Lock device mutex
-          std::lock_guard<std::mutex> lock(device_mutex);
-          // Check if our node is disconnected.
-          found_node = false;
-          device_connected = false;
-          device.reset();
+  core.nmt.register_device_dead_callback([&](const uint8_t current_node_id) {
+    if (device_connected && found_node) {
+      // Lock device mutex
+      std::lock_guard<std::mutex> lock(device_mutex);
+      // Check if our node is disconnected.
+      found_node = false;
+      device_connected = false;
+      device.reset();
 
-          std::cout << "Device with Node ID=0x" << std::hex << current_node_id
-                    << " is disconnected...." << std::endl;
-          // exit(1); // TO DO the
-          // This callback idealy should reinitiate the connection with the
-          // device
-        }
-      });
+      std::cout << "Device with Node ID=0x" << std::hex << current_node_id
+                << " is disconnected...." << std::endl;
+    }
+  });
 
   int channel1_speed_ref = 0;
   int channel2_speed_ref = 0;
