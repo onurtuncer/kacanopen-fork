@@ -109,7 +109,7 @@ void NMT::process_incoming_message(const Message& message) {
     case 5:
       // If the device is in our map, we set it to true
       if (alive_devices_.find(message.get_node_id()) != alive_devices_.end())
-        alive_devices_[message.get_node_id()] = true;
+        alive_devices_[message.get_node_id()] = DeviceState::ALIVE;
 
 		case 127: {
 			// device is alive
@@ -135,7 +135,7 @@ void NMT::process_incoming_message(const Message& message) {
 					);
 				}
         // Register into our alive device vector
-        alive_devices_.insert({message.get_node_id(), true});
+        alive_devices_.insert({message.get_node_id(), DeviceState::ALIVE});
 			}
 			break;
 		}
@@ -204,18 +204,16 @@ void NMT::register_new_device_callback(const NewDeviceCallback& callback) {
 void NMT::check_alive_devices()
 {
   while (thread_alive_){
-    // Set all devices to dead
+    // Set all devices to be killed
     for (auto& device: alive_devices_)
-      device.second = false;
+      device.second = DeviceState::TO_BE_KILLED;
 
     // Sleep for some time
     std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 
     // Check if they are alive
-     reset_map_iterator: for (auto& device: alive_devices_){
-      if (!device.second){
-        // Remove it from the map
-        alive_devices_.erase(device.first);
+    for (auto& device: alive_devices_){
+      if (device.second == DeviceState::TO_BE_KILLED){
         // Call dead callbacks
         std::lock_guard<std::mutex> scoped_lock(m_device_alive_callbacks_mutex);
         for (const auto& callback : m_device_dead_callbacks) {
@@ -227,7 +225,8 @@ void NMT::check_alive_devices()
           m_callback_futures.push_front(
             std::async(std::launch::async, callback, device.first));
         }
-         goto reset_map_iterator;
+        // Set to dead
+        device.second = DeviceState::DEAD;
       }
     }
   }

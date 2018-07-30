@@ -115,6 +115,12 @@ namespace kaco {
 		/// \deprecated
 		void register_new_device_callback(const NewDeviceCallback& callback);
 
+    enum class DeviceState {
+      ALIVE,
+      DEAD,
+      TO_BE_KILLED
+    };
+
     void check_alive_devices();
     void register_device_dead_callback(const DeviceAliveCallback& callback);
 
@@ -132,7 +138,7 @@ namespace kaco {
 		std::forward_list<std::future<void>> m_callback_futures; // forward_list because of remove_if
 		mutable std::mutex m_callback_futures_mutex;
 
-    std::unordered_map<size_t, bool> alive_devices_;
+    std::unordered_map<size_t, DeviceState> alive_devices_;
     bool thread_alive_;
     std::thread alive_devices_thread_;
 	};
