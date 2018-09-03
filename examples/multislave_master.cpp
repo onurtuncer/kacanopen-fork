@@ -108,6 +108,14 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   device->add_receive_pdo_mapping(0x280 + node_id, "qry_volts/v_bat", 2);
   device->add_receive_pdo_mapping(0x280 + node_id, "qry_volts/v_5vout", 4);
   device->add_receive_pdo_mapping(0x280 + node_id, "qry_digout", 6);
+  
+  // Mater side Periodic Tranmit pdo1 value initialization
+    device->set_entry("cmd_cango/cmd_cango_1", 0x0,
+                      kaco::WriteAccessMethod::pdo);
+    // Mater side Periodic Tranmit pdo2 value initialization
+    device->set_entry("cmd_cango/cmd_cango_2", static_cast<int>(0x0),
+                      kaco::WriteAccessMethod::pdo);
+  
   // Master side tpdo1 mapping
   device->add_transmit_pdo_mapping(
       0x200 + node_id, {{"cmd_cango/cmd_cango_1", 0}},
