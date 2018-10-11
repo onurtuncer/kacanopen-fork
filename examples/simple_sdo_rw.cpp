@@ -57,7 +57,7 @@ int main() {
   // ----------- //
 
   // A Roboteq motor driver was used to test this program //
-
+  // The firmware version of roboteq driver: v2.0beta07032018//
   // The node ID of the slave we want to communicate with.
   const uint8_t node_id = 4;
 
