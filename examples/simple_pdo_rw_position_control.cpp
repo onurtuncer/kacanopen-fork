@@ -137,7 +137,8 @@ int main() {
   // Preferences //
   // ----------- //
 
-  // A Roboteq motor driver was used to test this program.//
+  // A Roboteq motor driver with firmware version v2.0beta07032018 was used to
+  // test this program.//
 
   // The node ID of the slave we want to communicate with.
   const uint8_t node_id = 4;
@@ -231,23 +232,6 @@ int main() {
       std::lock_guard<std::mutex> lock(device_mutex);
 
       try {
-        // Early exception handling
-        //      try {
-        //        //        DUMP_HEX(
-        //        //            device->get_entry("qry_abspeed/channel_1",
-        //        // kaco::ReadAccessMethod::pdo_request_and_wait));
-        //        //        DUMP_HEX(
-        //        //            device->get_entry("qry_abspeed/channel_2",
-        //        // kaco::ReadAccessMethod::pdo_request_and_wait));
-        //        //        DUMP_HEX(
-        //        //            device->get_entry("qry_batamps/channel_1",
-        //        // kaco::ReadAccessMethod::pdo_request_and_wait));
-        //        //        DUMP_HEX(
-        //        //            device->get_entry("qry_batamps/channel_2",
-        //        // kaco::ReadAccessMethod::pdo_request_and_wait));
-        //      } catch (kaco::canopen_error exception) {
-        //        // No specific action is decided
-        //      }
         current_position =
             device->get_entry("qry_abcntr/channel_1",
                               kaco::ReadAccessMethod::pdo_request_and_wait);

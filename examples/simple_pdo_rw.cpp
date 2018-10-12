@@ -48,10 +48,7 @@ void intHandler(int dummy) {
   (void)dummy;
   keepRunning = 0;
 }
-// void qry_abspeed_channel_1_callback(const kaco::ReceivePDOMapping& mapping,
-//                                    std::vector<uint8_t> data) {
-//  std::cout << "hola" << std::endl;
-//}
+
 
 void initializeDevice(std::shared_ptr<kaco::Device> device,
                       uint16_t heartbeat_interval, uint8_t node_id) {
@@ -77,11 +74,10 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   device->add_receive_pdo_mapping(0x280 + node_id, "qry_digout", 6);
 
   // Mater side Periodic Tranmit pdo1 value initialization
-    device->set_entry("cmd_cango/cmd_cango_1", 0x0,
-                      kaco::WriteAccessMethod::pdo);
-    // Mater side Periodic Tranmit pdo2 value initialization
-    device->set_entry("cmd_cango/cmd_cango_2", static_cast<int>(0x0),
-                      kaco::WriteAccessMethod::pdo);
+  device->set_entry("cmd_cango/cmd_cango_1", 0x0, kaco::WriteAccessMethod::pdo);
+  // Mater side Periodic Tranmit pdo2 value initialization
+  device->set_entry("cmd_cango/cmd_cango_2", static_cast<int>(0x0),
+                    kaco::WriteAccessMethod::pdo);
   // Master side tpdo1 mapping
   device->add_transmit_pdo_mapping(
       0x200 + node_id, {{"cmd_cango/cmd_cango_1", 0}},
@@ -120,7 +116,8 @@ int main() {
   // Preferences //
   // ----------- //
 
-  // A Roboteq motor driver was used to test this program.//
+  // A Roboteq motor driver with firmware version v2.0beta07032018 was used to
+  // test this program.//
 
   // The node ID of the slave we want to communicate with.
   const uint8_t node_id = 1;
@@ -205,7 +202,7 @@ int main() {
 
   int channel1_speed_ref = 0;
   int channel2_speed_ref = 0;
-  int max_rpm=300;
+  int max_rpm = 300;
   bool max = false;
   while (keepRunning) {
     if (device_connected) {
