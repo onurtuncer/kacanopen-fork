@@ -1,0 +1,41 @@
+aliases:
+  - &build_and_test
+    name: Build and test in Kinetic
+    image: osrf/ros:kinetic-desktop-full-xenial
+    script:
+      - apt update -y
+      - apt install git ssh -y
+      - git clone git@bitbucket.org:blue-ocean-robotics/bitbucket-ros.git
+      - source $BITBUCKET_CLONE_DIR/bitbucket-ros/prepare-workspace.bash
+      - source $BITBUCKET_CLONE_DIR/bitbucket-ros/build.bash
+      - source $BITBUCKET_CLONE_DIR/bitbucket-ros/test.bash
+      - source $BITBUCKET_CLONE_DIR/bitbucket-ros/copy-tests.bash
+  - &deploy
+    name: Deploy to xenial production
+    image: osrf/ros:kinetic-desktop-full-xenial
+    deployment: production
+    artifacts:
+      - "*.deb"
+      - "*.changes"
+      - "*.build"
+    script:
+      - apt update -y
+      - apt install git ssh -y
+      - git clone git@bitbucket.org:blue-ocean-robotics/bitbucket-ros.git
+      - source $BITBUCKET_CLONE_DIR/bitbucket-ros/binarize.bash
+      - source $BITBUCKET_CLONE_DIR/bitbucket-ros/upload-bor.bash
+ 
+pipelines:
+  default:
+    - step:
+        <<: *build_and_test
+    - step:
+        <<: *deploy
+        trigger: manual
+ 
+  tags:
+    '*':
+      - step:
+          <<: *build_and_test
+      - step:
+          <<: *deploy
