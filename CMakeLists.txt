@@ -141,8 +141,9 @@ macro(kacanopen_install)
 			RUNTIME DESTINATION bin
 		)
 		if (${ARGV1})
-			install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include
-				DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/${ARGV0}/include/
+			STRING(REGEX REPLACE "^kacanopen_" "" LIBRARY_NAME ${ARGV0})
+			install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
+				DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/${LIBRARY_NAME}/include/
 			)
 			endif()
 	endif()
