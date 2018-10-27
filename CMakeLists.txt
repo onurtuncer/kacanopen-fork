@@ -142,7 +142,7 @@ macro(kacanopen_install)
 		)
 		if (${ARGV1})
 			install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include
-				DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+				DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/${ARGV0}/include/
 			)
 			endif()
 	endif()
