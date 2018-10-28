@@ -29,6 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <ros/package.h>
 #include <signal.h>
 #include <boost/filesystem.hpp>
 #include <chrono>
@@ -36,12 +37,12 @@
 #include <iostream>
 #include <memory>
 #include <vector>
-#include "canopen_error.h"
-#include "core.h"
-#include "device.h"
-#include "device_rpdo.h"
-#include "device_tpdo.h"
-#include "logger.h"
+#include "kacanopen/core/canopen_error.h"
+#include "kacanopen/core/core.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/master/device.h"
+#include "kacanopen/tools/device_rpdo.h"
+#include "kacanopen/tools/device_tpdo.h"
 
 static volatile int keepRunning = 1;
 
@@ -89,13 +90,14 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
                       uint16_t heartbeat_interval, uint8_t node_id) {
   // Load eds file. The eds file must be in the same folder in which the
   // binary is being executed.
-  boost::filesystem::path full_path = boost::filesystem::system_complete(
-      "roboteq_motor_controllers_v80beta.eds");
+  std::string path = ros::package::getPath("kacanopen");
+  boost::filesystem::path full_path =
+      path + "resources/eds_library/roboteq_motor_controllers_v80beta.eds";
   device->load_dictionary_from_eds(full_path.string());
   // set the our desired heartbeat_interval time
   device->set_entry(0x1017, 0x0, heartbeat_interval,
                     kaco::WriteAccessMethod::sdo);
-  //This is optional verbosity
+  // This is optional verbosity
   device->print_dictionary();
 
   // Master side rpdo1 mapping
@@ -108,14 +110,13 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   device->add_receive_pdo_mapping(0x280 + node_id, "qry_volts/v_bat", 2);
   device->add_receive_pdo_mapping(0x280 + node_id, "qry_volts/v_5vout", 4);
   device->add_receive_pdo_mapping(0x280 + node_id, "qry_digout", 6);
-  
+
   // Mater side Periodic Tranmit pdo1 value initialization
-    device->set_entry("cmd_cango/cmd_cango_1", 0x0,
-                      kaco::WriteAccessMethod::pdo);
-    // Mater side Periodic Tranmit pdo2 value initialization
-    device->set_entry("cmd_cango/cmd_cango_2", static_cast<int>(0x0),
-                      kaco::WriteAccessMethod::pdo);
-  
+  device->set_entry("cmd_cango/cmd_cango_1", 0x0, kaco::WriteAccessMethod::pdo);
+  // Mater side Periodic Tranmit pdo2 value initialization
+  device->set_entry("cmd_cango/cmd_cango_2", static_cast<int>(0x0),
+                    kaco::WriteAccessMethod::pdo);
+
   // Master side tpdo1 mapping
   device->add_transmit_pdo_mapping(
       0x200 + node_id, {{"cmd_cango/cmd_cango_1", 0}},
@@ -232,7 +233,6 @@ int main() {
       // Remove the device map entry for this current_node_id
       DeviceMap.erase(DeviceMap.find(current_node_id));
     }
-
   });
 
   int channel1_speed_ref = 0;

@@ -40,42 +40,9 @@ sudo apt-get install cmake clang-3.6 libboost-system-dev libboost-filesystem-dev
 ## CMake/Catkin Arguments
 
 The following CMake/Catkin arguments are available:
-
-- `-DDRIVER=<name>`
-	
-	Specify the driver to compile and use. At the moment, the following drivers are available: lincan, peak_linux, serial, socket, virtual, dummy.
-
-- `-DBUILD_DRIVERS=<;-separated-list of names>`
-
-	Semicolon-separated list of additional CAN drivers to build. You can use the same values as for DRIVER.
-
-- `-DBUILD_ALL_DRIVERS=On`
-
-	Build all available drivers.
-
-- `-DPCAN_PREFIX=<path>`
-
-	Path to the [PCAN drivers](http://www.peak-system.com/fileadmin/media/linux/index.htm#download) needed by the peak_linux driver. See [Drivers section](#drivers).
-
 - `-DEXHAUSTIVE_DEBUGGING=On`
 
 	Enable exhaustive debugging.
-
-- `-DNO_ROS=On`
-
-	Exclude anything depending on ROS.
-
-- `-DINSTALL_EXAMPLES=On`
-	
-	Install example programs when running make install.
-
-- `-DSDO_RESPONSE_TIMEOUT_MS=<timeout>`
-
-	Timeout in milliseconds when waiting for an SDO response.
-
-- `-DCONSECUTIVE_SEND_PAUSE_MS=<timeout>`
-
-	Pause between two consecutively sent CAN frames in milliseconds.
 
 
 ## Initialize ROS and create Catkin workspace

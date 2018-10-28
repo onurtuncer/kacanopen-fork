@@ -79,3 +79,72 @@ Full documentation can be found at [https://kitmedical.github.io/kacanopen/](htt
 ## License
 
 Core, Master and ROS Bridge are licensed under the [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause) license. Drivers from [CanFestival](http://www.canfestival.org/) are licensed under the [LGPLv2.1+](https://opensource.org/licenses/LGPL-2.1) license.
+
+# TODO
+## Roadmap
+
+This is a yet incomplete list of features which are planned for the future. Feel free to contact me you have any further ideas or if you want to contribute code.
+
+### Short-term
+
+* __Bridge:__ Rename ros_bridge to something that is not as easily confused with _the_ rosbridge (http://wiki.ros.org/rosbridge_suite), e.g. kacanopen_ros
+* __Bridge:__ Implement a ROS service for accessing any dictionary entry of a slave by name.
+* __Bridge:__ Subscribers / Publishers: Allow configuration of queue_size.
+* __Bridge:__ Trigger publishing on entry change.
+* __Core:__ Automatically map PDOs like they are configured in slave's dictionary.
+* __Core:__ Add methods for manipulating PDO mapping configuration in slave's dictionary.
+* __Core:__ Add ability to remove/change existing PDO transmitters / receivers / mappings.
+* __Master:__ Device: Add methods print_operations(), print_constants() and read_complete_dictionary().
+
+### Long-term
+
+* __Master:__ Make master a CiA 301 compliant node. This means it has to implement some slave functionality. Changes in core library are necessary in order to parse SDO request messages.
+* __Project:__ Implement a slave node library.
+* __Project:__ Check thread safety. Should be achievable with very few changes (mutexes on driver and callback vectors).
+* __Bridge:__ Have a look into ros_control. Can we use it for controlling CiA 402 devices?
+* __Core:__ Support multiple device profiles per slave.
+* __Core:__ Improve error handling.
+* __Core:__ Implement missing protocol parts like LSS, EMERGENCY and SYNC master.
+
+## Ideas for a CanOpen slave library
+
+* Where? Fits best in master library (rename to node e.g.), because it shares many things like dictionary and eds_reader,
+    and master could inherit from the slave class (-> inlining).
+
+* Core::received_message:
+    - implement two missing cases in receive loop (simple delegation to sdo/pdo class)
+
+* PDO class:
+    - Not much to do here. Just provide callbacks for RPDOs. These will be registered by Slave class.
+    - Rename process_incoming_message() to process_incoming_tpdo() and add process_incoming_rpdo()
+    - Rename add_pdo_received_callback() to add_tpdo_received_callback() and add add_rpdo_received_callback()   
+
+* SDO class:
+    - Just like in PDO class, we need to implement client SDOs.
+    - Slave class listens for requests and (add_request_callback()) and can react using send_response()
+    - add add_client_sdo_callback(SDOReceivedCallback) (callback signature void(const SDOResponse&)) and/or
+        add_request_callback(node_id, SDORequestCallback) (listening only for SDOs with slave's own node_id, callback signature void(index, subindex))
+    - add send_response(node_id, index, subindex, vector<uint8_t> data) (chooses segmented/expedited transfer on it's own)
+    - add abort_transfer(node_id, index, subindex, errorcode)
+
+* Slave class:
+    - has a node_id! (never used this until now...)
+    - m_dictionary of type map<name, Entry>
+    - m_index_to_name of type map<index,subindex,name>
+    - add_entry(Entry)
+    - read_dictionary_from_eds(filename)
+        -> store default values
+    - set_value(name,value)
+        -> user should call this for all entries without default value
+    - get_value(name) (internal use)
+    - register sdo_request_callback
+        -> get name from index, do get_value() and send result using core.sdo.send_response(node_id, index, subindex, value.get_bytes())
+    - add_pdo_mapping(cob_id, name)
+        -> core.pdo.add_rpdo_received_callback() with this cob_id -> set_value()...  
+
+* Master class:
+    - inherit from slave
+    - add at least mandatory entries using add_entry() in constructor
+
+* EDSReader class:
+    - handle default values but only if used by Slave class, otherwise dictionary could contain outdated values.

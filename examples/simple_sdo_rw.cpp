@@ -29,17 +29,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <ros/package.h>
 #include <signal.h>
 #include <boost/filesystem.hpp>
 #include <chrono>
 #include <iostream>
 #include <memory>
 #include <vector>
-#include "core.h"
-#include "device.h"
-#include "logger.h"
-#include "master.h"
-#include "parse_sdo.h"
+#include "kacanopen/core/core.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/master/device.h"
+#include "kacanopen/master/master.h"
+#include "kacanopen/tools/parse_sdo.h"
 
 static volatile int keepRunning = 1;
 
@@ -120,8 +121,8 @@ int main() {
   std::cout << "Registering a callback which is called when a device is "
                "detected via NMT..."
             << std::endl;
-  core.nmt.register_device_alive_callback([&](
-      const uint8_t new_node_id) mutable {
+  core.nmt.register_device_alive_callback([&](const uint8_t
+                                                  new_node_id) mutable {
     // Check if this is the node we are looking for.
     if (new_node_id == node_id) {
       if (!found_node) {
@@ -129,8 +130,10 @@ int main() {
         device.reset(new kaco::Device(core, node_id));
         // Load eds file. The eds file must be in the same folder in which the
         // binary is being executed.
-        boost::filesystem::path full_path = boost::filesystem::system_complete(
-            "roboteq_motor_controllers_v80beta.eds");
+        std::string path = ros::package::getPath("kacanopen");
+        boost::filesystem::path full_path =
+            path +
+            "resources/eds_library/roboteq_motor_controllers_v80beta.eds";
         device->load_dictionary_from_eds(full_path.string());
         device->start();
         // device->load_dictionary_from_library();

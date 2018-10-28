@@ -29,64 +29,62 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "logger.h"
-#include "eds_library.h"
+#include "kacanopen/master/eds_library.h"
+#include "kacanopen/core/logger.h"
 
 #include <algorithm>
 #include <unordered_map>
 
-void print_dictionary(const std::unordered_map<kaco::Address, kaco::Entry>& map) {
+void print_dictionary(
+    const std::unordered_map<kaco::Address, kaco::Entry>& map) {
+  PRINT("\nHere is the dictionary:");
 
-	PRINT("\nHere is the dictionary:");
+  using EntryRef = std::reference_wrapper<const kaco::Entry>;
+  std::vector<EntryRef> entries;
 
-	using EntryRef = std::reference_wrapper<const kaco::Entry>;
-	std::vector<EntryRef> entries;
+  for (const auto& pair : map) {
+    entries.push_back(std::ref(pair.second));
+  }
 
-	for (const auto& pair : map) {
-		entries.push_back(std::ref(pair.second));
-	}
+  // sort by index and subindex
+  std::sort(
+      entries.begin(), entries.end(),
+      [](const EntryRef& l, const EntryRef& r) { return l.get() < r.get(); });
 
-	// sort by index and subindex
-	std::sort(entries.begin(), entries.end(),
-		[](const EntryRef& l, const EntryRef& r) { return l.get()<r.get(); });
-
-	for (const auto& entry : entries) {
-		entry.get().print();
-	}
-
+  for (const auto& entry : entries) {
+    entry.get().print();
+  }
 }
 
 int main() {
+  PRINT("This example loads dictionaries from the EDS library.");
 
-	PRINT("This example loads dictionaries from the EDS library.");
+  std::unordered_map<kaco::Address, kaco::Entry> dictionary;
+  std::unordered_map<std::string, kaco::Address> name_to_address;
+  kaco::EDSLibrary library(dictionary, name_to_address);
+  bool success = library.lookup_library();
 
-	std::unordered_map<kaco::Address, kaco::Entry> dictionary;
-	std::unordered_map<std::string, kaco::Address> name_to_address;
-	kaco::EDSLibrary library(dictionary, name_to_address);
-	bool success = library.lookup_library();
+  if (!success) {
+    ERROR("EDS library not found.");
+    return EXIT_FAILURE;
+  }
 
-	if (!success) {
-		ERROR("EDS library not found.");
-		return EXIT_FAILURE;
-	}
+  success = library.load_default_eds(402);
+  if (!success) {
+    ERROR("load_default_eds(402) failed.");
+  } else {
+    print_dictionary(dictionary);
+  }
 
-	success = library.load_default_eds(402);
-	if (!success) {
-		ERROR("load_default_eds(402) failed.");
-	} else {
-		print_dictionary(dictionary);
-	}
+  // This should fail.
+  dictionary.clear();
+  name_to_address.clear();
+  success = library.load_default_eds(405);
+  if (!success) {
+    ERROR("load_default_eds(405) failed.");
+  } else {
+    print_dictionary(dictionary);
+  }
 
-	// This should fail.
-	dictionary.clear();
-	name_to_address.clear();
-	success = library.load_default_eds(405);
-	if (!success) {
-		ERROR("load_default_eds(405) failed.");
-	} else {
-		print_dictionary(dictionary);
-	}
-
-	return EXIT_SUCCESS;
-
+  return EXIT_SUCCESS;
 }
