@@ -69,6 +69,8 @@ message(STATUS "Baudrate is set to ${BAUDRATE} (only used by examples)")
 add_definitions("-DCONSECUTIVE_SEND_PAUSE_MS=${CONSECUTIVE_SEND_PAUSE_MS}")
 message(STATUS "Pause between two consecutively sent CAN frames is set to ${CONSECUTIVE_SEND_PAUSE_MS}ms")
 
+add_definitions("-DSHARE_SOURCE_PATH=\"${CMAKE_CURRENT_LIST_DIR}/master/share\"")
+add_definitions("-DSHARE_INSTALLED_PATH=\"${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}\"")
 
 ####################
 ##  Dependencies  ##
@@ -161,9 +163,9 @@ target_link_libraries(${PROJECT_NAME}_tools
 ##############
 ## Examples ##
 ##############
-add_definitions("-DSHARE_SOURCE_PATH=\"${CMAKE_CURRENT_LIST_DIR}/master/share\"")
-add_definitions("-DSHARE_INSTALLED_PATH=\"${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}\"")
-add_subdirectory(examples)
+if (CMAKE_BUILD_TYPE EQUAL "Release")
+  add_subdirectory(examples)
+endif()
 
 #############
 ## Install ##
