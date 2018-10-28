@@ -44,11 +44,6 @@ catkin_package(
     std_msgs
 )
 
-########################
-## External libraries ##
-########################
-add_subdirectory(libs)
-
 #############
 ##  Build  ##
 #############
