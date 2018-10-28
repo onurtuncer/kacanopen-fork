@@ -103,7 +103,9 @@ catkin_package(
     kacanopen_ros_bridge
     kacanopen_tools
   CATKIN_DEPENDS
-    message_runtime
+    roscpp
+    std_msgs
+    sensor_msgs
 )
 
 ########################
