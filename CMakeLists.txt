@@ -1,19 +1,17 @@
 cmake_minimum_required(VERSION 2.8)
+project(kacanopen)
 
-# Compiler flags
-# TOD0: -std=c++14 will be obsolete when reverting to minimum CMake version 3.2 and
-#       using set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 14) again.
-project(kacanopen C CXX)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra") # -Werror
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra") # -Werror
-
-### settings ###
-
+################
+##  Settings  ##
+################
 include(CMakeSettings.txt)
 
-## Driver begin ##
-
+##############
+##  Driver  ##
+##############
 if (DEFINED CAN_DRIVER_NAME)
 	message(WARNING "CAN_DRIVER_NAME is deprecated. Use DRIVER instead. Overwriting DRIVER with CAN_DRIVER_NAME (${CAN_DRIVER_NAME}) now...")
 	set(DRIVER "${CAN_DRIVER_NAME}")
@@ -39,8 +37,10 @@ if(${BUILD_ALL_DRIVERS})
 	message(STATUS "Building all available drivers.")
 endif()
 
-## Driver end ##
 
+###############
+##  Release  ##
+###############
 if(${CMAKE_BUILD_TYPE} MATCHES "Release")
 	message(STATUS "You are in release mode.")
 else()
@@ -53,9 +53,9 @@ else()
 endif()
 
 
-
-### constants ###
-
+#################
+##  Constants  ##
+#################
 add_definitions("-DSDO_RESPONSE_TIMEOUT_MS=${SDO_RESPONSE_TIMEOUT_MS}")
 message(STATUS "SDO response timeout is set to ${SDO_RESPONSE_TIMEOUT_MS}ms")
 
@@ -69,8 +69,9 @@ add_definitions("-DCONSECUTIVE_SEND_PAUSE_MS=${CONSECUTIVE_SEND_PAUSE_MS}")
 message(STATUS "Pause between two consecutively sent CAN frames is set to ${CONSECUTIVE_SEND_PAUSE_MS}ms")
 
 
-### dependencies ###
-
+####################
+##  Dependencies  ##
+####################
 find_package(Threads)
 find_package(Boost 1.46.1 COMPONENTS system filesystem REQUIRED) 
 
@@ -85,70 +86,83 @@ message(STATUS "Found Boost filesystem library: ${Boost_FILESYSTEM_LIBRARY}")
 message(STATUS "Found Threads library: ${CMAKE_THREAD_LIBS_INIT}")
 
 
-### ROS ###
+##############
+##  Catkin  ##
+##############
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  std_msgs
+  sensor_msgs
+)
+catkin_package(
+  INCLUDE_DIRS
+    include
+  LIBRARIES
+    ${CAN_DRIVER}
+    kacanopen_core
+    kacanopen_master
+    kacanopen_ros_bridge
+    kacanopen_tools
+  CATKIN_DEPENDS
+    message_runtime
+)
 
-if (NOT(${NO_ROS}))
+#############
+##  Build  ##
+#############
+include_directories(
+  include
+  ${Boost_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
+)
 
-	find_package(catkin REQUIRED COMPONENTS
-		roscpp
-		std_msgs
-		sensor_msgs
-		# message_generation
-	)
+# Core
+file(GLOB CORE_SRC "src/core/*.cpp")
+add_library(kacanopen_core SHARED ${CORE_SRC})
+target_link_libraries(${TARGET_NAME}
+  ${DRIVER_LINK_NAME}
+  ${CMAKE_DL_LIBS}
+  ${CMAKE_THREAD_LIBS_INIT}
+)
 
-	catkin_package(
-                INCLUDE_DIRS core/include master/include ros_bridge/include tools/include
-                LIBRARIES ${CAN_DRIVER} kacanopen_core kacanopen_master kacanopen_ros_bridge kacanopen_tools
-		CATKIN_DEPENDS message_runtime
-	)
+# Master
+file(GLOB MASTER_SRC "src/master/*.cpp")
+add_library(kacanopen_master SHARED ${MASTER_SRC})
+target_link_libraries(${TARGET_NAME}
+  ${Boost_SYSTEM_LIBRARY}
+  ${Boost_FILESYSTEM_LIBRARY}
+  ${CMAKE_THREAD_LIBS_INIT}
+  kacanopen_core
+)
 
-endif()
+# Ros bridge
+file(GLOB ROS_BRIDGE_SRC "src/ros_bridge/*.cpp")
+add_library(kacanopen_ros_bridge SHARED ${ROS_BRIDGE_SRC})
+target_link_libraries(${TARGET_NAME}
+  kacanopen_master
+  ${catkin_LIBRARIES}
+)
 
+# Tools
+file(GLOB TOOLS_SRC "src/tools/*.cpp")
+add_library(kacanopen_tools SHARED ${TOOLS_SRC})
+target_link_libraries(${TARGET_NAME}
+  ${CMAKE_DL_LIBS}
+  ${CMAKE_THREAD_LIBS_INIT}
+)
 
-### includes ###
+#############
+## Install ##
+#############
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
 
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-
-if (NOT(${NO_ROS}))
-	include_directories(SYSTEM ${catkin_INCLUDE_DIRS})
-endif()
-
-include_directories(${CMAKE_CURRENT_LIST_DIR}/core/include)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/master/include)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/ros_bridge/include)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/tools/include)
-
-### Installation ###
-
-# argument 1: targets
-# argument 2: if true, install ${CMAKE_CURRENT_LIST_DIR}/include/
-# call this from subproject's CMake files
-macro(kacanopen_install)
-	message(STATUS "Configuring installation for target(s) ${ARGV0}")
-	if (${NO_ROS})
-		install(TARGETS ${ARGV0}
-			LIBRARY DESTINATION lib
-			RUNTIME DESTINATION bin
-		)
-		if (${ARGV1})
-			install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
-				DESTINATION include/kacanopen
-			)
-		endif()
-	else()
-		install(TARGETS ${ARGV0}
-			LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-			RUNTIME DESTINATION bin
-		)
-		if (${ARGV1})
-			STRING(REGEX REPLACE "^kacanopen_" "" LIBRARY_NAME ${ARGV0})
-			install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
-				DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}/${LIBRARY_NAME}/include/
-			)
-			endif()
-	endif()
-endmacro()
-
+install(TARGETS kacanopen_core
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
+)
 
 # Install EDS library
 message(STATUS "Configuring installation for EDS library")
@@ -168,9 +182,4 @@ endif()
 
 add_subdirectory(drivers_lgpl)
 add_subdirectory(drivers)
-add_subdirectory(core)
-add_subdirectory(master)
-add_subdirectory(examples)
-add_subdirectory(tools)
-
 
