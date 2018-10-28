@@ -2,8 +2,8 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2018-10-28)
+------------------
 * Merged in hotfix/catkin-install (pull request #1)
   Refactoring
 * using rosdoc instead  of raw doxygen
