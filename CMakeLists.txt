@@ -1,25 +1,26 @@
 cmake_minimum_required(VERSION 2.8)
 project(kacanopen)
 
+#############
+##  Flags  ##
+#############
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ################
 ##  Settings  ##
 ################
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Read options
 include(CMakeSettings.txt)
 
-
-##############
-##  Driver  ##
-##############
-if (DEFINED CAN_DRIVER_NAME)
-	message(WARNING "CAN_DRIVER_NAME is deprecated. Use DRIVER instead. Overwriting DRIVER with CAN_DRIVER_NAME (${CAN_DRIVER_NAME}) now...")
-	set(DRIVER "${CAN_DRIVER_NAME}")
+# Debug
+if(${EXHAUSTIVE_DEBUGGING})
+  message(STATUS "Enabled exhaustive debugging.")
+  add_definitions("-DEXHAUSTIVE_DEBUGGING")
 endif()
 
+# Driver
 foreach(BUILD_DRIVER ${BUILD_DRIVERS})
-	# TODO: Replace with CMake 3.3 command IN_LIST
 	list(FIND SUPPORTED_DRIVERS "${BUILD_DRIVER}" supported)
 	if (${supported} EQUAL -1)
 		message(FATAL_ERROR "Driver ${BUILD_DRIVER} does not exist, but you've specified it in BUILD_DRIVERS.")
@@ -38,37 +39,6 @@ if(${BUILD_ALL_DRIVERS})
 	message(STATUS "Building all available drivers.")
 endif()
 
-
-###############
-##  Release  ##
-###############
-if("${CMAKE_BUILD_TYPE}" MATCHES "Release")
-	message(STATUS "You are in release mode.")
-else()
-	if(${EXHAUSTIVE_DEBUGGING})
-		message(STATUS "Enabled exhaustive debugging.")
-		add_definitions("-DEXHAUSTIVE_DEBUGGING")
-	else()
-		message(STATUS "Enabled debugging.")
-	endif()
-endif()
-
-####################
-##  Dependencies  ##
-####################
-find_package(Threads)
-find_package(Boost 1.46.1 COMPONENTS system filesystem REQUIRED) 
-
-# Boost required for property_tree / ini_parser
-if(NOT(Boost_FOUND))
-	message(FATAL_ERROR "Boost > 1.46.1 not found. Boost is required for ini_parser class. This is a header-only library. You can simply download the latest boost package from http://www.boost.org/, extract it into any directory and include it using the following catkin/CMake argument: -DBOOST_ROOT=\"/path/to/boost/\"")
-endif()
-
-message(STATUS "Found Boost headers in ${Boost_INCLUDE_DIRS}")
-message(STATUS "Found Boost system library: ${Boost_SYSTEM_LIBRARY}")
-message(STATUS "Found Boost filesystem library: ${Boost_FILESYSTEM_LIBRARY}")
-message(STATUS "Found Threads library: ${CMAKE_THREAD_LIBS_INIT}")
-
 ##############
 ##  Catkin  ##
 ##############
@@ -78,6 +48,8 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
 )
+find_package(Threads)
+find_package(Boost 1.46.1 COMPONENTS system filesystem REQUIRED)
 catkin_package(
   INCLUDE_DIRS
     include
