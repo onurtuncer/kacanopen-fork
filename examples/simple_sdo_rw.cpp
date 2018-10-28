@@ -29,6 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <ros/package.h>
 #include <signal.h>
 #include <boost/filesystem.hpp>
 #include <chrono>
@@ -129,8 +130,10 @@ int main() {
         device.reset(new kaco::Device(core, node_id));
         // Load eds file. The eds file must be in the same folder in which the
         // binary is being executed.
-        boost::filesystem::path full_path = boost::filesystem::system_complete(
-            "roboteq_motor_controllers_v80beta.eds");
+        std::string path = ros::package::getPath("kacanopen");
+        boost::filesystem::path full_path =
+            path +
+            "resources/eds_library/roboteq_motor_controllers_v80beta.eds";
         device->load_dictionary_from_eds(full_path.string());
         device->start();
         // device->load_dictionary_from_library();

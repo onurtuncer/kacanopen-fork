@@ -29,6 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <ros/package.h>
 #include <signal.h>
 #include <boost/filesystem.hpp>
 #include <chrono>
@@ -89,8 +90,9 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
                       uint16_t heartbeat_interval, uint8_t node_id) {
   // Load eds file. The eds file must be in the same folder in which the
   // binary is being executed.
-  boost::filesystem::path full_path = boost::filesystem::system_complete(
-      "roboteq_motor_controllers_v80beta.eds");
+  std::string path = ros::package::getPath("kacanopen");
+  boost::filesystem::path full_path =
+      path + "resources/eds_library/roboteq_motor_controllers_v80beta.eds";
   device->load_dictionary_from_eds(full_path.string());
   // set the our desired heartbeat_interval time
   device->set_entry(0x1017, 0x0, heartbeat_interval,

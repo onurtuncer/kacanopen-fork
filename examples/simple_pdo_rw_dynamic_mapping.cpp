@@ -29,6 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <ros/package.h>
 #include <signal.h>
 #include <boost/filesystem.hpp>
 #include <chrono>
@@ -95,42 +96,47 @@ int main() {
                "detected via NMT..."
             << std::endl;
   // core.pdo.send(0x204, ch1_speed); // raw pdo message
-  core.nmt.register_device_alive_callback([&](const uint8_t
-                                                  new_node_id) mutable {
-    // Check if this is the node we are looking for.
-    if (new_node_id == node_id) {
-      if (!found_node) {
-        found_node = true;
-        device.reset(new kaco::Device(core, node_id));
-        // Load eds file. The eds file must be in the same folder in which the
-        // binary is being executed.
-        boost::filesystem::path full_path = boost::filesystem::system_complete(
-            "roboteq_motor_controllers_v80beta.eds");
-        device->load_dictionary_from_eds(full_path.string());
-        device->add_transmit_pdo_mapping(0x200 + node_id, {{"Cmd_DOUT", 0}},
-                                         kaco::TransmissionType::ON_CHANGE,
-                                         std::chrono::milliseconds(250));
-        device->add_receive_pdo_mapping(
-            0x180 + node_id, "qry_abspeed/channel_1", 0);  // offset 1,
-        device->add_receive_pdo_mapping(
-            0x180 + node_id, "qry_abspeed/channel_2", 2);  // offset 2,
-        device->add_receive_pdo_mapping(
-            0x180 + node_id, "qry_batamps/channel_1", 4);  // offset 4,
-        device->add_receive_pdo_mapping(
-            0x180 + node_id, "qry_batamps/channel_2", 6);  // offset 6,
-        // 0x21030110, 0x21030210, 0x210C0110, 0x21000110
-        // 0x210C0110,0x210C0210,0x210C0110,0x210C0210
-        const std::vector<uint32_t> entries_to_be_mapped{
-            0x210C0110, 0x210C0210, 0x210C0110, 0x210C0210};
-        // map_tpdo_in_device(tpdo4, entries_to_be_mapped, 255, 100, 500,
-        // device,node_id);
-        map_tpdo_in_device(tpdo3, entries_to_be_mapped, 255, 100, 500, device);
-        map_tpdo_in_device(tpdo2, entries_to_be_mapped, 255, 100, 500, device);
-        map_tpdo_in_device(tpdo1, entries_to_be_mapped, 255, 100, 500, device);
-        node_initialized = true;
-      }
-    }
-  });
+  core.nmt.register_device_alive_callback(
+      [&](const uint8_t new_node_id) mutable {
+        // Check if this is the node we are looking for.
+        if (new_node_id == node_id) {
+          if (!found_node) {
+            found_node = true;
+            device.reset(new kaco::Device(core, node_id));
+            // Load eds file. The eds file must be in the same folder in which
+            // the binary is being executed.
+            std::string path = ros::package::getPath("kacanopen");
+            boost::filesystem::path full_path =
+                path +
+                "resources/eds_library/roboteq_motor_controllers_v80beta.eds";
+            device->load_dictionary_from_eds(full_path.string());
+            device->add_transmit_pdo_mapping(0x200 + node_id, {{"Cmd_DOUT", 0}},
+                                             kaco::TransmissionType::ON_CHANGE,
+                                             std::chrono::milliseconds(250));
+            device->add_receive_pdo_mapping(
+                0x180 + node_id, "qry_abspeed/channel_1", 0);  // offset 1,
+            device->add_receive_pdo_mapping(
+                0x180 + node_id, "qry_abspeed/channel_2", 2);  // offset 2,
+            device->add_receive_pdo_mapping(
+                0x180 + node_id, "qry_batamps/channel_1", 4);  // offset 4,
+            device->add_receive_pdo_mapping(
+                0x180 + node_id, "qry_batamps/channel_2", 6);  // offset 6,
+            // 0x21030110, 0x21030210, 0x210C0110, 0x21000110
+            // 0x210C0110,0x210C0210,0x210C0110,0x210C0210
+            const std::vector<uint32_t> entries_to_be_mapped{
+                0x210C0110, 0x210C0210, 0x210C0110, 0x210C0210};
+            // map_tpdo_in_device(tpdo4, entries_to_be_mapped, 255, 100, 500,
+            // device,node_id);
+            map_tpdo_in_device(tpdo3, entries_to_be_mapped, 255, 100, 500,
+                               device);
+            map_tpdo_in_device(tpdo2, entries_to_be_mapped, 255, 100, 500,
+                               device);
+            map_tpdo_in_device(tpdo1, entries_to_be_mapped, 255, 100, 500,
+                               device);
+            node_initialized = true;
+          }
+        }
+      });
   uint8_t digtal_out_write = 0x0;
   // core.nmt.send_nmt_message(04,kaco::NMT::Command::reset_communication);
   while (keepRunning) {

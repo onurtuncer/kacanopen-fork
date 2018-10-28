@@ -30,14 +30,11 @@
  */
 
 #include "kacanopen/master/eds_reader.h"
+#include <ros/package.h>
 #include "kacanopen/core/logger.h"
 
 #include <algorithm>
 #include <tuple>
-
-// This is set by CMake...
-//#define SHARE_SOURCE_PATH ...
-//#define SHARE_INSTALLED_PATH ...
 
 int main(int argc, char** argv) {
   PRINT("This example reads an EDS file and prints the resulting dictionary.");
@@ -55,15 +52,10 @@ int main(int argc, char** argv) {
     success = reader.load_file(path);
 
   } else {
-    path = SHARE_SOURCE_PATH "/example.eds";
+    std::string package_path = ros::package::getPath("kacanopen");
+    path = package_path + "/resources/eds_library/example.eds";
     PRINT("Loading default EDS file from " << path);
     success = reader.load_file(path);
-
-    if (!success) {
-      path = SHARE_INSTALLED_PATH "/example.eds";
-      PRINT("Another try: Loading default EDS file from " << path);
-      success = reader.load_file(path);
-    }
   }
 
   if (!success) {

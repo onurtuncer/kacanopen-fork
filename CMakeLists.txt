@@ -69,9 +69,6 @@ message(STATUS "Baudrate is set to ${BAUDRATE} (only used by examples)")
 add_definitions("-DCONSECUTIVE_SEND_PAUSE_MS=${CONSECUTIVE_SEND_PAUSE_MS}")
 message(STATUS "Pause between two consecutively sent CAN frames is set to ${CONSECUTIVE_SEND_PAUSE_MS}ms")
 
-add_definitions("-DSHARE_SOURCE_PATH=\"${CMAKE_CURRENT_LIST_DIR}/master/share\"")
-add_definitions("-DSHARE_INSTALLED_PATH=\"${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}\"")
-
 ####################
 ##  Dependencies  ##
 ####################
@@ -93,6 +90,7 @@ message(STATUS "Found Threads library: ${CMAKE_THREAD_LIBS_INIT}")
 ##############
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  roslib
   sensor_msgs
   std_msgs
 )
@@ -107,6 +105,7 @@ catkin_package(
     ${PROJECT_NAME}_tools
   CATKIN_DEPENDS
     roscpp
+    roslib
     sensor_msgs
     std_msgs
 )
@@ -186,6 +185,6 @@ install(
 )
 
 install(
-  DIRECTORY share/
+  DIRECTORY resources
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )

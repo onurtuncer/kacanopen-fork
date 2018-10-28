@@ -39,6 +39,7 @@
 #include "kacanopen/core/logger.h"
 #include "kacanopen/master/device.h"
 #include "kacanopen/master/master.h"
+#include "ros/package.h"
 
 static volatile int keepRunning = 1;
 
@@ -100,10 +101,10 @@ int main() {
             found_node = true;
             // Load eds file. The eds file must be in the same folder in which
             // the binary is being executed.
-            device.reset(new kaco::Device(core, node_id));
+            std::string path = ros::package::getPath("kacanopen");
             boost::filesystem::path full_path =
-                boost::filesystem::system_complete(
-                    "roboteq_motor_controllers_v80beta.eds");
+                path +
+                "resources/eds_library/roboteq_motor_controllers_v80beta.eds";
             device->load_dictionary_from_eds(full_path.string());
 
             device->set_entry("cmd_cango/cmd_cango_1", channel1_speed_ref,
