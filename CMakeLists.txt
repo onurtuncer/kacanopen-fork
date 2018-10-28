@@ -10,33 +10,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 ################
 ##  Settings  ##
 ################
-# Read options
-include(CMakeSettings.txt)
-
 # Debug
+option(EXHAUSTIVE_DEBUGGING "Enable exhaustive debugging." OFF)
 if(${EXHAUSTIVE_DEBUGGING})
   message(STATUS "Enabled exhaustive debugging.")
   add_definitions("-DEXHAUSTIVE_DEBUGGING")
-endif()
-
-# Driver
-foreach(BUILD_DRIVER ${BUILD_DRIVERS})
-	list(FIND SUPPORTED_DRIVERS "${BUILD_DRIVER}" supported)
-	if (${supported} EQUAL -1)
-		message(FATAL_ERROR "Driver ${BUILD_DRIVER} does not exist, but you've specified it in BUILD_DRIVERS.")
-	endif()
-endforeach()
-
-list(FIND SUPPORTED_DRIVERS "${DRIVER}" driver_supported)
-if (${driver_supported} EQUAL -1)
-	message(FATAL_ERROR "Driver ${DRIVER} does not exist, but you've set it as DRIVER.")
-endif()
-
-set(DRIVER_LINK_NAME can_${DRIVER})
-message(STATUS "Using CAN driver ${DRIVER_LINK_NAME}")
-
-if(${BUILD_ALL_DRIVERS})
-	message(STATUS "Building all available drivers.")
 endif()
 
 ##############
@@ -54,7 +32,7 @@ catkin_package(
   INCLUDE_DIRS
     include
   LIBRARIES
-    ${CAN_DRIVER}
+    ${PROJECT_NAME}_driver
     ${PROJECT_NAME}_core
     ${PROJECT_NAME}_master
     ${PROJECT_NAME}_ros_bridge
@@ -80,11 +58,15 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+# Driver
+file(GLOB DRIVER_SRC "src/driver/*.c")
+add_library(${PROJECT_NAME}_driver SHARED ${DRIVER_SRC})
+
 # Core
 file(GLOB CORE_SRC "src/core/*.cpp")
 add_library(${PROJECT_NAME}_core SHARED ${CORE_SRC})
 target_link_libraries(${PROJECT_NAME}_core
-  ${DRIVER_LINK_NAME}
+  ${PROJECT_NAME}_driver
   ${CMAKE_DL_LIBS}
   ${CMAKE_THREAD_LIBS_INIT}
 )
@@ -131,6 +113,7 @@ install(DIRECTORY include/${PROJECT_NAME}/
 
 install(
   TARGETS
+    ${PROJECT_NAME}_driver
     ${PROJECT_NAME}_core
     ${PROJECT_NAME}_master
     ${PROJECT_NAME}_ros_bridge
