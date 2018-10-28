@@ -43,7 +43,7 @@ The following CMake/Catkin arguments are available:
 
 - `-DDRIVER=<name>`
 	
-	Specify the driver to compile and use. At the moment, the following drivers are available: lincan, peak_linux, serial, socket, virtual, dummy.
+  Specify the driver to compile and use. At the moment, the following drivers are available: lincan, peak_linux, serial, socket, virtual.
 
 - `-DBUILD_DRIVERS=<;-separated-list of names>`
 
