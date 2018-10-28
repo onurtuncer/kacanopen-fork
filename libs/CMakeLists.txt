@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
 project(KaCanOpen_drivers C)
 
 message(STATUS "Configuring LGPL drivers")

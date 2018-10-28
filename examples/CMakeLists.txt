@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
-
 file(GLOB TARGETS_SRC
 	"*.cpp"
 	"test/*.cpp"
@@ -17,7 +15,7 @@ foreach(TARGET_SRC ${TARGETS_SRC})
     kacanopen_tools
   )
 	list(APPEND KACANOPEN_EXAMPLES_TARGET_NAMES ${TARGET_NAME})
-endforeach(TARGET_SRC ${TARGETS_SRC})
+endforeach()
 
 # Install
 install(

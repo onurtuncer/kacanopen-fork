@@ -1,13 +1,14 @@
 cmake_minimum_required(VERSION 2.8)
 project(kacanopen)
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ################
 ##  Settings  ##
 ################
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(CMakeSettings.txt)
+
 
 ##############
 ##  Driver  ##
@@ -41,7 +42,7 @@ endif()
 ###############
 ##  Release  ##
 ###############
-if(${CMAKE_BUILD_TYPE} MATCHES "Release")
+if("${CMAKE_BUILD_TYPE}" MATCHES "Release")
 	message(STATUS "You are in release mode.")
 else()
 	if(${EXHAUSTIVE_DEBUGGING})
@@ -90,22 +91,22 @@ message(STATUS "Found Threads library: ${CMAKE_THREAD_LIBS_INIT}")
 ##############
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  std_msgs
   sensor_msgs
+  std_msgs
 )
 catkin_package(
   INCLUDE_DIRS
     include
   LIBRARIES
     ${CAN_DRIVER}
-    kacanopen_core
-    kacanopen_master
-    kacanopen_ros_bridge
-    kacanopen_tools
+    ${PROJECT_NAME}_core
+    ${PROJECT_NAME}_master
+    ${PROJECT_NAME}_ros_bridge
+    ${PROJECT_NAME}_tools
   CATKIN_DEPENDS
     roscpp
-    std_msgs
     sensor_msgs
+    std_msgs
 )
 
 ########################
@@ -124,8 +125,8 @@ include_directories(
 
 # Core
 file(GLOB CORE_SRC "src/core/*.cpp")
-add_library(kacanopen_core SHARED ${CORE_SRC})
-target_link_libraries(kacanopen_core
+add_library(${PROJECT_NAME}_core SHARED ${CORE_SRC})
+target_link_libraries(${PROJECT_NAME}_core
   ${DRIVER_LINK_NAME}
   ${CMAKE_DL_LIBS}
   ${CMAKE_THREAD_LIBS_INIT}
@@ -133,26 +134,26 @@ target_link_libraries(kacanopen_core
 
 # Master
 file(GLOB MASTER_SRC "src/master/*.cpp")
-add_library(kacanopen_master SHARED ${MASTER_SRC})
-target_link_libraries(kacanopen_master
+add_library(${PROJECT_NAME}_master SHARED ${MASTER_SRC})
+target_link_libraries(${PROJECT_NAME}_master
   ${Boost_SYSTEM_LIBRARY}
   ${Boost_FILESYSTEM_LIBRARY}
   ${CMAKE_THREAD_LIBS_INIT}
-  kacanopen_core
+  ${PROJECT_NAME}_core
 )
 
 # Ros bridge
 file(GLOB ROS_BRIDGE_SRC "src/ros_bridge/*.cpp")
-add_library(kacanopen_ros_bridge SHARED ${ROS_BRIDGE_SRC})
-target_link_libraries(kacanopen_ros_bridge
-  kacanopen_master
+add_library(${PROJECT_NAME}_ros_bridge SHARED ${ROS_BRIDGE_SRC})
+target_link_libraries(${PROJECT_NAME}_ros_bridge
+  ${PROJECT_NAME}_master
   ${catkin_LIBRARIES}
 )
 
 # Tools
 file(GLOB TOOLS_SRC "src/tools/*.cpp")
-add_library(kacanopen_tools SHARED ${TOOLS_SRC})
-target_link_libraries(kacanopen_tools
+add_library(${PROJECT_NAME}_tools SHARED ${TOOLS_SRC})
+target_link_libraries(${PROJECT_NAME}_tools
   ${CMAKE_DL_LIBS}
   ${CMAKE_THREAD_LIBS_INIT}
 )
@@ -161,7 +162,7 @@ target_link_libraries(kacanopen_tools
 ## Examples ##
 ##############
 add_definitions("-DSHARE_SOURCE_PATH=\"${CMAKE_CURRENT_LIST_DIR}/master/share\"")
-add_definitions("-DSHARE_INSTALLED_PATH=\"${CMAKE_INSTALL_PREFIX}/share/kacanopen\"")
+add_definitions("-DSHARE_INSTALLED_PATH=\"${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}\"")
 add_subdirectory(examples)
 
 #############
@@ -173,16 +174,16 @@ install(DIRECTORY include/${PROJECT_NAME}/
 
 install(
   TARGETS
-    kacanopen_core
-    kacanopen_master
-    kacanopen_ros_bridge
-    kacanopen_tools
+    ${PROJECT_NAME}_core
+    ${PROJECT_NAME}_master
+    ${PROJECT_NAME}_ros_bridge
+    ${PROJECT_NAME}_tools
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
 )
 
 install(
-  DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/share/
+  DIRECTORY share/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
