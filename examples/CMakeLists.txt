@@ -13,8 +13,8 @@ foreach(TARGET_SRC ${TARGETS_SRC})
   target_link_libraries(${TARGET_NAME}
     kacanopen_core
     kacanopen_master
-    kacanopen_tools
     kacanopen_ros_bridge
+    kacanopen_tools
   )
 	list(APPEND KACANOPEN_EXAMPLES_TARGET_NAMES ${TARGET_NAME})
 endforeach(TARGET_SRC ${TARGETS_SRC})

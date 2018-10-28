@@ -35,13 +35,13 @@
 #include <iostream>
 #include <memory>
 #include <vector>
-#include "canopen_error.h"
-#include "core.h"
-#include "device.h"
-#include "device_rpdo.h"
-#include "device_tpdo.h"
-#include "logger.h"
-#include "master.h"
+#include "kacanopen/core/canopen_error.h"
+#include "kacanopen/core/core.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/master/device.h"
+#include "kacanopen/master/master.h"
+#include "kacanopen/tools/device_rpdo.h"
+#include "kacanopen/tools/device_tpdo.h"
 static volatile int keepRunning = 1;
 
 void intHandler(int dummy) {

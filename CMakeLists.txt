@@ -157,6 +157,13 @@ target_link_libraries(kacanopen_tools
   ${CMAKE_THREAD_LIBS_INIT}
 )
 
+##############
+## Examples ##
+##############
+add_definitions("-DSHARE_SOURCE_PATH=\"${CMAKE_CURRENT_LIST_DIR}/master/share\"")
+add_definitions("-DSHARE_INSTALLED_PATH=\"${CMAKE_INSTALL_PREFIX}/share/kacanopen\"")
+add_subdirectory(examples)
+
 #############
 ## Install ##
 #############
@@ -175,9 +182,6 @@ install(
   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
 )
 
-# Install EDS library
-add_definitions("-DSHARE_SOURCE_PATH=\"${CMAKE_CURRENT_LIST_DIR}/master/share\"")
-add_definitions("-DSHARE_INSTALLED_PATH=\"${CMAKE_INSTALL_PREFIX}/share/kacanopen\"")
 install(
   DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/share/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
