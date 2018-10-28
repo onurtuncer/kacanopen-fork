@@ -8,3 +8,7 @@ html/
 
 # dev/can-utils is fetched locally by dev/init_usbtin.sh
 dev/can-utils
+
+# Ignore binarization folders
+debian
+obj-x86_64-linux-gnu
