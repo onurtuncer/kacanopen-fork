@@ -29,14 +29,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "device.h"
-#include "core.h"
-#include "utils.h"
-#include "logger.h"
-#include "dictionary_error.h"
-#include "profiles.h"
-#include "sdo_error.h"
-#include "global_config.h"
+#include "kacanopen/master/device.h"
+#include "kacanopen/core/core.h"
+#include "kacanopen/master/utils.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/master/dictionary_error.h"
+#include "kacanopen/master/profiles.h"
+#include "kacanopen/core/sdo_error.h"
+#include "kacanopen/core/global_config.h"
 
 #include <cassert>
 #include <algorithm>

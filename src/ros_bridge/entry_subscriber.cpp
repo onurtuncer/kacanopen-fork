@@ -29,11 +29,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "entry_subscriber.h"
-#include "utils.h"
-#include "logger.h"
+#include "kacanopen/ros_bridge/entry_subscriber.h"
+#include "kacanopen/master/utils.h"
+#include "kacanopen/core/logger.h"
 #include "ros/ros.h"
-#include "sdo_error.h"
+#include "kacanopen/core/sdo_error.h"
 
 #include <string>
 

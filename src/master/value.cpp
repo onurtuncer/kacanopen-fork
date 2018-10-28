@@ -29,9 +29,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "value.h"
-#include "logger.h"
-#include "canopen_error.h"
+#include "kacanopen/master/value.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/core/canopen_error.h"
 
 #include <sstream>
 #include <string>

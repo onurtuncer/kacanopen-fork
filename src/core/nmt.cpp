@@ -29,9 +29,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "nmt.h"
-#include "core.h"
-#include "logger.h"
+#include "kacanopen/core/nmt.h"
+#include "kacanopen/core/core.h"
+#include "kacanopen/core/logger.h"
 
 #include <iostream>
 #include <cstdint>

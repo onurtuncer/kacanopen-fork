@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Thomas Keh
+ * Copyright (c) 2015, Thomas Keh
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,22 +28,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+ 
+#pragma once
 
-#include "kacanopen/core/global_config.h"
+#include "kacanopen/master/types.h"
 
-// Set by CMake:
-// #define SDO_RESPONSE_TIMEOUT_MS ...
+#include <string>
+#include <cstdint>
 
 namespace kaco {
 
-	size_t Config::sdo_response_timeout_ms = SDO_RESPONSE_TIMEOUT_MS;
-		
-	size_t Config::repeats_on_sdo_timeout = 0;
+/// This class provides various static utility functions.
+struct Utils {
 
-	bool Config::eds_reader_mark_entries_as_generic = false;
-	
-	bool Config::eds_reader_just_add_mappings = false;
+	/// Converts data types to a string.
+	static std::string type_to_string(Type type);
 
-	bool Config::eds_library_clear_dictionary = false;
+	/// Converts CanOpen data types to a string.
+	static std::string data_type_to_string(DataType type);
+
+	/// Returns the size of a data type in bytes.
+	static uint8_t get_type_size(Type type);
+
+	/// Maps type codes from an EDS file to a data type
+	/// \see enum DataType in types.h
+	static Type type_code_to_type(uint16_t code);
+
+	/// Converts entry names to lower case and replaces all spaces and '-' by underscores.
+	static std::string escape(const std::string& str);
+
+	/// Converts a string containing a hexadecimal numer to unsigned.
+	static unsigned long long  hexstr_to_uint(std::string str);
+
+	/// Converts a string containing a decimal numer to unsigned.
+	static unsigned long long  decstr_to_uint(std::string str);
+
+	/// Converts a string representation of AccessType from an EDS file to AccessType.
+	static AccessType string_to_access_type(std::string str);
+
+	/// Converts access types to a string.
+	static std::string access_type_to_string(AccessType type);
+
+private:
+
+	static const bool debug = false;
+
+};
 
 } // end namespace kaco

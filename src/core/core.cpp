@@ -35,8 +35,8 @@
 #include <string>
 #include <cassert>
 
-#include "logger.h"
-#include "core.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/core/core.h"
 
 namespace kaco {
 

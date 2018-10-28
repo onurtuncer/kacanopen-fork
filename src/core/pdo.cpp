@@ -29,9 +29,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "pdo.h"
-#include "core.h"
-#include "logger.h"
+#include "kacanopen/core/pdo.h"
+#include "kacanopen/core/core.h"
+#include "kacanopen/core/logger.h"
 
 #include <cassert>
 #include <iostream>

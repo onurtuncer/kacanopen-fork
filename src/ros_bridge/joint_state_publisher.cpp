@@ -29,11 +29,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "joint_state_publisher.h"
-#include "utils.h"
-#include "logger.h"
-#include "profiles.h"
-#include "sdo_error.h"
+#include "kacanopen/ros_bridge/joint_state_publisher.h"
+#include "kacanopen/master/utils.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/master/profiles.h"
+#include "kacanopen/core/sdo_error.h"
 
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"

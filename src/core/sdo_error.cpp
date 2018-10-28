@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "sdo_error.h"
+#include "kacanopen/core/sdo_error.h"
 
 namespace kaco {
 

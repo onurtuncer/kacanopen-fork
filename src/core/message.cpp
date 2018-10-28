@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "message.h"
-#include "logger.h"
+#include "kacanopen/core/message.h"
+#include "kacanopen/core/logger.h"
 
 #include <iostream>
 #include <cstdint>

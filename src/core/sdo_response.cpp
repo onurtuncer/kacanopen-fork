@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "sdo_response.h"
-#include "logger.h"
+#include "kacanopen/core/sdo_response.h"
+#include "kacanopen/core/logger.h"
 
 #include <cstdint>
 #include <string>

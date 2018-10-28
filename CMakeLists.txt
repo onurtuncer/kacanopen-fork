@@ -85,7 +85,6 @@ message(STATUS "Found Boost system library: ${Boost_SYSTEM_LIBRARY}")
 message(STATUS "Found Boost filesystem library: ${Boost_FILESYSTEM_LIBRARY}")
 message(STATUS "Found Threads library: ${CMAKE_THREAD_LIBS_INIT}")
 
-
 ##############
 ##  Catkin  ##
 ##############
@@ -107,6 +106,11 @@ catkin_package(
     message_runtime
 )
 
+########################
+## External libraries ##
+########################
+add_subdirectory(libs)
+
 #############
 ##  Build  ##
 #############
@@ -119,7 +123,7 @@ include_directories(
 # Core
 file(GLOB CORE_SRC "src/core/*.cpp")
 add_library(kacanopen_core SHARED ${CORE_SRC})
-target_link_libraries(${TARGET_NAME}
+target_link_libraries(kacanopen_core
   ${DRIVER_LINK_NAME}
   ${CMAKE_DL_LIBS}
   ${CMAKE_THREAD_LIBS_INIT}
@@ -128,7 +132,7 @@ target_link_libraries(${TARGET_NAME}
 # Master
 file(GLOB MASTER_SRC "src/master/*.cpp")
 add_library(kacanopen_master SHARED ${MASTER_SRC})
-target_link_libraries(${TARGET_NAME}
+target_link_libraries(kacanopen_master
   ${Boost_SYSTEM_LIBRARY}
   ${Boost_FILESYSTEM_LIBRARY}
   ${CMAKE_THREAD_LIBS_INIT}
@@ -138,7 +142,7 @@ target_link_libraries(${TARGET_NAME}
 # Ros bridge
 file(GLOB ROS_BRIDGE_SRC "src/ros_bridge/*.cpp")
 add_library(kacanopen_ros_bridge SHARED ${ROS_BRIDGE_SRC})
-target_link_libraries(${TARGET_NAME}
+target_link_libraries(kacanopen_ros_bridge
   kacanopen_master
   ${catkin_LIBRARIES}
 )
@@ -146,7 +150,7 @@ target_link_libraries(${TARGET_NAME}
 # Tools
 file(GLOB TOOLS_SRC "src/tools/*.cpp")
 add_library(kacanopen_tools SHARED ${TOOLS_SRC})
-target_link_libraries(${TARGET_NAME}
+target_link_libraries(kacanopen_tools
   ${CMAKE_DL_LIBS}
   ${CMAKE_THREAD_LIBS_INIT}
 )
@@ -158,28 +162,21 @@ install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 
-install(TARGETS kacanopen_core
+install(
+  TARGETS
+    kacanopen_core
+    kacanopen_master
+    kacanopen_ros_bridge
+    kacanopen_tools
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
 )
 
 # Install EDS library
-message(STATUS "Configuring installation for EDS library")
 add_definitions("-DSHARE_SOURCE_PATH=\"${CMAKE_CURRENT_LIST_DIR}/master/share\"")
 add_definitions("-DSHARE_INSTALLED_PATH=\"${CMAKE_INSTALL_PREFIX}/share/kacanopen\"")
-message(STATUS "SHARE_SOURCE_PATH set to ${CMAKE_CURRENT_LIST_DIR}/share.")
-message(STATUS "SHARE_INSTALLED_PATH set to ${CMAKE_INSTALL_PREFIX}/share/kacanopen.")
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/master/share/
-	DESTINATION share/kacanopen
+install(
+  DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/share/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
-
-### Source code ###
-
-if (NOT(${NO_ROS}))
-	add_subdirectory(ros_bridge)
-endif()
-
-add_subdirectory(drivers_lgpl)
-add_subdirectory(drivers)
-

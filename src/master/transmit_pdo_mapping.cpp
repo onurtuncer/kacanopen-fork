@@ -29,11 +29,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "transmit_pdo_mapping.h"
-#include "core.h"
-#include "entry.h"
-#include "logger.h"
-#include "dictionary_error.h"
+#include "kacanopen/master/transmit_pdo_mapping.h"
+#include "kacanopen/core/core.h"
+#include "kacanopen/master/entry.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/master/dictionary_error.h"
 
 #include <cassert>
 

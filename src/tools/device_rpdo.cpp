@@ -1,6 +1,6 @@
-#include "device_rpdo.h"
+#include "kacanopen/tools/device_rpdo.h"
 #include <cstdint>
-#include "device_tpdo.h"
+#include "kacanopen/tools/device_tpdo.h"
 void map_rpdo_in_device(RPDO_NO rpdo_no,
                         std::vector<uint32_t> entries_to_be_mapped,
                         uint8_t transmit_type,

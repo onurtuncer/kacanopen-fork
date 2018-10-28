@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "dictionary_error.h"
+#include "kacanopen/master/dictionary_error.h"
 
 namespace kaco {
 

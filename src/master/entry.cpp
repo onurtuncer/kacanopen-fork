@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "entry.h"
-#include "canopen_error.h"
+#include "kacanopen/master/entry.h"
+#include "kacanopen/core/canopen_error.h"
 
 #include <cassert>
 #include <future>

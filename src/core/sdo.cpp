@@ -29,11 +29,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "sdo.h"
-#include "core.h"
-#include "logger.h"
-#include "sdo_error.h"
-#include "global_config.h"
+#include "kacanopen/core/sdo.h"
+#include "kacanopen/core/core.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/core/sdo_error.h"
+#include "kacanopen/core/global_config.h"
 
 #include <iostream>
 #include <chrono>

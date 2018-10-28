@@ -29,9 +29,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "master.h"
-#include "core.h"
-#include "logger.h"
+#include "kacanopen/master/master.h"
+#include "kacanopen/core/core.h"
+#include "kacanopen/core/logger.h"
 
 #include <memory>
 

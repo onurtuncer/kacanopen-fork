@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Thomas Keh
+ * Copyright (c) 2015-2016, Thomas Keh
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,22 +28,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+ 
+#pragma once
 
-#include "kacanopen/core/global_config.h"
+#include "kacanopen/master/master.h"
+#include "kacanopen/ros_bridge/publisher.h"
+#include "kacanopen/ros_bridge/subscriber.h"
 
-// Set by CMake:
-// #define SDO_RESPONSE_TIMEOUT_MS ...
+#include <string>
+#include <vector>
+#include <memory>
+#include <forward_list>
+#include <mutex>
+
 
 namespace kaco {
 
-	size_t Config::sdo_response_timeout_ms = SDO_RESPONSE_TIMEOUT_MS;
-		
-	size_t Config::repeats_on_sdo_timeout = 0;
+	/// This class is a bridge between a ROS network and a CanOpen network.
+	class Bridge {
 
-	bool Config::eds_reader_mark_entries_as_generic = false;
-	
-	bool Config::eds_reader_just_add_mappings = false;
+	public:
 
-	bool Config::eds_library_clear_dictionary = false;
+		/// Runs the ROS spinner and blocks until shutdown (e.g. via Ctrl+c).
+		void run();
+
+		/// Adds a Publisher, advertises it and publishes messages repeatedly.
+		/// \param publisher The publisher. It's a smart pointer because references
+		///   to a publisher may never change after advertising it to ROS.
+		/// \param loop_rate Publishing rate in hertz. Default is 10 Hz.
+		void add_publisher(std::shared_ptr<Publisher> publisher, double loop_rate = 10);
+
+		/// Adds a Subscriber, which can advertise itself and receive
+		/// messages on its own.
+		/// \param subscriber The subscriber. It's a smart pointer because references
+		///   to a subscriber may never change after advertising it to ROS.
+		void add_subscriber(std::shared_ptr<Subscriber> subscriber);
+
+	private:
+
+		static const bool debug = false;
+
+		std::vector<std::shared_ptr<Publisher>> m_publishers;
+		std::vector<std::shared_ptr<Subscriber>> m_subscribers;
+		std::forward_list<std::future<void>> m_futures;
+
+	};
 
 } // end namespace kaco

@@ -29,21 +29,40 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "kacanopen/core/global_config.h"
+#pragma once
 
-// Set by CMake:
-// #define SDO_RESPONSE_TIMEOUT_MS ...
+#include <cstdint>
+#include <map>
+#include <string>
+#include <functional>
+
+#include "kacanopen/master/value.h"
+#include "kacanopen/master/device.h"
 
 namespace kaco {
 
-	size_t Config::sdo_response_timeout_ms = SDO_RESPONSE_TIMEOUT_MS;
-		
-	size_t Config::repeats_on_sdo_timeout = 0;
+	/// This class profides static data related to CiA profiles.
+	/// This includes profile-specific convenience operations and constants.
+	/// Names must be escaped using Utils::escape().
+	struct Profiles {
 
-	bool Config::eds_reader_mark_entries_as_generic = false;
-	
-	bool Config::eds_reader_just_add_mappings = false;
+		/// Type of a convenience operation.
+		/// Takes reference to device and a Value typed argument. Ignore, if you don't need it.
+		/// Returns Value. Just return Value() if you don't need it.
+		using Operation = std::function<Value(Device&,const Value&)>;
 
-	bool Config::eds_library_clear_dictionary = false;
+		/// Convenience operations for CiA profiles.
+		/// Type: map < profile number , map < operation name , operation function object > >
+		static const std::map<uint16_t,std::map<std::string,const Operation>> operations;
+
+		/// Constants for CiA profiles.
+		/// Type: map < profile number , map < operation name , constant value > >
+		static const std::map<uint16_t,std::map<std::string,const Value>> constants;
+
+	private:
+
+		static const bool debug = false;
+
+	};
 
 } // end namespace kaco

@@ -29,11 +29,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "logger.h"
-#include "eds_reader.h"
-#include "entry.h"
-#include "utils.h"
-#include "global_config.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/master/eds_reader.h"
+#include "kacanopen/master/entry.h"
+#include "kacanopen/master/utils.h"
+#include "kacanopen/core/global_config.h"
 
 #include <regex>
 #include <string>

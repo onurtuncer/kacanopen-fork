@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Thomas Keh
+ * Copyright (c) 2015-2016, Thomas Keh
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,22 +28,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+ 
+#pragma once
 
-#include "kacanopen/core/global_config.h"
+#include "kacanopen/master/device.h"
+#include "kacanopen/ros_bridge/publisher.h"
+#include "ros/ros.h"
 
-// Set by CMake:
-// #define SDO_RESPONSE_TIMEOUT_MS ...
+#include <string>
 
 namespace kaco {
 
-	size_t Config::sdo_response_timeout_ms = SDO_RESPONSE_TIMEOUT_MS;
-		
-	size_t Config::repeats_on_sdo_timeout = 0;
+	/// This class provides a Publisher implementation for
+	/// use with kaco::Bridge. It publishes a value from
+	/// a device's dictionary.
+	class EntryPublisher : public Publisher {
 
-	bool Config::eds_reader_mark_entries_as_generic = false;
-	
-	bool Config::eds_reader_just_add_mappings = false;
+	public:
 
-	bool Config::eds_library_clear_dictionary = false;
+		/// Constructor
+		/// \param device The CanOpen device
+		/// \param entry_name The name of the entry. See device profile.
+		/// \param access_method You can choose default/sdo/pdo method. See kaco::Device docs.
+		EntryPublisher(Device& device, const std::string& entry_name, const ReadAccessMethod access_method = ReadAccessMethod::use_default);
+
+		/// \see interface Publisher
+		void advertise() override;
+
+		/// \see interface Publisher
+		void publish() override;
+
+	private:
+
+		static const bool debug = false;
+
+		// TODO: let the user change this?
+		static const unsigned queue_size = 100;
+
+		ros::Publisher m_publisher;
+		std::string m_device_prefix;
+		std::string m_name;
+
+		Device& m_device;
+		std::string m_entry_name;
+		ReadAccessMethod m_access_method;
+		Type m_type;
+
+	};
 
 } // end namespace kaco

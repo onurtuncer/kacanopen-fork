@@ -29,14 +29,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "eds_library.h"
-#include "eds_reader.h"
-#include "device.h"
-#include "logger.h"
-#include "canopen_error.h"
-#include "types.h"
-#include "value.h"
-#include "global_config.h"
+#include "kacanopen/master/eds_library.h"
+#include "kacanopen/master/eds_reader.h"
+#include "kacanopen/master/device.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/core/canopen_error.h"
+#include "kacanopen/master/types.h"
+#include "kacanopen/master/value.h"
+#include "kacanopen/core/global_config.h"
 
 #include <vector>
 #include <string>

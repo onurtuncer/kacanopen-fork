@@ -29,9 +29,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include "bridge.h"
-#include "logger.h"
-#include "sdo_error.h"
+#include "kacanopen/ros_bridge/bridge.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/core/sdo_error.h"
 #include "ros/ros.h"
 
 #include <future>

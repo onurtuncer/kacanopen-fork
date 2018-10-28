@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "profiles.h"
-#include "logger.h"
+#include "kacanopen/master/profiles.h"
+#include "kacanopen/core/logger.h"
 
 namespace kaco {
 

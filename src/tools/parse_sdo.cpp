@@ -1,4 +1,4 @@
-#include "parse_sdo.h"
+#include "kacanopen/tools/parse_sdo.h"
 #include <cstdint>
 
 int32_t parse_sdo_read(std::vector<uint8_t> sdo_to_read) {
