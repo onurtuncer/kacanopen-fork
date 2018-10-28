@@ -28,50 +28,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #pragma once
 
 #include "kacanopen/master/master.h"
 #include "kacanopen/ros_bridge/publisher.h"
 #include "kacanopen/ros_bridge/subscriber.h"
 
+#include <forward_list>
+#include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
-#include <memory>
-#include <forward_list>
-#include <mutex>
-
 
 namespace kaco {
 
-	/// This class is a bridge between a ROS network and a CanOpen network.
-	class Bridge {
+/// This class is a bridge between a ROS network and a CanOpen network.
+class Bridge {
+ public:
+  /// Runs the ROS spinner and blocks until shutdown (e.g. via Ctrl+c).
+  void run();
 
-	public:
+  /// Adds a Publisher, advertises it and publishes messages repeatedly.
+  /// \param publisher The publisher. It's a smart pointer because references
+  ///   to a publisher may never change after advertising it to ROS.
+  /// \param loop_rate Publishing rate in hertz. Default is 10 Hz.
+  void add_publisher(std::shared_ptr<Publisher> publisher,
+                     double loop_rate = 10);
 
-		/// Runs the ROS spinner and blocks until shutdown (e.g. via Ctrl+c).
-		void run();
+  /// Adds a Subscriber, which can advertise itself and receive
+  /// messages on its own.
+  /// \param subscriber The subscriber. It's a smart pointer because references
+  ///   to a subscriber may never change after advertising it to ROS.
+  void add_subscriber(std::shared_ptr<Subscriber> subscriber);
 
-		/// Adds a Publisher, advertises it and publishes messages repeatedly.
-		/// \param publisher The publisher. It's a smart pointer because references
-		///   to a publisher may never change after advertising it to ROS.
-		/// \param loop_rate Publishing rate in hertz. Default is 10 Hz.
-		void add_publisher(std::shared_ptr<Publisher> publisher, double loop_rate = 10);
+ private:
+  static const bool debug = false;
 
-		/// Adds a Subscriber, which can advertise itself and receive
-		/// messages on its own.
-		/// \param subscriber The subscriber. It's a smart pointer because references
-		///   to a subscriber may never change after advertising it to ROS.
-		void add_subscriber(std::shared_ptr<Subscriber> subscriber);
+  std::vector<std::shared_ptr<Publisher>> m_publishers;
+  std::vector<std::shared_ptr<Subscriber>> m_subscribers;
+  std::forward_list<std::future<void>> m_futures;
+};
 
-	private:
-
-		static const bool debug = false;
-
-		std::vector<std::shared_ptr<Publisher>> m_publishers;
-		std::vector<std::shared_ptr<Subscriber>> m_subscribers;
-		std::forward_list<std::future<void>> m_futures;
-
-	};
-
-} // end namespace kaco
+}  // end namespace kaco

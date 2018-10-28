@@ -28,17 +28,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #pragma once
 
+#include <regex>
 #include <string>
 #include <unordered_map>
-#include <regex>
- 
-#include <boost/property_tree/ptree.hpp> // property_tree
 
-#include "kacanopen/master/entry.h"
+#include <boost/property_tree/ptree.hpp>  // property_tree
+
 #include "kacanopen/master/address.h"
+#include "kacanopen/master/entry.h"
 
 namespace kaco {
 
@@ -48,52 +48,54 @@ namespace kaco {
 /// std::unordered_map<std::string, Address>
 /// It makes use of Boost's property_tree class.
 class EDSReader {
+ public:
+  /// Constructor.
+  /// \param dictionary The dictionary, into which entries should be inserted.
+  /// \param name_to_address Mapping from name to address in dictionary (to be
+  /// created).
+  EDSReader(std::unordered_map<Address, Entry>& dictionary,
+            std::unordered_map<std::string, Address>& name_to_address);
 
-public:
+  /// Loads an EDS file from file system.
+  /// \returns true if successful
+  bool load_file(std::string filename);
 
-	/// Constructor.
-	/// \param dictionary The dictionary, into which entries should be inserted.
-	/// \param name_to_address Mapping from name to address in dictionary (to be created).
-	EDSReader(std::unordered_map<Address, Entry>& dictionary, std::unordered_map<std::string, Address>& name_to_address);
+  /// Import entries from the EDS file into the given dictionary
+  /// \returns true if successful
+  bool import_entries();
 
-	/// Loads an EDS file from file system.
-	/// \returns true if successful
-	bool load_file(std::string filename);
+ private:
+  /// Enable debug logging.
+  static const bool debug = false;
 
-	/// Import entries from the EDS file into the given dictionary
-	/// \returns true if successful
-	bool import_entries();
+  /// Reference to the dictionary
+  std::unordered_map<Address, Entry>& m_dictionary;
 
-private:
+  /// Reference to the address-name mapping
+  std::unordered_map<std::string, Address>& m_name_to_address;
 
-	/// Enable debug logging.
-	static const bool debug = false;
+  /// This property tree represents the EDS file imported in load_file().
+  /// EDS files have the same syntax like Windows INI files.
+  boost::property_tree::ptree m_ini;
 
-	/// Reference to the dictionary
-	std::unordered_map<Address, Entry>& m_dictionary;
+  /// Parse an index section (e.g. [1000])
+  bool parse_index(const std::string& section, uint16_t index);
 
-	/// Reference to the address-name mapping
-	std::unordered_map<std::string, Address>& m_name_to_address;
-	
-	/// This property tree represents the EDS file imported in load_file().
-	/// EDS files have the same syntax like Windows INI files.
-	boost::property_tree::ptree m_ini;
+  /// Parse a section which represents a variable. Can be an index section like
+  /// [1000] or a subindex section like [1018sub0].
+  bool parse_var(const std::string& section, uint16_t index, uint8_t subindex,
+                 const std::string& name_prefix = "");
 
-	/// Parse an index section (e.g. [1000])
-	bool parse_index(const std::string& section, uint16_t index);
-	
-	/// Parse a section which represents a variable. Can be an index section like [1000] or a subindex section like [1018sub0].
-	bool parse_var(const std::string& section, uint16_t index, uint8_t subindex, const std::string& name_prefix = "");
-	
-	/// Parse an index section which has ObjectType array or record.
-	bool parse_array_or_record(const std::string& section, uint16_t index);
+  /// Parse an index section which has ObjectType array or record.
+  bool parse_array_or_record(const std::string& section, uint16_t index);
 
-	/// Parses a regex error. This is just for debugging purposes.
-	std::string parse_regex_error(const std::regex_constants::error_type& etype, const std::string element_name) const;
+  /// Parses a regex error. This is just for debugging purposes.
+  std::string parse_regex_error(const std::regex_constants::error_type& etype,
+                                const std::string element_name) const;
 
-	/// Removes comments (beginning with #) and leading and trailing spaces from a string
-	std::string trim(const std::string& str);
-
+  /// Removes comments (beginning with #) and leading and trailing spaces from a
+  /// string
+  std::string trim(const std::string& str);
 };
 
-} // end namespace kaco
+}  // end namespace kaco

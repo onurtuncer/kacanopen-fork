@@ -31,107 +31,105 @@
 
 #include "kacanopen/master/transmit_pdo_mapping.h"
 #include "kacanopen/core/core.h"
-#include "kacanopen/master/entry.h"
 #include "kacanopen/core/logger.h"
 #include "kacanopen/master/dictionary_error.h"
+#include "kacanopen/master/entry.h"
 
 #include <cassert>
 
 namespace kaco {
 
-TransmitPDOMapping::TransmitPDOMapping(Core& core, const std::unordered_map<Address, Entry>& dictionary, const std::unordered_map<std::string, Address>& name_to_address,
-			uint16_t cob_id_, TransmissionType transmission_type_, std::chrono::milliseconds repeat_time_, const std::vector<Mapping>& mappings_)
-	: cob_id(cob_id_),
-		transmission_type(transmission_type_),
-		repeat_time(repeat_time_),
-		mappings(mappings_),
-		m_core(core),
-		m_dictionary(dictionary),
-		m_name_to_address(name_to_address)
-	{
-		check_correctness();
-	}
-
-TransmitPDOMapping::~TransmitPDOMapping() {
-	if (periodic_transmitter) {
-		run_periodic_transmitter = false;
-		periodic_transmitter->join();
-	}
+TransmitPDOMapping::TransmitPDOMapping(
+    Core& core, const std::unordered_map<Address, Entry>& dictionary,
+    const std::unordered_map<std::string, Address>& name_to_address,
+    uint16_t cob_id_, TransmissionType transmission_type_,
+    std::chrono::milliseconds repeat_time_,
+    const std::vector<Mapping>& mappings_)
+    : cob_id(cob_id_),
+      transmission_type(transmission_type_),
+      repeat_time(repeat_time_),
+      mappings(mappings_),
+      m_core(core),
+      m_dictionary(dictionary),
+      m_name_to_address(name_to_address) {
+  check_correctness();
 }
 
+TransmitPDOMapping::~TransmitPDOMapping() {
+  if (periodic_transmitter) {
+    run_periodic_transmitter = false;
+    periodic_transmitter->join();
+  }
+}
 
 void TransmitPDOMapping::send() const {
+  std::vector<uint8_t> data(8, 0);
+  size_t size = 0;
 
-	std::vector<uint8_t> data(8,0);
-	size_t size=0;
+  DEBUG_LOG("[TransmitPDOMapping::send] Sending transmit PDO with cob_id 0x"
+            << std::hex << cob_id);
 
-	DEBUG_LOG("[TransmitPDOMapping::send] Sending transmit PDO with cob_id 0x"<<std::hex<<cob_id);
+  for (const Mapping& mapping : mappings) {
+    const std::string entry_name = Utils::escape(mapping.entry_name);
+    const Entry& entry = m_dictionary.at(m_name_to_address.at(entry_name));
+    const Value& value = entry.get_value();
+    const std::vector<uint8_t> bytes = value.get_bytes();
+    assert(mapping.offset + bytes.size() <= 8);
 
-	for (const Mapping& mapping : mappings) {
+    DEBUG_LOG("[TransmitPDOMapping::send] Mapping:");
+    DEBUG_DUMP(mapping.offset);
+    DEBUG_DUMP(entry_name);
+    DEBUG_DUMP_HEX(value);
 
-		const std::string entry_name = Utils::escape(mapping.entry_name);
-		const Entry& entry = m_dictionary.at(m_name_to_address.at(entry_name));
-		const Value& value = entry.get_value();
-		const std::vector<uint8_t> bytes = value.get_bytes();
-		assert(mapping.offset+bytes.size() <= 8);
+    uint8_t count = 0;
+    for (uint8_t i = mapping.offset; i < mapping.offset + bytes.size(); ++i) {
+      data[i] = bytes[count++];
+    }
 
-		DEBUG_LOG("[TransmitPDOMapping::send] Mapping:");
-		DEBUG_DUMP(mapping.offset);
-		DEBUG_DUMP(entry_name);
-		DEBUG_DUMP_HEX(value);
-		
-		uint8_t count = 0;
-		for (uint8_t i=mapping.offset; i<mapping.offset+bytes.size(); ++i) {
-			data[i] = bytes[count++];
-		}
+    size = std::max(size, mapping.offset + bytes.size());
+  }
 
-		size = std::max(size, mapping.offset+bytes.size());
-
-	}
-
-	assert(size<=8 && "[TransmitPDOMapping::send] Malformed PDO mapping.");
-	data.resize(size);
-	m_core.pdo.send(cob_id, data);
-
+  assert(size <= 8 && "[TransmitPDOMapping::send] Malformed PDO mapping.");
+  data.resize(size);
+  m_core.pdo.send(cob_id, data);
 }
 
 void TransmitPDOMapping::check_correctness() const {
+  unsigned size = 0;
+  std::vector<bool> byte_mapped(8, false);
 
-	unsigned size = 0;
-	std::vector<bool> byte_mapped(8,false);
+  for (const Mapping& mapping : mappings) {
+    const std::string entry_name = Utils::escape(mapping.entry_name);
 
-	for (const Mapping& mapping : mappings) {
-		
-		const std::string entry_name = Utils::escape(mapping.entry_name);
+    if (m_name_to_address.count(entry_name) == 0) {
+      throw dictionary_error(dictionary_error::type::unknown_entry, entry_name);
+    }
 
-		if (m_name_to_address.count(entry_name) == 0) {
-			throw dictionary_error(dictionary_error::type::unknown_entry, entry_name);
-		}
+    const Entry& entry = m_dictionary.at(m_name_to_address.at(entry_name));
+    const uint8_t type_size = Utils::get_type_size(entry.type);
 
-		const Entry& entry = m_dictionary.at(m_name_to_address.at(entry_name));
-		const uint8_t type_size = Utils::get_type_size(entry.type);
+    if (mapping.offset + type_size > 8) {
+      throw dictionary_error(
+          dictionary_error::type::mapping_size, entry_name,
+          "mapping.offset (" + std::to_string(mapping.offset) +
+              ") + type_size (" + std::to_string(type_size) + ") > 8.");
+    }
 
-		if (mapping.offset+type_size > 8) {
-			throw dictionary_error(dictionary_error::type::mapping_size, entry_name,
-				"mapping.offset ("+std::to_string(mapping.offset)+") + type_size ("+std::to_string(type_size)+") > 8.");
-		}
+    for (uint8_t i = mapping.offset; i < mapping.offset + type_size; ++i) {
+      if (byte_mapped[i]) {
+        throw dictionary_error(dictionary_error::type::mapping_overlap,
+                               entry_name, "Byte index: " + std::to_string(i));
+      }
+      byte_mapped[i] = true;
+    }
 
-		for (uint8_t i=mapping.offset; i<mapping.offset+type_size; ++i) {
-			if (byte_mapped[i]) {
-				throw dictionary_error(dictionary_error::type::mapping_overlap, entry_name, "Byte index: "+std::to_string(i));
-			}
-			byte_mapped[i] = true;
-		}
+    size += type_size;
+  }
 
-		size += type_size;
-
-	}
-
-	if (size > 8) {
-		throw dictionary_error(dictionary_error::type::mapping_size, "",
-				"total size ("+std::to_string(size)+") > 8.");
-	}
-
+  if (size > 8) {
+    throw dictionary_error(dictionary_error::type::mapping_size, "",
+                           "total size (" + std::to_string(size) + ") > 8.");
+  }
 }
 
-} // end namespace kaco
+}  // end namespace kaco

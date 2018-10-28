@@ -32,37 +32,36 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 #include <map>
 #include <string>
-#include <functional>
 
-#include "kacanopen/master/value.h"
 #include "kacanopen/master/device.h"
+#include "kacanopen/master/value.h"
 
 namespace kaco {
 
-	/// This class profides static data related to CiA profiles.
-	/// This includes profile-specific convenience operations and constants.
-	/// Names must be escaped using Utils::escape().
-	struct Profiles {
+/// This class profides static data related to CiA profiles.
+/// This includes profile-specific convenience operations and constants.
+/// Names must be escaped using Utils::escape().
+struct Profiles {
+  /// Type of a convenience operation.
+  /// Takes reference to device and a Value typed argument. Ignore, if you don't
+  /// need it. Returns Value. Just return Value() if you don't need it.
+  using Operation = std::function<Value(Device&, const Value&)>;
 
-		/// Type of a convenience operation.
-		/// Takes reference to device and a Value typed argument. Ignore, if you don't need it.
-		/// Returns Value. Just return Value() if you don't need it.
-		using Operation = std::function<Value(Device&,const Value&)>;
+  /// Convenience operations for CiA profiles.
+  /// Type: map < profile number , map < operation name , operation function
+  /// object > >
+  static const std::map<uint16_t, std::map<std::string, const Operation>>
+      operations;
 
-		/// Convenience operations for CiA profiles.
-		/// Type: map < profile number , map < operation name , operation function object > >
-		static const std::map<uint16_t,std::map<std::string,const Operation>> operations;
+  /// Constants for CiA profiles.
+  /// Type: map < profile number , map < operation name , constant value > >
+  static const std::map<uint16_t, std::map<std::string, const Value>> constants;
 
-		/// Constants for CiA profiles.
-		/// Type: map < profile number , map < operation name , constant value > >
-		static const std::map<uint16_t,std::map<std::string,const Value>> constants;
+ private:
+  static const bool debug = false;
+};
 
-	private:
-
-		static const bool debug = false;
-
-	};
-
-} // end namespace kaco
+}  // end namespace kaco

@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include <vector>
 #include "kacanopen/core/core.h"
 #include "kacanopen/master/device.h"
 #include "kacanopen/master/master.h"

@@ -28,90 +28,91 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #pragma once
 
-#include <string>
-#include <vector>
 #include <chrono>
-#include <unordered_map>
-#include <thread>
 #include <memory>
+#include <string>
+#include <thread>
+#include <unordered_map>
+#include <vector>
 
+#include "kacanopen/master/address.h"
 #include "kacanopen/master/mapping.h"
 #include "kacanopen/master/types.h"
-#include "kacanopen/master/address.h"
 
 namespace kaco {
 
-	// forward declarations
-	class Core;
-	class Entry;
+// forward declarations
+class Core;
+class Entry;
 
-	/// This class represents a mapping from one or more
-	/// dictionary entries to one transmit PDO, which will
-	/// be sent by an instance of this class repeatedly.
-	class TransmitPDOMapping {
+/// This class represents a mapping from one or more
+/// dictionary entries to one transmit PDO, which will
+/// be sent by an instance of this class repeatedly.
+class TransmitPDOMapping {
+ public:
+  /// Constructor.
+  /// \param core Reference to the Core instance (needed to send the PDO).
+  /// \param dictionary Reference to the object dictionary.
+  /// \param name_to_address Reference to name-address mapping.
+  /// \param cob_id_ COB-ID of the PDO
+  /// \param transmission_type_ Transmission type
+  /// \param repeat_time_ Send repeat time , in case
+  /// transmission_type_==TransmissionType::PERIODIC \param mappings_ Mapped
+  /// entries with offset (see Mapping class) \throws dictionary_error if entry
+  /// does not exist or mappings overlap (among others)
+  TransmitPDOMapping(
+      Core& core, const std::unordered_map<Address, Entry>& dictionary,
+      const std::unordered_map<std::string, Address>& name_to_address,
+      uint16_t cob_id_, TransmissionType transmission_type_,
+      std::chrono::milliseconds repeat_time_,
+      const std::vector<Mapping>& mappings_);
 
-	public:
+  /// Copy constructor deleted.
+  TransmitPDOMapping(const TransmitPDOMapping&) = delete;
 
-		/// Constructor.
-		/// \param core Reference to the Core instance (needed to send the PDO).
-		/// \param dictionary Reference to the object dictionary.
-		/// \param name_to_address Reference to name-address mapping.
-		/// \param cob_id_ COB-ID of the PDO
-		/// \param transmission_type_ Transmission type
-		/// \param repeat_time_ Send repeat time , in case transmission_type_==TransmissionType::PERIODIC
-		/// \param mappings_ Mapped entries with offset (see Mapping class)
-		/// \throws dictionary_error if entry does not exist or mappings overlap (among others)
-		TransmitPDOMapping(Core& core, const std::unordered_map<Address, Entry>& dictionary, const std::unordered_map<std::string, Address>& name_to_address, uint16_t cob_id_,
-			TransmissionType transmission_type_, std::chrono::milliseconds repeat_time_, const std::vector<Mapping>& mappings_);
+  /// Move constructor deleted.
+  TransmitPDOMapping(TransmitPDOMapping&&) = delete;
 
-		/// Copy constructor deleted.
-		TransmitPDOMapping(const TransmitPDOMapping&) = delete;
+  /// Stops the transmitter thread if there is one.
+  ~TransmitPDOMapping();
 
-		/// Move constructor deleted.
-		TransmitPDOMapping(TransmitPDOMapping&&) = delete;
+  /// COB-ID of the PDO
+  uint16_t cob_id;
 
-		/// Stops the transmitter thread if there is one.
-		~TransmitPDOMapping();
+  /// Transmission type
+  TransmissionType transmission_type;
 
-		/// COB-ID of the PDO
-		uint16_t cob_id;
+  /// Send repeat time
+  std::chrono::milliseconds repeat_time;
 
-		/// Transmission type
-		TransmissionType transmission_type;
+  /// Mapped entries with offset (see Mapping class)
+  std::vector<Mapping> mappings;
 
-		/// Send repeat time
-		std::chrono::milliseconds repeat_time;
+  /// The transmitter thread
+  /// \note This is a unique pointer because transmitter is optional.
+  std::unique_ptr<std::thread> periodic_transmitter{nullptr};
 
-		/// Mapped entries with offset (see Mapping class)
-		std::vector<Mapping> mappings;
+  bool run_periodic_transmitter{false};
 
-		/// The transmitter thread
-		/// \note This is a unique pointer because transmitter is optional.
-		std::unique_ptr<std::thread> periodic_transmitter{nullptr};
+  /// Sends the PDO
+  void send() const;
 
-		bool run_periodic_transmitter{false};
+ private:
+  /// \throws dictionary_error
+  void check_correctness() const;
 
-		/// Sends the PDO
-		void send() const;
+  static const bool debug = false;
 
-	private:
+  Core& m_core;
 
-		/// \throws dictionary_error
-		void check_correctness() const;
+  /// Reference to the dictionary
+  const std::unordered_map<Address, Entry>& m_dictionary;
 
-		static const bool debug = false;
+  /// Reference to the address-name mapping
+  const std::unordered_map<std::string, Address>& m_name_to_address;
+};
 
-		Core& m_core;
-
-		/// Reference to the dictionary
-		const std::unordered_map<Address, Entry>& m_dictionary;
-
-		/// Reference to the address-name mapping
-		const std::unordered_map<std::string, Address>& m_name_to_address;
-
-	};
-
-} // end namespace kaco
+}  // end namespace kaco

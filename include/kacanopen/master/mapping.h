@@ -28,26 +28,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #pragma once
 
-#include <string>
-#include <vector>
 #include <chrono>
 #include <map>
+#include <string>
+#include <vector>
 
 namespace kaco {
 
-	/// This struct represents one mapped entry inside a TransmitPDOMapping.
-	/// \todo Add index/subindex overload?
-	struct Mapping {
+/// This struct represents one mapped entry inside a TransmitPDOMapping.
+/// \todo Add index/subindex overload?
+struct Mapping {
+  /// Name of the mapped dictionary entry.
+  std::string entry_name;
 
-		/// Name of the mapped dictionary entry.
-		std::string entry_name;
+  /// index of the first mapped byte in the PDO message
+  uint8_t offset;
+};
 
-		/// index of the first mapped byte in the PDO message
-		uint8_t offset;
-
-	};
-
-} // end namespace kaco
+}  // end namespace kaco

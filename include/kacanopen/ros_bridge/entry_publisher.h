@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #pragma once
 
 #include "kacanopen/master/device.h"
@@ -39,41 +39,40 @@
 
 namespace kaco {
 
-	/// This class provides a Publisher implementation for
-	/// use with kaco::Bridge. It publishes a value from
-	/// a device's dictionary.
-	class EntryPublisher : public Publisher {
+/// This class provides a Publisher implementation for
+/// use with kaco::Bridge. It publishes a value from
+/// a device's dictionary.
+class EntryPublisher : public Publisher {
+ public:
+  /// Constructor
+  /// \param device The CanOpen device
+  /// \param entry_name The name of the entry. See device profile.
+  /// \param access_method You can choose default/sdo/pdo method. See
+  /// kaco::Device docs.
+  EntryPublisher(
+      Device& device, const std::string& entry_name,
+      const ReadAccessMethod access_method = ReadAccessMethod::use_default);
 
-	public:
+  /// \see interface Publisher
+  void advertise() override;
 
-		/// Constructor
-		/// \param device The CanOpen device
-		/// \param entry_name The name of the entry. See device profile.
-		/// \param access_method You can choose default/sdo/pdo method. See kaco::Device docs.
-		EntryPublisher(Device& device, const std::string& entry_name, const ReadAccessMethod access_method = ReadAccessMethod::use_default);
+  /// \see interface Publisher
+  void publish() override;
 
-		/// \see interface Publisher
-		void advertise() override;
+ private:
+  static const bool debug = false;
 
-		/// \see interface Publisher
-		void publish() override;
+  // TODO: let the user change this?
+  static const unsigned queue_size = 100;
 
-	private:
+  ros::Publisher m_publisher;
+  std::string m_device_prefix;
+  std::string m_name;
 
-		static const bool debug = false;
+  Device& m_device;
+  std::string m_entry_name;
+  ReadAccessMethod m_access_method;
+  Type m_type;
+};
 
-		// TODO: let the user change this?
-		static const unsigned queue_size = 100;
-
-		ros::Publisher m_publisher;
-		std::string m_device_prefix;
-		std::string m_name;
-
-		Device& m_device;
-		std::string m_entry_name;
-		ReadAccessMethod m_access_method;
-		Type m_type;
-
-	};
-
-} // end namespace kaco
+}  // end namespace kaco

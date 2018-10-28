@@ -28,71 +28,71 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #pragma once
 
 #include "kacanopen/master/device.h"
 #include "kacanopen/ros_bridge/publisher.h"
 #include "ros/ros.h"
- 
-#include <string>
+
 #include <cmath>
+#include <string>
 
 namespace kaco {
 
-	/// This class provides a Publisher implementation for
-	/// use with kaco::Bridge and a CiA 402 motor device.
-	/// It publishes the motor state as JointState messages
-	/// from the ROS common_messages package.
-	///
-	/// Currenty, only the motor angle is published.
-	/// You have to initialize the motor on your own.
-	/// The motor is expected to be in position mode.
-	class JointStatePublisher : public Publisher {
+/// This class provides a Publisher implementation for
+/// use with kaco::Bridge and a CiA 402 motor device.
+/// It publishes the motor state as JointState messages
+/// from the ROS common_messages package.
+///
+/// Currenty, only the motor angle is published.
+/// You have to initialize the motor on your own.
+/// The motor is expected to be in position mode.
+class JointStatePublisher : public Publisher {
+ public:
+  /// Constructor
+  /// \param device a CiA 402 compliant motor device object
+  /// \param position_0_degree The motor position (dictionary
+  /// entry "Position actual value") which represents a
+  /// 0 degree angle.
+  /// \param position_360_degree Like position_0_degree for
+  /// 360 degree state.
+  /// \param position_actual_field Name of the dictionary entry to use.
+  /// \param topic_name Custom topic name. Leave out for default.
+  /// \throws std::runtime_error if device is not CiA 402 compliant and in
+  /// position_mode.
+  JointStatePublisher(
+      Device& device, int32_t position_0_degree, int32_t position_360_degree,
+      const std::string& position_actual_field = "Position actual value",
+      const std::string& topic_name = "");
 
-	public:
+  /// \see interface Publisher
+  void advertise() override;
 
-		/// Constructor
-		/// \param device a CiA 402 compliant motor device object
-		/// \param position_0_degree The motor position (dictionary
-		/// entry "Position actual value") which represents a
-		/// 0 degree angle.
-		/// \param position_360_degree Like position_0_degree for
-		/// 360 degree state.
-		/// \param position_actual_field Name of the dictionary entry to use.
-		/// \param topic_name Custom topic name. Leave out for default.
-		/// \throws std::runtime_error if device is not CiA 402 compliant and in position_mode.
-		JointStatePublisher(Device& device, int32_t position_0_degree,
-			int32_t position_360_degree, const std::string& position_actual_field = "Position actual value", const std::string& topic_name = "");
+  /// \see interface Publisher
+  void publish() override;
 
-		/// \see interface Publisher
-		void advertise() override;
+ private:
+  static const bool debug = false;
 
-		/// \see interface Publisher
-		void publish() override;
+  // TODO: let the user change this?
+  static const unsigned queue_size = 100;
 
-	private:
+  /// converts "position actiual value" from CanOpen to radiant using
+  /// m_position_0_degree and m_position_360_degree
+  double pos_to_rad(int32_t pos) const;
 
-		static const bool debug = false;
+  /// constant PI
+  static constexpr double pi() { return std::acos(-1); }
 
-		// TODO: let the user change this?
-		static const unsigned queue_size = 100;
+  Device& m_device;
+  int32_t m_position_0_degree;
+  int32_t m_position_360_degree;
+  std::string m_position_actual_field;
+  std::string m_topic_name;
+  bool m_initialized;
 
-		/// converts "position actiual value" from CanOpen to radiant using m_position_0_degree and m_position_360_degree
-		double pos_to_rad(int32_t pos) const;
+  ros::Publisher m_publisher;
+};
 
-		/// constant PI
-		static constexpr double pi() { return std::acos(-1); }
-
-		Device& m_device;
-		int32_t m_position_0_degree;
-		int32_t m_position_360_degree;
-		std::string m_position_actual_field;
-		std::string m_topic_name;
-		bool m_initialized;
-
-		ros::Publisher m_publisher;
-
-	};
-
-} // end namespace kaco
+}  // end namespace kaco

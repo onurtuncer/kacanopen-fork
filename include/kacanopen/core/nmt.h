@@ -28,119 +28,112 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #pragma once
 
 #include "kacanopen/core/message.h"
 
-#include <vector>
+#include <forward_list>
 #include <functional>
 #include <future>
-#include <forward_list>
 #include <mutex>
-#include <unordered_map>
 #include <thread>
+#include <unordered_map>
+#include <vector>
 
 namespace kaco {
-	
-	// forward declaration
-	class Core;
 
-	/// \class NMT
-	///
-	/// This class implements the CanOpen NMT protocol
-	class NMT {
+// forward declaration
+class Core;
 
-	public:
-		
-		/// Type of a device alive callback function
-		/// Important: Never call register_device_alive_callback()
-		///   from within (-> deadlock)!
-		using DeviceAliveCallback = std::function< void(const uint8_t node_id) >;
-		
-		/// Type of a new device callback function
-		/// \deprecated
-		using NewDeviceCallback = DeviceAliveCallback;
+/// \class NMT
+///
+/// This class implements the CanOpen NMT protocol
+class NMT {
+ public:
+  /// Type of a device alive callback function
+  /// Important: Never call register_device_alive_callback()
+  ///   from within (-> deadlock)!
+  using DeviceAliveCallback = std::function<void(const uint8_t node_id)>;
 
-		/// NMT commands
-		enum class Command : uint8_t {
-			start_node = 0x01,
-			stop_node = 0x02,
-			enter_preoperational = 0x80,
-			reset_node = 0x81,
-			reset_communication = 0x82
-		};
+  /// Type of a new device callback function
+  /// \deprecated
+  using NewDeviceCallback = DeviceAliveCallback;
 
-		/// Constructor.
-		/// \param core Reference to the Core
-		NMT(Core& core);
+  /// NMT commands
+  enum class Command : uint8_t {
+    start_node = 0x01,
+    stop_node = 0x02,
+    enter_preoperational = 0x80,
+    reset_node = 0x81,
+    reset_communication = 0x82
+  };
 
-		/// Copy constructor deleted because of mutexes.
-		NMT(const NMT&) = delete;
+  /// Constructor.
+  /// \param core Reference to the Core
+  NMT(Core& core);
 
-    ~NMT();
+  /// Copy constructor deleted because of mutexes.
+  NMT(const NMT&) = delete;
 
-		/// Process incoming NMT message.
-		/// \param message The received CanOpen message.
-		/// \remark thread-safe
-		void process_incoming_message(const Message& message);
+  ~NMT();
 
-		/// Sends a NMT message to a given device
-		/// \param node_id Node id of the device.
-		/// \param cmd The NMT command.
-		/// \remark thread-safe
-		void send_nmt_message(uint8_t node_id, Command cmd);
+  /// Process incoming NMT message.
+  /// \param message The received CanOpen message.
+  /// \remark thread-safe
+  void process_incoming_message(const Message& message);
 
-		/// Sends a broadcast NMT message
-		/// \param cmd The NMT command.
-		/// \remark thread-safe
-		void broadcast_nmt_message(Command cmd);
+  /// Sends a NMT message to a given device
+  /// \param node_id Node id of the device.
+  /// \param cmd The NMT command.
+  /// \remark thread-safe
+  void send_nmt_message(uint8_t node_id, Command cmd);
 
-		/// Resets all nodes in the network.
-		/// \remark thread-safe
-		void reset_all_nodes();
+  /// Sends a broadcast NMT message
+  /// \param cmd The NMT command.
+  /// \remark thread-safe
+  void broadcast_nmt_message(Command cmd);
 
-		/// Discovers nodes in the network via node guard protocol.
-		/// \remark thread-safe
-		void discover_nodes();
+  /// Resets all nodes in the network.
+  /// \remark thread-safe
+  void reset_all_nodes();
 
-		/// Registers a callback which will be called when a slave sends
-		/// it's state via NMT and the state indicates that the device
-		/// is alive. This can be uses as a "new device" callback.
-		/// \remark thread-safe
-		void register_device_alive_callback(const DeviceAliveCallback& callback);
+  /// Discovers nodes in the network via node guard protocol.
+  /// \remark thread-safe
+  void discover_nodes();
 
-		/// Registers a callback which will be called when a new slave device is discovered.
-		/// \remark thread-safe
-		/// \deprecated
-		void register_new_device_callback(const NewDeviceCallback& callback);
+  /// Registers a callback which will be called when a slave sends
+  /// it's state via NMT and the state indicates that the device
+  /// is alive. This can be uses as a "new device" callback.
+  /// \remark thread-safe
+  void register_device_alive_callback(const DeviceAliveCallback& callback);
 
-    enum class DeviceState {
-      ALIVE,
-      DEAD,
-      TO_BE_KILLED
-    };
+  /// Registers a callback which will be called when a new slave device is
+  /// discovered. \remark thread-safe \deprecated
+  void register_new_device_callback(const NewDeviceCallback& callback);
 
-    void check_alive_devices();
-    void register_device_dead_callback(const DeviceAliveCallback& callback);
+  enum class DeviceState { ALIVE, DEAD, TO_BE_KILLED };
 
-	private:
+  void check_alive_devices();
+  void register_device_dead_callback(const DeviceAliveCallback& callback);
 
-		static const bool debug = false;
-		Core& m_core;
+ private:
+  static const bool debug = false;
+  Core& m_core;
 
-		/// \todo rename to device_alive_callback
-		std::vector<NewDeviceCallback> m_device_alive_callbacks;
-    std::vector<NewDeviceCallback> m_device_dead_callbacks;
-		mutable std::mutex m_device_alive_callbacks_mutex;
+  /// \todo rename to device_alive_callback
+  std::vector<NewDeviceCallback> m_device_alive_callbacks;
+  std::vector<NewDeviceCallback> m_device_dead_callbacks;
+  mutable std::mutex m_device_alive_callbacks_mutex;
 
-		static const bool m_cleanup_futures = true;
-		std::forward_list<std::future<void>> m_callback_futures; // forward_list because of remove_if
-		mutable std::mutex m_callback_futures_mutex;
+  static const bool m_cleanup_futures = true;
+  std::forward_list<std::future<void>>
+      m_callback_futures;  // forward_list because of remove_if
+  mutable std::mutex m_callback_futures_mutex;
 
-    std::unordered_map<size_t, DeviceState> alive_devices_;
-    bool thread_alive_;
-    std::thread alive_devices_thread_;
-	};
+  std::unordered_map<size_t, DeviceState> alive_devices_;
+  bool thread_alive_;
+  std::thread alive_devices_thread_;
+};
 
-} // end namespace kaco
+}  // end namespace kaco

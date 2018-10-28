@@ -28,87 +28,87 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #pragma once
 
 #include <unordered_map>
 
-#include "kacanopen/master/entry.h"
 #include "kacanopen/master/address.h"
+#include "kacanopen/master/entry.h"
 
 namespace kaco {
 
-	class Device;
+class Device;
 
-	/// This class provides access to KaCanOpen's EDS library.
-	/// It manages device specific as well as generic CanOpen
-	/// dictionaries.
-	class EDSLibrary {
+/// This class provides access to KaCanOpen's EDS library.
+/// It manages device specific as well as generic CanOpen
+/// dictionaries.
+class EDSLibrary {
+ public:
+  /// Constructor.
+  /// \param dictionary The dictionary, into which entries will be inserted.
+  /// \param name_to_address Mapping from name to address in dictionary (to be
+  /// created).
+  EDSLibrary(std::unordered_map<Address, Entry>& dictionary,
+             std::unordered_map<std::string, Address>& name_to_address);
 
-	public:
+  /// Finds EDS library on disk.
+  /// \param path optional custom path to EDS library
+  /// \returns true if successful
+  bool lookup_library(std::string path = "");
 
-		/// Constructor.
-		/// \param dictionary The dictionary, into which entries will be inserted.
-		/// \param name_to_address Mapping from name to address in dictionary (to be created).
-		EDSLibrary(std::unordered_map<Address, Entry>& dictionary, std::unordered_map<std::string, Address>& name_to_address);
+  /// Loads mandatory dictionary entries defined in CiA 301 standard
+  /// \returns true if successful
+  bool load_mandatory_entries();
 
-		/// Finds EDS library on disk.
-		/// \param path optional custom path to EDS library
-		/// \returns true if successful
-		bool lookup_library(std::string path = "");
+  /// Loads entries defined in generic CiA profile EDS files
+  /// \param device_profile_number CiA standard profile number
+  /// \returns true if successful
+  bool load_default_eds(uint16_t device_profile_number);
 
-		/// Loads mandatory dictionary entries defined in CiA 301 standard
-		/// \returns true if successful
-		bool load_mandatory_entries();
+  /// Loads entries defined in device specific EDS files proviced by
+  /// manufacturers. \param vendor_id Vencor ID from identity object in
+  /// dictionary (one of the mandatory entries) \param product_code Product code
+  /// from identity object in dictionary (one of the mandatory entries) \param
+  /// revision_number Revision number from identity object in dictionary (one of
+  /// the mandatory entries) \returns true if successful \todo Remove this!
+  bool load_manufacturer_eds_deprecated(uint32_t vendor_id,
+                                        uint32_t product_code,
+                                        uint32_t revision_number);
 
-		/// Loads entries defined in generic CiA profile EDS files
-		/// \param device_profile_number CiA standard profile number
-		/// \returns true if successful
-		bool load_default_eds(uint16_t device_profile_number);
+  /// Loads entries defined in device specific EDS files proviced by
+  /// manufacturers. \param device Reference to the device (needed to fetch some
+  /// information from the device) \returns true if successful
+  bool load_manufacturer_eds(Device& device);
 
-		/// Loads entries defined in device specific EDS files proviced by manufacturers.
-		/// \param vendor_id Vencor ID from identity object in dictionary (one of the mandatory entries)
-		/// \param product_code Product code from identity object in dictionary (one of the mandatory entries)
-		/// \param revision_number Revision number from identity object in dictionary (one of the mandatory entries)
-		/// \returns true if successful
-		/// \todo Remove this!
-		bool load_manufacturer_eds_deprecated(uint32_t vendor_id, uint32_t product_code, uint32_t revision_number);
+  /// Checks if lookup_library() was successful.
+  /// \returns true if ready
+  bool ready() const;
 
-		/// Loads entries defined in device specific EDS files proviced by manufacturers.
-		/// \param device Reference to the device (needed to fetch some information from the device)
-		/// \returns true if successful
-		bool load_manufacturer_eds(Device& device);
+  /// Resets the dictionary and the name-address mapping.
+  void reset_dictionary();
 
-		/// Checks if lookup_library() was successful.
-		/// \returns true if ready
-		bool ready() const;
+  /// Returns the path to the most recently loaded EDS file.
+  std::string get_most_recent_eds_file_path() const;
 
-		/// Resets the dictionary and the name-address mapping.
-		void reset_dictionary();
+ private:
+  /// Enable debug logging.
+  static const bool debug = false;
 
-		/// Returns the path to the most recently loaded EDS file.
-		std::string get_most_recent_eds_file_path() const;
+  /// Reference to the dictionary
+  std::unordered_map<Address, Entry>& m_dictionary;
 
-	private:
+  /// Reference to the address-name mapping
+  std::unordered_map<std::string, Address>& m_name_to_address;
 
-		/// Enable debug logging.
-		static const bool debug = false;
+  /// Path to the EDS library in filesystem. Set by lookup_library()
+  std::string m_library_path;
 
-		/// Reference to the dictionary
-		std::unordered_map<Address, Entry>& m_dictionary;
+  /// True, if lookup_library() was successful.
+  bool m_ready;
 
-		/// Reference to the address-name mapping
-		std::unordered_map<std::string, Address>& m_name_to_address;
+  /// Stores the path to the most recently loaded EDS file.
+  std::string most_recent_eds_file;
+};
 
-		/// Path to the EDS library in filesystem. Set by lookup_library()
-		std::string m_library_path;
-
-		/// True, if lookup_library() was successful.
-		bool m_ready;
-
-		/// Stores the path to the most recently loaded EDS file.
-		std::string most_recent_eds_file;
-
-	};
-
-} // end namespace kaco
+}  // end namespace kaco

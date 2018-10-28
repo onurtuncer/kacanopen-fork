@@ -30,21 +30,21 @@
  */
 
 #include "kacanopen/master/eds_library.h"
-#include "kacanopen/master/eds_reader.h"
-#include "kacanopen/master/device.h"
-#include "kacanopen/core/logger.h"
 #include "kacanopen/core/canopen_error.h"
+#include "kacanopen/core/global_config.h"
+#include "kacanopen/core/logger.h"
+#include "kacanopen/master/device.h"
+#include "kacanopen/master/eds_reader.h"
 #include "kacanopen/master/types.h"
 #include "kacanopen/master/value.h"
-#include "kacanopen/core/global_config.h"
 
-#include <vector>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include <boost/filesystem.hpp>
-#include <boost/property_tree/ptree.hpp> // property_tree
 #include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>  // property_tree
 
 // This is set by CMake...
 //#define SHARE_SOURCE_PATH ...
@@ -52,231 +52,239 @@
 
 namespace kaco {
 
-	namespace fs = boost::filesystem;
+namespace fs = boost::filesystem;
 
-	EDSLibrary::EDSLibrary(std::unordered_map<Address, Entry>& dictionary, std::unordered_map<std::string, Address>& name_to_address)
-		: m_dictionary(dictionary), m_name_to_address(name_to_address), m_ready(false)
-		{ }
+EDSLibrary::EDSLibrary(
+    std::unordered_map<Address, Entry>& dictionary,
+    std::unordered_map<std::string, Address>& name_to_address)
+    : m_dictionary(dictionary),
+      m_name_to_address(name_to_address),
+      m_ready(false) {}
 
-	bool EDSLibrary::lookup_library(std::string path) {
+bool EDSLibrary::lookup_library(std::string path) {
+  m_ready = false;
 
-		m_ready = false;
+  std::vector<std::string> paths;
+  if (!path.empty()) {
+    paths.push_back(path + "/eds_files.json");
+  }
 
-		std::vector<std::string> paths;
-		if (!path.empty()) {
-			paths.push_back(path+"/eds_files.json");
-		}
+  paths.push_back(SHARE_SOURCE_PATH "/eds_library/eds_files.json");
+  paths.push_back(SHARE_INSTALLED_PATH "/eds_library/eds_files.json");
+  paths.push_back("/usr/local/share/kacanopen/eds_library/eds_files.json");
+  paths.push_back("/usr/share/kacanopen/eds_library/eds_files.json");
+  // TODO: typical windows / mac osx paths?
+  // TODO: environment variable
 
-		paths.push_back(SHARE_SOURCE_PATH "/eds_library/eds_files.json");
-		paths.push_back(SHARE_INSTALLED_PATH "/eds_library/eds_files.json");
-		paths.push_back("/usr/local/share/kacanopen/eds_library/eds_files.json");
-		paths.push_back("/usr/share/kacanopen/eds_library/eds_files.json");
-		// TODO: typical windows / mac osx paths?
-		// TODO: environment variable
+  bool success = false;
+  for (const std::string& path : paths) {
+    if (fs::exists(path)) {
+      m_library_path = fs::path(path).parent_path().string();
+      DEBUG_LOG("[EDSLibrary::lookup_library] Found EDS library in "
+                << m_library_path);
+      success = true;
+      break;
+    }
+  }
 
-		bool success = false;
-		for (const std::string& path : paths) {
-			if (fs::exists(path)) {
-				m_library_path = fs::path(path).parent_path().string();
-				DEBUG_LOG("[EDSLibrary::lookup_library] Found EDS library in "<<m_library_path);
-				success = true;
-				break;
-			}
-		}
+  if (!success) {
+    DEBUG_LOG(
+        "[EDSLibrary::lookup_library] Could not find EDS library. You should "
+        "pass a custum path or check your local installation.")
+    return false;
+  }
 
-		if (!success) {
-			DEBUG_LOG("[EDSLibrary::lookup_library] Could not find EDS library. You should pass a custum path or check your local installation.")
-			return false;
-		}
+  m_ready = true;
+  return true;
+}
 
-		m_ready = true;
-		return true;
-	}
+bool EDSLibrary::load_mandatory_entries() { return load_default_eds(301); }
 
-	bool EDSLibrary::load_mandatory_entries() {
-		return load_default_eds(301);
-	}
+bool EDSLibrary::load_default_eds(uint16_t device_profile_number) {
+  assert(m_ready);
 
-	bool EDSLibrary::load_default_eds(uint16_t device_profile_number) {
+  std::string path = m_library_path + "/CiA_profiles/" +
+                     std::to_string(device_profile_number) + ".eds";
+  if (!fs::exists(path)) {
+    DEBUG_LOG("[EDSLibrary::load_default_eds] Default EDS file not available: "
+              << path);
+    return false;
+  }
 
-		assert(m_ready);
+  if (Config::eds_library_clear_dictionary) {
+    reset_dictionary();
+  }
 
-		std::string path = m_library_path + "/CiA_profiles/"+std::to_string(device_profile_number)+".eds";
-		if (!fs::exists(path)) {
-			DEBUG_LOG("[EDSLibrary::load_default_eds] Default EDS file not available: "<<path);
-			return false;
-		}
+  EDSReader reader(m_dictionary, m_name_to_address);
+  bool success = reader.load_file(path);
 
-		
-		if (Config::eds_library_clear_dictionary) {
-			reset_dictionary();
-		}
+  if (!success) {
+    ERROR("[EDSLibrary::load_default_eds] Loading file not successful.");
+    return false;
+  }
 
-		EDSReader reader(m_dictionary, m_name_to_address);
-		bool success = reader.load_file(path);
+  DEBUG_LOG("[EDSLibrary::load_default_eds] Found EDS file: " << path);
+  success = reader.import_entries();
+  most_recent_eds_file = path;
 
-		if (!success) {
-			ERROR("[EDSLibrary::load_default_eds] Loading file not successful.");
-			return false;
-		}
+  if (!success) {
+    ERROR("[EDSLibrary::load_default_eds] Importing entries failed.");
+    return false;
+  }
 
-		DEBUG_LOG("[EDSLibrary::load_default_eds] Found EDS file: "<<path);
-		success = reader.import_entries();
-		most_recent_eds_file = path;
+  return true;
+}
 
-		if (!success) {
-			ERROR("[EDSLibrary::load_default_eds] Importing entries failed.");
-			return false;
-		}
+bool EDSLibrary::load_manufacturer_eds(Device& device) {
+  boost::property_tree::ptree eds_files;
+  boost::property_tree::json_parser::read_json(
+      m_library_path + "/eds_files.json", eds_files);
+  std::unordered_map<std::string, Value> cache;
 
-		return true;
+  for (const auto& level0 : eds_files) {
+    const std::string& filename = level0.second.get<std::string>("file");
+    DEBUG_LOG("Testing if " << filename << " fits.");
+    const boost::property_tree::ptree& matches =
+        level0.second.get_child("match");
+    bool fits = true;
 
-	}
+    for (const auto& level1 : matches) {
+      const std::string& field = level1.first;
+      const std::string& value_expected =
+          level1.second.get_value<std::string>();
+      bool has_field = false;
 
-	bool EDSLibrary::load_manufacturer_eds(Device& device) {
-		
-		boost::property_tree::ptree eds_files;
-		boost::property_tree::json_parser::read_json(m_library_path+"/eds_files.json", eds_files);
-		std::unordered_map<std::string,Value> cache;
+      if (cache.count(field) > 0) {
+        // field is already in cache
+        if (cache[field].type != Type::invalid) {
+          has_field = true;
+        }
+      } else {
+        try {
+          const Value& temp = device.get_entry(field);
+          cache[field] = temp;
+          has_field = true;
+        } catch (const canopen_error& err) {
+          DEBUG_LOG("  (" << err.what() << ")");
+          cache[field] = Value();  // invalid value
+        }
+      }
 
-		for (const auto& level0 : eds_files) {
+      if (has_field) {
+        const std::string& value =
+            cache[field].to_string().substr(0, value_expected.length());
+        if (value_expected == value) {
+          DEBUG_LOG("  " << field << ": " << value << " == " << value_expected
+                         << " (expected) -> continue.");
+        } else {
+          DEBUG_LOG("  " << field << ": " << value << " != " << value_expected
+                         << " (expected) -> break.");
+          fits = false;
+        }
+      } else {
+        DEBUG_LOG("  Field does not exist -> break...");
+        fits = false;
+      }
 
-			const std::string& filename = level0.second.get<std::string>("file");
-			DEBUG_LOG("Testing if "<<filename<<" fits.");
-			const boost::property_tree::ptree& matches = level0.second.get_child("match");
-			bool fits = true;
+      if (!fits) {
+        break;
+      }
+    }
 
-			for (const auto& level1 : matches) {
-				
-				const std::string& field = level1.first;
-				const std::string& value_expected = level1.second.get_value<std::string>();
-				bool has_field = false;
+    if (fits) {
+      DEBUG_LOG("  " << filename << " fits.");
+      const std::string path = m_library_path + "/" + filename;
+      assert(fs::exists(path));
 
-				if (cache.count(field)>0) {
-					// field is already in cache
-					if (cache[field].type != Type::invalid) {
-						has_field = true;
-					}
-				} else {
-					try {
-						const Value& temp = device.get_entry(field);
-						cache[field] = temp;
-						has_field = true;
-					} catch (const canopen_error& err){
-						DEBUG_LOG("  ("<<err.what()<<")");
-						cache[field] = Value(); // invalid value
-					}
-				}
+      if (Config::eds_library_clear_dictionary) {
+        reset_dictionary();
+      }
 
-				if (has_field) {
-					const std::string& value = cache[field].to_string().substr(0,value_expected.length());
-					if (value_expected == value) {
-						DEBUG_LOG("  "<<field<<": "<<value<<" == "<<value_expected<<" (expected) -> continue.");
-					} else {
-						DEBUG_LOG("  "<<field<<": "<<value<<" != "<<value_expected<<" (expected) -> break.");
-						fits = false;
-					}
-				} else {
-					DEBUG_LOG("  Field does not exist -> break...");
-					fits = false;
-				}
+      EDSReader reader(m_dictionary, m_name_to_address);
+      bool success = reader.load_file(path);
 
-				if (!fits) {
-					break;
-				}
+      if (!success) {
+        ERROR(
+            "[EDSLibrary::load_manufacturer_eds] Loading file not successful.");
+        return false;
+      }
 
-			}
+      success = reader.import_entries();
+      most_recent_eds_file = path;
 
-			if (fits) {
-				
-				DEBUG_LOG("  "<<filename<<" fits.");
-				const std::string path = m_library_path + "/"+filename;
-				assert(fs::exists(path));
-				
-				if (Config::eds_library_clear_dictionary) {
-					reset_dictionary();
-				}
+      if (!success) {
+        ERROR("[EDSLibrary::load_manufacturer_eds] Importing entries failed.");
+        return false;
+      }
 
-				EDSReader reader(m_dictionary, m_name_to_address);
-				bool success = reader.load_file(path);
+      return true;
 
-				if (!success) {
-					ERROR("[EDSLibrary::load_manufacturer_eds] Loading file not successful.");
-					return false;
-				}
+    } else {
+      DEBUG_LOG("  " << filename << " does not fit.");
+    }
+  }
 
-				success = reader.import_entries();
-				most_recent_eds_file = path;
+  DEBUG_LOG("No suitable manufacturer EDS file found.");
+  return false;
+}
 
-				if (!success) {
-					ERROR("[EDSLibrary::load_manufacturer_eds] Importing entries failed.");
-					return false;
-				}
+bool EDSLibrary::load_manufacturer_eds_deprecated(uint32_t vendor_id,
+                                                  uint32_t product_code,
+                                                  uint32_t revision_number) {
+  assert(m_ready);
 
-				return true;
+  // check if there is an EDS file for this revision
+  std::string path = m_library_path + "/" + std::to_string(vendor_id) + "/" +
+                     std::to_string(product_code) + "." +
+                     std::to_string(revision_number) + ".eds";
+  if (!fs::exists(path)) {
+    // check if there is a generic EDS file for product
+    path = m_library_path + "/" + std::to_string(vendor_id) + "/" +
+           std::to_string(product_code) + ".eds";
+    if (!fs::exists(path)) {
+      DEBUG_LOG(
+          "[EDSLibrary::load_manufacturer_eds] Manufacturer device specific "
+          "EDS file not available: "
+          << path);
+      return false;
+    }
+  }
 
-			} else {
-				DEBUG_LOG("  "<<filename<<" does not fit.");
-			}
+  DEBUG_LOG(
+      "[EDSLibrary::load_manufacturer_eds] Found manufacturer EDS: " << path);
 
-		}
+  if (Config::eds_library_clear_dictionary) {
+    reset_dictionary();
+  }
 
-		DEBUG_LOG("No suitable manufacturer EDS file found.");
-		return false;
+  EDSReader reader(m_dictionary, m_name_to_address);
+  bool success = reader.load_file(path);
+  most_recent_eds_file = path;
 
-	}
+  if (!success) {
+    ERROR("[EDSLibrary::load_manufacturer_eds] Loading file not successful.");
+    return false;
+  }
 
-	bool EDSLibrary::load_manufacturer_eds_deprecated(uint32_t vendor_id, uint32_t product_code, uint32_t revision_number) {
-		assert(m_ready);
+  success = reader.import_entries();
 
-		// check if there is an EDS file for this revision
-		std::string path = m_library_path + "/"+std::to_string(vendor_id)+"/"+std::to_string(product_code)+"."+std::to_string(revision_number)+".eds";
-		if (!fs::exists(path)) {
-			// check if there is a generic EDS file for product
-			path = m_library_path + "/"+std::to_string(vendor_id)+"/"+std::to_string(product_code)+".eds";
-			if (!fs::exists(path)) {
-				DEBUG_LOG("[EDSLibrary::load_manufacturer_eds] Manufacturer device specific EDS file not available: "<<path);
-				return false;
-			}
-		}
-		
-		DEBUG_LOG("[EDSLibrary::load_manufacturer_eds] Found manufacturer EDS: "<<path);
+  if (!success) {
+    ERROR("[EDSLibrary::load_manufacturer_eds] Importing entries failed.");
+    return false;
+  }
 
-		if (Config::eds_library_clear_dictionary) {
-			reset_dictionary();
-		}
+  return true;
+}
 
-		EDSReader reader(m_dictionary, m_name_to_address);
-		bool success = reader.load_file(path);
-		most_recent_eds_file = path;
+bool EDSLibrary::ready() const { return m_ready; }
 
-		if (!success) {
-			ERROR("[EDSLibrary::load_manufacturer_eds] Loading file not successful.");
-			return false;
-		}
+void EDSLibrary::reset_dictionary() {
+  m_dictionary.clear();
+  m_name_to_address.clear();
+}
 
-		success = reader.import_entries();
+std::string EDSLibrary::get_most_recent_eds_file_path() const {
+  return most_recent_eds_file;
+}
 
-		if (!success) {
-			ERROR("[EDSLibrary::load_manufacturer_eds] Importing entries failed.");
-			return false;
-		}
-
-		return true;
-		
-	}
-
-	bool EDSLibrary::ready() const {
-		return m_ready;
-	}
-	
-	void EDSLibrary::reset_dictionary() {
-		m_dictionary.clear();
-		m_name_to_address.clear();
-	}
-	
-	std::string EDSLibrary::get_most_recent_eds_file_path() const {
-		return most_recent_eds_file;
-	}
-
-} // end namespace kaco
+}  // end namespace kaco

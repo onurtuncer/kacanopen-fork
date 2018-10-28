@@ -28,62 +28,64 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #include "kacanopen/master/dictionary_error.h"
 
 namespace kaco {
 
-	dictionary_error::dictionary_error(type error_type, const std::string& entry_name, const std::string& additional_information)
-		: canopen_error("")
-		{
+dictionary_error::dictionary_error(type error_type,
+                                   const std::string& entry_name,
+                                   const std::string& additional_information)
+    : canopen_error("") {
+  switch (error_type) {
+    case type::unknown_entry:
+      m_message = "Dictionary entry \"" + entry_name + "\" not available.";
+      break;
+    case type::read_only:
+      m_message = "Attempt to write the read-only dictionary entry \"" +
+                  entry_name + "\".";
+      break;
+    case type::write_only:
+      m_message = "Attempt to read the write-only dictionary entry \"" +
+                  entry_name + "\".";
+      break;
+    case type::wrong_type:
+      m_message = "Data type does not match to the dictionary entry \"" +
+                  entry_name + "\".";
+      break;
+    case type::mapping_size:
+      m_message = "Invalid mapping size.";
+      break;
+    case type::mapping_overlap:
+      m_message = "Mappings overlap for this PDO.";
+      break;
+    case type::unknown_operation:
+      m_message = "Operation \"" + entry_name + "\" not available.";
+      break;
+    case type::unknown_constant:
+      m_message = "Constant \"" + entry_name + "\" not available.";
+      break;
 
-		switch (error_type) {
+      // no default -> compiler should warn if a type is missing.
+  }
 
-			case type::unknown_entry:
-				m_message = "Dictionary entry \""+entry_name+"\" not available.";
-				break;
-			case type::read_only:
-				m_message = "Attempt to write the read-only dictionary entry \""+entry_name+"\".";
-				break;
-			case type::write_only:
-				m_message = "Attempt to read the write-only dictionary entry \""+entry_name+"\".";
-				break;
-			case type::wrong_type:
-				m_message = "Data type does not match to the dictionary entry \""+entry_name+"\".";
-				break;
-			case type::mapping_size:
-				m_message = "Invalid mapping size.";
-				break;
-			case type::mapping_overlap:
-				m_message = "Mappings overlap for this PDO.";
-				break;
-			case type::unknown_operation:
-				m_message = "Operation \""+entry_name+"\" not available.";
-				break;
-			case type::unknown_constant:
-				m_message = "Constant \""+entry_name+"\" not available.";
-				break;
-
-			// no default -> compiler should warn if a type is missing.
-
-		}
-
-		m_type = error_type;
-		m_entry_name = entry_name;
-		m_message = "Dictionary error: " + m_message + (additional_information.empty()?"":" "+additional_information);
-
-	}
-
-	const char* dictionary_error::what() const noexcept {
-		return m_message.c_str();
-	}
-
-	dictionary_error::type dictionary_error::get_type() const noexcept {
-		return m_type;
-	}
-
-	std::string dictionary_error::get_entry_name() const noexcept {
-		return m_entry_name;
-	}
-
+  m_type = error_type;
+  m_entry_name = entry_name;
+  m_message =
+      "Dictionary error: " + m_message +
+      (additional_information.empty() ? "" : " " + additional_information);
 }
+
+const char* dictionary_error::what() const noexcept {
+  return m_message.c_str();
+}
+
+dictionary_error::type dictionary_error::get_type() const noexcept {
+  return m_type;
+}
+
+std::string dictionary_error::get_entry_name() const noexcept {
+  return m_entry_name;
+}
+
+}  // namespace kaco

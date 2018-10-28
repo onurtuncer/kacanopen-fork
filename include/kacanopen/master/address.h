@@ -28,53 +28,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #pragma once
 
 #include <cstdint>
 #include <functional>
 
-
 namespace kaco {
 
-	/// Tuple of object dictionary index and subindex
-	struct Address {
+/// Tuple of object dictionary index and subindex
+struct Address {
+  /// Index
+  uint16_t index;
 
-		/// Index
-		uint16_t index;
+  /// Sub-index
+  uint8_t subindex;
 
-		/// Sub-index
-		uint8_t subindex;
+  /// Equality operator for use of Address as key type in std::unordered_map.
+  bool operator==(const Address& other) const {
+    return (index == other.index && subindex == other.subindex);
+  }
+};
 
-		/// Equality operator for use of Address as key type in std::unordered_map.
-		bool operator==(const Address &other) const {
-			return (index == other.index && subindex == other.subindex);
-		}
+}  // end namespace kaco
 
-	};
-
-} // end namespace kaco
-
-// We put this into the header file because specialization must be parsed before any occurrence of std::unordered_map<Address,...>.
+// We put this into the header file because specialization must be parsed before
+// any occurrence of std::unordered_map<Address,...>.
 namespace std {
 
-	/// Specialization of std::hash for kaco::Address for use as key type in std::unordered_map.
-	template<> struct hash<kaco::Address> {
+/// Specialization of std::hash for kaco::Address for use as key type in
+/// std::unordered_map.
+template <>
+struct hash<kaco::Address> {
+  /// Argument type
+  typedef kaco::Address argument_type;
 
-		/// Argument type
-		typedef kaco::Address argument_type;
+  /// Result type
+  typedef std::size_t result_type;
 
-		/// Result type
-		typedef std::size_t result_type;
+  /// Hasher
+  /// \param s the address to hash
+  result_type operator()(argument_type const& s) const {
+    const uint32_t a = static_cast<uint32_t>(s.index);
+    const uint32_t b = static_cast<uint32_t>(s.subindex);
+    return std::hash<uint32_t>()((a << 8) & b);
+  }
+};
 
-		/// Hasher
-		/// \param s the address to hash
-		result_type operator()(argument_type const& s) const {
-			const uint32_t a = static_cast<uint32_t>(s.index);
-			const uint32_t b = static_cast<uint32_t>(s.subindex);
-			return std::hash<uint32_t>()((a<<8)&b);
-		}
-
-	};
-
-} // end namespace std
+}  // end namespace std

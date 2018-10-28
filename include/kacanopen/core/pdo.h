@@ -31,80 +31,75 @@
 
 #pragma once
 
-#include <vector>
 #include <cstdint>
 #include <functional>
 #include <mutex>
+#include <vector>
 
 #include "kacanopen/core/message.h"
 
 namespace kaco {
 
-	// forward declaration
-	class Core;
+// forward declaration
+class Core;
 
-	/// \class PDO
-	///
-	/// This class implements the CanOpen PDO protocol
-	///
-	/// All methods are thread-safe.
-	class PDO {
+/// \class PDO
+///
+/// This class implements the CanOpen PDO protocol
+///
+/// All methods are thread-safe.
+class PDO {
+ public:
+  /// A PDO message receiver function
+  /// together with it's COB-ID
+  /// Important: Never call add_pdo_received_callback or
+  ///   process_incoming_message from within (-> deadlock)!
+  struct PDOReceivedCallback {
+    /// Type of the callback
+    using Callback = std::function<void(std::vector<uint8_t>)>;
 
-	public:
+    /// The COB-ID of the PDO to receive
+    uint16_t cob_id;
 
-		/// A PDO message receiver function
-		/// together with it's COB-ID
-		/// Important: Never call add_pdo_received_callback or
-		///   process_incoming_message from within (-> deadlock)!
-		struct PDOReceivedCallback {
+    /// The callback
+    Callback callback;
+  };
 
-			/// Type of the callback
-			using Callback = std::function< void(std::vector<uint8_t>) >;
+  /// Constructor
+  /// \param core Reference to the Core
+  PDO(Core& core);
 
-			/// The COB-ID of the PDO to receive
-			uint16_t cob_id;
+  /// Copy constructor deleted because of mutexes.
+  PDO(const PDO&) = delete;
 
-			/// The callback
-			Callback callback;
+  /// Handler for an incoming PDO message
+  /// \param message The message from the network
+  /// \todo Rename this to process_incoming_tpdo() and add
+  /// process_incoming_rpdo() \remark thread-safe
+  void process_incoming_message(const Message& message) const;
 
-		};
+  /// Sends a PDO message
+  /// \param cob_id COB-ID of the message to send
+  /// \param data A vector containing the data bytes to send. PDOs can have most
+  /// 8 bytes! \remark thread-safe
+  void send(uint16_t cob_id, const std::vector<uint8_t>& data);
 
-		/// Constructor
-		/// \param core Reference to the Core
-		PDO(Core& core);
+  /// Adds a callback which will be called when a PDO has been received with the
+  /// given COB-ID. \param cob_id COB-ID to listen for \param callback Callback
+  /// function, which takes a const Message reference as argument. \todo Rename
+  /// this to add_tpdo_received_callback() and add add_rpdo_received_callback()
+  /// \remark thread-safe
+  void add_pdo_received_callback(uint16_t cob_id,
+                                 PDOReceivedCallback::Callback callback);
 
-		/// Copy constructor deleted because of mutexes.
-		PDO(const PDO&) = delete;
+  void remove_pdo_received_callback(uint16_t cob_id);
 
-		/// Handler for an incoming PDO message
-		/// \param message The message from the network
-		/// \todo Rename this to process_incoming_tpdo() and add process_incoming_rpdo()
-		/// \remark thread-safe
-		void process_incoming_message(const Message& message) const;
+ private:
+  static const bool debug = false;
+  Core& m_core;
 
-		/// Sends a PDO message
-		/// \param cob_id COB-ID of the message to send
-		/// \param data A vector containing the data bytes to send. PDOs can have most 8 bytes!
-		/// \remark thread-safe
-		void send(uint16_t cob_id, const std::vector<uint8_t>& data);
+  std::vector<PDOReceivedCallback> m_receive_callbacks;
+  mutable std::mutex m_receive_callbacks_mutex;
+};
 
-		/// Adds a callback which will be called when a PDO has been received with the given COB-ID.
-		/// \param cob_id COB-ID to listen for
-		/// \param callback Callback function, which takes a const Message reference as argument.
-		/// \todo Rename this to add_tpdo_received_callback() and add add_rpdo_received_callback()
-		/// \remark thread-safe
-		void add_pdo_received_callback(uint16_t cob_id, PDOReceivedCallback::Callback callback);
-
-    void remove_pdo_received_callback(uint16_t cob_id);
-
-	private:
-
-		static const bool debug = false;
-		Core& m_core;
-
-		std::vector<PDOReceivedCallback> m_receive_callbacks;
-		mutable std::mutex m_receive_callbacks_mutex;
-
-	};
-
-} // end namespace kaco
+}  // end namespace kaco
