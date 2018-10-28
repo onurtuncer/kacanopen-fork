@@ -40,9 +40,6 @@
 #include <memory>
 #include <thread>
 
-// #define BUSNAME ... // set by CMake
-// #define BAUDRATE ... // set by CMake
-
 int main(int argc, char* argv[]) {
   // Set the name of your CAN bus. "slcan0" is a common bus name
   // for the first SocketCAN device on a Linux system.

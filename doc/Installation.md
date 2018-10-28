@@ -61,22 +61,6 @@ The following CMake/Catkin arguments are available:
 
 	Enable exhaustive debugging.
 
-- `-DNO_ROS=On`
-
-	Exclude anything depending on ROS.
-
-- `-DINSTALL_EXAMPLES=On`
-	
-	Install example programs when running make install.
-
-- `-DSDO_RESPONSE_TIMEOUT_MS=<timeout>`
-
-	Timeout in milliseconds when waiting for an SDO response.
-
-- `-DCONSECUTIVE_SEND_PAUSE_MS=<timeout>`
-
-	Pause between two consecutively sent CAN frames in milliseconds.
-
 
 ## Initialize ROS and create Catkin workspace
 

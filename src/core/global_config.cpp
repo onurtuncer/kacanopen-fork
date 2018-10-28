@@ -31,12 +31,11 @@
 
 #include "kacanopen/core/global_config.h"
 
-// Set by CMake:
-// #define SDO_RESPONSE_TIMEOUT_MS ...
-
 namespace kaco {
 
-size_t Config::sdo_response_timeout_ms = SDO_RESPONSE_TIMEOUT_MS;
+size_t Config::sdo_response_timeout_ms = 2000;
+
+size_t Config::consecutive_send_pause_ms = 2;
 
 size_t Config::repeats_on_sdo_timeout = 0;
 

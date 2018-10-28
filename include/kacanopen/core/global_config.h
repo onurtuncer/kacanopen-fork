@@ -41,6 +41,9 @@ class Config {
   /// Timeout in milliseconds when waiting for an SDO response.
   static size_t sdo_response_timeout_ms;
 
+  /// Pause between two consecutively sent CAN frames in milliseconds.
+  static size_t consecutive_send_pause_ms;
+
   /// Number of repetitions when an SDO timeout occurs in SDO download/upload
   static size_t repeats_on_sdo_timeout;
 

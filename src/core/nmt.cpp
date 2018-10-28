@@ -31,6 +31,7 @@
 
 #include "kacanopen/core/nmt.h"
 #include "kacanopen/core/core.h"
+#include "kacanopen/core/global_config.h"
 #include "kacanopen/core/logger.h"
 
 #include <chrono>
@@ -63,7 +64,8 @@ void NMT::broadcast_nmt_message(Command cmd) { send_nmt_message(0, cmd); }
 void NMT::reset_all_nodes() {
   // broadcast_nmt_message(Command::reset_node);
   // TODO check node_id range
-  const auto pause = std::chrono::milliseconds(CONSECUTIVE_SEND_PAUSE_MS);
+  const auto pause =
+      std::chrono::milliseconds(kaco::Config::consecutive_send_pause_ms);
   for (size_t node_id = 1; node_id < 239; ++node_id) {
     send_nmt_message(node_id, Command::reset_node);
     std::this_thread::sleep_for(pause);
@@ -72,7 +74,8 @@ void NMT::reset_all_nodes() {
 
 void NMT::discover_nodes() {
   // TODO check node_id range
-  const auto pause = std::chrono::milliseconds(CONSECUTIVE_SEND_PAUSE_MS);
+  const auto pause =
+      std::chrono::milliseconds(kaco::Config::consecutive_send_pause_ms);
   for (size_t node_id = 1; node_id < 239; ++node_id) {
     // Protocol node guarding. See CiA 301. All devices will answer with their
     // state via NMT.

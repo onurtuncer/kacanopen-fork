@@ -53,22 +53,6 @@ else()
 	endif()
 endif()
 
-
-#################
-##  Constants  ##
-#################
-add_definitions("-DSDO_RESPONSE_TIMEOUT_MS=${SDO_RESPONSE_TIMEOUT_MS}")
-message(STATUS "SDO response timeout is set to ${SDO_RESPONSE_TIMEOUT_MS}ms")
-
-add_definitions("-DBUSNAME=\"${BUSNAME}\"")
-message(STATUS "Busname is set to ${BUSNAME} (only used by examples)")
-
-add_definitions("-DBAUDRATE=${BAUDRATE}")
-message(STATUS "Baudrate is set to ${BAUDRATE} (only used by examples)")
-
-add_definitions("-DCONSECUTIVE_SEND_PAUSE_MS=${CONSECUTIVE_SEND_PAUSE_MS}")
-message(STATUS "Pause between two consecutively sent CAN frames is set to ${CONSECUTIVE_SEND_PAUSE_MS}ms")
-
 ####################
 ##  Dependencies  ##
 ####################
