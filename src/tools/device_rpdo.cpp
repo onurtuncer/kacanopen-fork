@@ -27,7 +27,7 @@ void map_rpdo_in_device(RPDO_NO rpdo_no,
       device->set_entry(0x1400, 0x02, transmit_type,
                         kaco::WriteAccessMethod::sdo);
       // enable rpdo1
-      cob_id ^= static_cast<uint32_t>((-0 ^ cob_id) & (1UL << 31));
+      cob_id ^= static_cast<uint32_t>((0 ^ cob_id) & (1UL << 31));
       device->set_entry(0x1400, 0x01, static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
@@ -51,7 +51,7 @@ void map_rpdo_in_device(RPDO_NO rpdo_no,
       device->set_entry(0x1401, 0x02, transmit_type,
                         kaco::WriteAccessMethod::sdo);
       // enable rpdo2
-      cob_id ^= static_cast<uint32_t>((-0 ^ cob_id) & (1UL << 31));
+      cob_id ^= static_cast<uint32_t>((0 ^ cob_id) & (1UL << 31));
       device->set_entry(0x1401, 0x01, static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
@@ -75,7 +75,7 @@ void map_rpdo_in_device(RPDO_NO rpdo_no,
       device->set_entry(0x1402, 0x02, transmit_type,
                         kaco::WriteAccessMethod::sdo);
       // enable rpdo3
-      cob_id ^= static_cast<uint32_t>((-0 ^ cob_id) & (1UL << 31));
+      cob_id ^= static_cast<uint32_t>((0 ^ cob_id) & (1UL << 31));
       device->set_entry(0x1402, 0x01, static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
@@ -99,7 +99,7 @@ void map_rpdo_in_device(RPDO_NO rpdo_no,
       device->set_entry(0x1403, 0x02, transmit_type,
                         kaco::WriteAccessMethod::sdo);
       // enable rpdo4
-      cob_id ^= static_cast<uint32_t>((-0 ^ cob_id) & (1UL << 31));
+      cob_id ^= static_cast<uint32_t>((0 ^ cob_id) & (1UL << 31));
       device->set_entry(0x1403, 0x01, static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
