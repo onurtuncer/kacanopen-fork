@@ -95,8 +95,10 @@ target_link_libraries(${PROJECT_NAME}_tools
 ##############
 ## Examples ##
 ##############
-if (CMAKE_BUILD_TYPE EQUAL "Release")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_subdirectory(examples)
+else()
+  message("\n-- Add -DCMAKE_BUILD_TYPE=Debug to build the examples.\n")
 endif()
 
 #############
