@@ -56,7 +56,8 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   // binary is being executed.
   std::string path = ros::package::getPath("kacanopen");
   boost::filesystem::path full_path =
-      path + "resources/eds_library/roboteq_motor_controllers_v80beta.eds";
+      path +
+      "/resources/eds_library/Roboteq/roboteq_motor_controllers_v80beta.eds";
   device->load_dictionary_from_eds(full_path.string());
 
   // set the our desired heartbeat_interval time
@@ -121,7 +122,7 @@ int main() {
   // test this program.//
 
   // The node ID of the slave we want to communicate with.
-  const uint8_t node_id = 1;
+  const uint8_t node_id = 4;
 
   // Set the name of your CAN bus. "slcan0" is a common bus name
   // for the first SocketCAN device on a Linux system.
@@ -187,16 +188,15 @@ int main() {
       }
     }
   });
-  core.nmt.register_device_dead_callback([&](const uint8_t current_node_id) {
-    if (device_connected && found_node) {
+  core.nmt.register_device_dead_callback([&](const uint8_t new_node_id) {
+    if ((device_connected && found_node) && (new_node_id == node_id)) {
       // Lock device mutex
       std::lock_guard<std::mutex> lock(device_mutex);
       // Check if our node is disconnected.
       found_node = false;
       device_connected = false;
       device.reset();
-
-      std::cout << "Device with Node ID=0x" << std::hex << current_node_id
+      std::cout << "Device with Node ID=0x" << std::hex << node_id
                 << " is disconnected...." << std::endl;
     }
   });
@@ -255,9 +255,9 @@ int main() {
                               kaco::ReadAccessMethod::pdo_request_and_wait);
         std::cout << "Channel 1 speed feedback = " << std::dec
                   << (ch1_speed_feedback) << std::endl;
-        device->set_entry("cmd_cango/cmd_cango_2",
-                          static_cast<int>(channel2_speed_ref),
-                          kaco::WriteAccessMethod::pdo);
+        //        device->set_entry("cmd_cango/cmd_cango_2",
+        //                          static_cast<int>(channel2_speed_ref),
+        //                          kaco::WriteAccessMethod::pdo);
         std::cout << "Channel 2 speed command = " << std::dec
                   << channel1_speed_ref << std::endl;
         int16_t ch2_speed_feedback =

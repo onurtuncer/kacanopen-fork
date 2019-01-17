@@ -55,9 +55,9 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
                       uint16_t heartbeat_interval, uint8_t node_id) {
   // Load eds file. The eds file must be in the same folder in which the
   // binary is being executed.
-  std::string path = ros::package::getPath("kacanopen");
+  std::string path = ros::package::getPath("kacanopen_examples");
   boost::filesystem::path full_path =
-      path + "resources/eds_library/roboteq_motor_controllers_v80beta_v2.0.eds";
+      path + "/config/roboteq_motor_controllers_v80beta_v2.0.eds";
   device->load_dictionary_from_eds(full_path.string());
 
   // set the our desired heartbeat_interval time
@@ -87,7 +87,7 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   device->set_entry("cmd_cango_set_motor_command/channel_1", 0x0,
                     kaco::WriteAccessMethod::pdo);
   // Mater side Periodic Tranmit pdo2 value initialization
-  device->set_entry("cmd_cango_set_motor_command/channel_1",
+  device->set_entry("cmd_cango_set_motor_command/channel_2",
                     static_cast<int>(0x0), kaco::WriteAccessMethod::pdo);
   // Master side tpdo1 mapping
   device->add_transmit_pdo_mapping(
@@ -96,7 +96,7 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
 
   // Master side tpdo2 mapping
   device->add_transmit_pdo_mapping(
-      0x300 + node_id, {{"cmd_cango_set_motor_command/channel_1", 0}},
+      0x300 + node_id, {{"cmd_cango_set_motor_command/channel_2", 0}},
       kaco::TransmissionType::PERIODIC, std::chrono::milliseconds(250));
 
   // Device side tpdo1 mapping entries and mapping
@@ -115,7 +115,7 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   map_rpdo_in_device(rpdo1, rpdo1_entries_to_be_mapped, 255, device);
 
   // Device side rpdo2 mapping entries and mapping
-  const std::vector<uint32_t> rpdo2_entries_to_be_mapped{0x20000220};
+  const std::vector<uint32_t> rpdo2_entries_to_be_mapped{0x20000120};
   map_rpdo_in_device(rpdo2, rpdo2_entries_to_be_mapped, 255, device);
 }
 
@@ -257,13 +257,13 @@ int main() {
                               kaco::ReadAccessMethod::pdo_request_and_wait);
         std::cout << "Channel 2 speed feedback = " << std::dec
                   << ch2_speed_feedback << std::endl;
-        auto v_int =
-            device->get_entry("qry_volts_read_internal_voltages/v_int",
-                              kaco::ReadAccessMethod::pdo_request_and_wait);
-        std::cout << "Internal Voltage = " << std::dec
-                  << static_cast<float>(static_cast<float>(v_int) /
-                                        static_cast<float>(10))
-                  << "V" << std::endl;
+        //        auto v_int =
+        //            device->get_entry("qry_volts_read_internal_voltages/v_int",
+        //                              kaco::ReadAccessMethod::pdo_request_and_wait);
+        //        std::cout << "Internal Voltage = " << std::dec
+        //                  << static_cast<float>(static_cast<float>(v_int) /
+        //                                        static_cast<float>(10))
+        //                  << "V" << std::endl;
         //        auto v_bat =
         //            device->get_entry("qry_volts_read_internal_voltages/v_bat",
         //                              kaco::ReadAccessMethod::pdo_request_and_wait);
