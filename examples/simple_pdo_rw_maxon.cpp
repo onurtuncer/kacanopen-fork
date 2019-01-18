@@ -106,19 +106,20 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
 
   // Mater side Periodic Tranmit pdo1 value initialization
   device->set_entry("target_velocity", 0x0, kaco::WriteAccessMethod::pdo);
+  device->set_entry("controlword", static_cast<uint16_t>(0x0006),
+                    kaco::WriteAccessMethod::sdo);
   // Mater side Periodic Tranmit pdo2 value initialization
-  //  device->set_entry("cmd_cango/cmd_cango_2", static_cast<int>(0x0),
-  //                    kaco::WriteAccessMethod::pdo);
+
   // Master side tpdo1 mapping
-  device->add_transmit_pdo_mapping(0x200 + node_id, {{"target_velocity", 0}},
-                                   kaco::TransmissionType::PERIODIC,
-                                   std::chrono::milliseconds(250));
+  device->add_transmit_pdo_mapping(
+      0x200 + node_id, {{"target_velocity", 0}, {"controlword", 4}},
+      kaco::TransmissionType::PERIODIC, std::chrono::milliseconds(250));
   /***************** TPDO MAPPING in DEVICE *****************/
   std::vector<uint32_t> tpdo1_entries_to_be_mapped = {0x60410010, 0x606C0020};
   map_tpdo_in_device(tpdo1, tpdo1_entries_to_be_mapped, 255, device);
 
   /***************** RPDO MAPPING in DEVICE *****************/
-  std::vector<uint32_t> rpdo1_entries_to_be_mapped = {0x60FF0020};
+  std::vector<uint32_t> rpdo1_entries_to_be_mapped = {0x60FF0020, 0x60400010};
   map_rpdo_in_device(rpdo1, rpdo1_entries_to_be_mapped, 255, device);
 }
 
@@ -204,9 +205,8 @@ int main() {
           initializeDevice(device, heartbeat_interval, node_id);
           device->start();
           printDeviceInfo(device);
-          uint16_t control_word_value = {0x0006};
-          device->set_entry(0x6040, 0x00, control_word_value,
-                            kaco::WriteAccessMethod::sdo);
+          device->set_entry("controlword", static_cast<uint16_t>(0x0006),
+                            kaco::WriteAccessMethod::pdo);
           int8_t set_mode_of_operation = 3;
           device->set_entry(0x6060, 0x00, set_mode_of_operation,
                             kaco::WriteAccessMethod::sdo);
@@ -243,9 +243,8 @@ int main() {
 
         device->set_entry("target_velocity", static_cast<int>(2000),
                           kaco::WriteAccessMethod::pdo);
-        uint16_t control_word_value = {0x000F};
-        device->set_entry(0x6040, 0x00, control_word_value,
-                          kaco::WriteAccessMethod::sdo);
+        device->set_entry("controlword", static_cast<uint16_t>(0x000F),
+                          kaco::WriteAccessMethod::pdo);
       } catch (...) {
         std::cout << "Exception in main!" << std::endl;
       }
