@@ -48,10 +48,13 @@ namespace kaco {
 Device::Device(Core& core, uint8_t node_id)
     : m_core(core),
       m_node_id(node_id),
-      m_eds_library(m_dictionary, m_name_to_address) {}
+      m_eds_library(m_dictionary, m_name_to_address),
+      terminating_(false){}
 
 Device::~Device() {
   for (auto& cob_id : cob_ids_) m_core.pdo.remove_pdo_received_callback(cob_id);
+  terminating_ = true;
+  if (request_heartbeat_thread_.joinable()) request_heartbeat_thread_.join();
 }
 
 void Device::start() {
@@ -611,4 +614,18 @@ void Device::read_complete_dictionary() {
 
 const Value Device::m_dummy_value = Value();
 
+void Device::send_heartbeat(uint16_t heartbeat_interval) {
+  const kaco::Message request_heartbeat = {
+      static_cast<uint16_t>(0x700 + m_node_id), 0x01, 0x00, {0x00}};
+  while (!terminating_) {
+    m_core.send(request_heartbeat);
+    std::this_thread::sleep_for(std::chrono::milliseconds(heartbeat_interval));
+  }
+}
+void Device::request_heartbeat(uint16_t heartbeat_interval) {
+  if (heartbeat_interval) {
+    request_heartbeat_thread_ =
+        std::thread(&Device::send_heartbeat, this, heartbeat_interval);
+  }
+}
 }  // end namespace kaco
