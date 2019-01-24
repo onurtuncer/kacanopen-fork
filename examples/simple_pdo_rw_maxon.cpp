@@ -105,7 +105,7 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
                     kaco::WriteAccessMethod::sdo);
 
   // Mater side Periodic Tranmit pdo1 value initialization
-  device->set_entry("target_velocity", 0x0, kaco::WriteAccessMethod::pdo);
+  device->set_entry("target_velocity", 0x0, kaco::WriteAccessMethod::sdo);
   device->set_entry("controlword", static_cast<uint16_t>(0x0006),
                     kaco::WriteAccessMethod::sdo);
   // Mater side Periodic Tranmit pdo2 value initialization
@@ -114,13 +114,82 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   device->add_transmit_pdo_mapping(
       0x200 + node_id, {{"target_velocity", 0}, {"controlword", 4}},
       kaco::TransmissionType::PERIODIC, std::chrono::milliseconds(250));
+  device->add_receive_pdo_mapping(0x180 + node_id, "velocity_actual_value", 0);
+  device->add_receive_pdo_mapping(0x180 + node_id, "statusword", 4);
   /***************** TPDO MAPPING in DEVICE *****************/
-  std::vector<uint32_t> tpdo1_entries_to_be_mapped = {0x60410010, 0x606C0020};
+  std::vector<uint32_t> tpdo1_entries_to_be_mapped = {0x606C0020, 0x60410010};
   map_tpdo_in_device(tpdo1, tpdo1_entries_to_be_mapped, 255, device);
 
   /***************** RPDO MAPPING in DEVICE *****************/
-  std::vector<uint32_t> rpdo1_entries_to_be_mapped = {0x60FF0020, 0x60400010};
+  std::vector<uint32_t> rpdo1_entries_to_be_mapped = {
+      0x60FF0020, 0x60400010,
+  };
   map_rpdo_in_device(rpdo1, rpdo1_entries_to_be_mapped, 255, device);
+
+  /// Master side RPDO mapping starts here; This must be in line with device
+  /// side TPDOs
+  //  // Master side rpdo1 mapping
+  //  device->add_receive_pdo_mapping(0x180 + node_id, "qry_abspeed/channel_1",
+  //                                  0);
+  //  device->add_receive_pdo_mapping(0x180 + node_id, "qry_abspeed/channel_2",
+  //                                  2);
+  //  device->add_receive_pdo_mapping(0x180 + node_id, "qry_batamps/channel_1",
+  //                                  4);
+  //  device->add_receive_pdo_mapping(0x180 + node_id, "qry_batamps/channel_2",
+  //                                  6);
+  //  // Master side rpdo2 mapping
+  //  device->add_receive_pdo_mapping(0x280 + node_id, "qry_abcntr/channel_1",
+  //  0);
+  //  device->add_receive_pdo_mapping(0x280 + node_id, "qry_abcntr/channel_2",
+  //  4);
+
+  //  // Master side rpdo3 mapping
+  //  device->add_receive_pdo_mapping(0x380 + node_id, "qry_volts/v_int", 0);
+  //  device->add_receive_pdo_mapping(0x380 + node_id, "qry_volts/v_bat", 2);
+  //  device->add_receive_pdo_mapping(0x380 + node_id, "qry_volts/v_5vout", 4);
+  //  device->add_receive_pdo_mapping(0x380 + node_id, "qry_temp/qry_temp_ch1",
+  //                                  6);
+  //  device->add_receive_pdo_mapping(0x380 + node_id, "qry_temp/qry_temp_ch2",
+  //                                  7);
+
+  //  // Master side rpdo4 mapping
+  //  device->add_receive_pdo_mapping(0x480 + node_id, "qry_motamps/channel_1",
+  //                                  0);
+  //  device->add_receive_pdo_mapping(0x480 + node_id, "qry_motamps/channel_2",
+  //                                  2);
+  //  device->add_receive_pdo_mapping(0x480 + node_id, "qry_motpwr/channel_1",
+  //  4);
+  //  device->add_receive_pdo_mapping(0x480 + node_id, "qry_motpwr/channel_2",
+  //  6);
+  //  /// Master side RPDO mapping ends here
+
+  //  /// Device side TPDO mapping starts here. This must be in line with the
+  //  /// master side RPDOs.
+  //  // Device side tpdo1 mapping entries and mapping
+  //  // Temporarily channel 3 used for channel 2 feedback due to roboteq bug 7
+  //  const std::vector<uint32_t> tpdo1_entries_to_be_mapped{
+  //      0x21030110, 0x21030210, 0x210C0110, 0x210C0210};
+  //  map_tpdo_in_device(tpdo1, tpdo1_entries_to_be_mapped, 255, 100, 100,
+  //                     device);
+
+  //  // Device side tpdo2 mapping entries and mapping
+  //  const std::vector<uint32_t> tpdo2_entries_to_be_mapped{0x21040120,
+  //                                                         0x21040220};
+  //  map_tpdo_in_device(tpdo2, tpdo2_entries_to_be_mapped, 255, 100, 100,
+  //                     device);
+
+  //  // Device side tpdo3 mapping entries and mapping
+  //  const std::vector<uint32_t> tpdo3_entries_to_be_mapped{
+  //      0x210D0110, 0x210D0210, 0x210D0310, 0x210F0208, 0x210F0308};
+  //  map_tpdo_in_device(tpdo3, tpdo3_entries_to_be_mapped, 255, 100, 100,
+  //                     device);
+
+  //  // Device side tpdo4 mapping entries and mapping
+  //  const std::vector<uint32_t> tpdo4_entries_to_be_mapped{
+  //      0x21000110, 0x21000210, 0x21020110, 0x21020210};
+  //  map_tpdo_in_device(tpdo4, tpdo4_entries_to_be_mapped, 255, 100, 100,
+  //                     device);
+  //  /// Device side TPDO mapping ends here
 }
 
 int main() {
@@ -203,15 +272,15 @@ int main() {
           core.nmt.send_nmt_message(node_id,
                                     kaco::NMT::Command::enter_preoperational);
           initializeDevice(device, heartbeat_interval, node_id);
-          device->start();
-          printDeviceInfo(device);
           device->set_entry("controlword", static_cast<uint16_t>(0x0006),
                             kaco::WriteAccessMethod::pdo);
           int8_t set_mode_of_operation = 3;
           device->set_entry(0x6060, 0x00, set_mode_of_operation,
                             kaco::WriteAccessMethod::sdo);
+          device->request_heartbeat(heartbeat_interval);
+          device->start();
+          printDeviceInfo(device);
           device_connected = true;
-
         } catch (...) {
           std::cout << "Exception in device alive!" << std::endl;
           found_node = false;
@@ -239,8 +308,13 @@ int main() {
       std::lock_guard<std::mutex> lock(device_mutex);
 
       try {
-        std::cout << "main loop running!" << std::endl;
-
+        int32_t actual_vel =
+            device->get_entry("velocity_actual_value",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
+        uint16_t statusword = device->get_entry(
+            "statusword", kaco::ReadAccessMethod::pdo_request_and_wait);
+        std::cout << "actual achieved velocity=" << actual_vel << std::endl;
+        std::cout << "statusword=" << statusword << std::endl;
         device->set_entry("target_velocity", static_cast<int>(2000),
                           kaco::WriteAccessMethod::pdo);
         device->set_entry("controlword", static_cast<uint16_t>(0x000F),
