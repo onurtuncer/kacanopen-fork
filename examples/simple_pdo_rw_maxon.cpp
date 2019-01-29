@@ -82,8 +82,6 @@ bool printDeviceInfo(std::shared_ptr<kaco::Device> device) {
     std::cout << "* Product ID=" << product_id << std::endl;
     std::cout << "* Serial Number=" << serial_no << std::endl;
     std::cout << "* Revision Number=" << revision << std::endl;
-    //    std::cout << "* Hardware version=" << hardware_version << std::endl;
-    //    std::cout << "* Firmware version=" << firmware_version << std::endl;
     std::cout << "*************************************************************"
               << std::endl;
     std::cout << "*************************************************************"
@@ -105,10 +103,8 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
                     kaco::WriteAccessMethod::sdo);
 
   // Mater side Periodic Tranmit pdo1 value initialization
-  device->set_entry("target_velocity", 0x0, kaco::WriteAccessMethod::pdo);
-  // Mater side Periodic Tranmit pdo2 value initialization
-  //  device->set_entry("cmd_cango/cmd_cango_2", static_cast<int>(0x0),
-  //                    kaco::WriteAccessMethod::pdo);
+  device->set_entry("target_velocity", 0x0, kaco::WriteAccessMethod::sdo);
+
   // Master side tpdo1 mapping
   device->add_transmit_pdo_mapping(0x200 + node_id, {{"target_velocity", 0}},
                                    kaco::TransmissionType::PERIODIC,
@@ -202,14 +198,15 @@ int main() {
           core.nmt.send_nmt_message(node_id,
                                     kaco::NMT::Command::enter_preoperational);
           initializeDevice(device, heartbeat_interval, node_id);
-          device->start();
-          printDeviceInfo(device);
           uint16_t control_word_value = {0x0006};
           device->set_entry(0x6040, 0x00, control_word_value,
                             kaco::WriteAccessMethod::sdo);
           int8_t set_mode_of_operation = 3;
           device->set_entry(0x6060, 0x00, set_mode_of_operation,
                             kaco::WriteAccessMethod::sdo);
+          device->start();
+          printDeviceInfo(device);
+
           device_connected = true;
 
         } catch (...) {

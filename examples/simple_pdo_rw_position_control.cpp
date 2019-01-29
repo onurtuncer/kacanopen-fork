@@ -310,10 +310,6 @@ int main() {
                   << std::endl;
 
         std::cout << "Step in main!" << std::endl;
-        //        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-        //        device->set_entry("cmd_motpos/channel_1", static_cast<int>(0),
-        //                          kaco::WriteAccessMethod::pdo);
-        //        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
       } catch (...) {
         std::cout << "Exception in main!" << std::endl;
       }
