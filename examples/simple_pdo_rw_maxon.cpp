@@ -104,18 +104,62 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
 
   // Mater side Periodic Tranmit pdo1 value initialization
   device->set_entry("target_velocity", 0x0, kaco::WriteAccessMethod::sdo);
-
+  device->set_entry("controlword", static_cast<uint16_t>(0x0006),
+                    kaco::WriteAccessMethod::sdo);
   // Master side tpdo1 mapping
-  device->add_transmit_pdo_mapping(0x200 + node_id, {{"target_velocity", 0}},
-                                   kaco::TransmissionType::PERIODIC,
-                                   std::chrono::milliseconds(250));
-  /***************** TPDO MAPPING in DEVICE *****************/
-  std::vector<uint32_t> tpdo1_entries_to_be_mapped = {0x60410010, 0x606C0020};
-  map_tpdo_in_device(tpdo1, tpdo1_entries_to_be_mapped, 255, device);
+  device->add_transmit_pdo_mapping(
+      0x200 + node_id, {{"target_velocity", 0}, {"controlword", 4}},
+      kaco::TransmissionType::PERIODIC, std::chrono::milliseconds(250));
+  /// Master side RPDO mapping starts here; This must be in line with device
+  /// side TPDOs
+  // Master side rpdo1 mapping
+  device->add_receive_pdo_mapping(0x180 + node_id, "velocity_actual_value",
+                                  0);                                 // 32bit
+  device->add_receive_pdo_mapping(0x180 + node_id, "statusword", 4);  // 16bit
+  device->add_receive_pdo_mapping(0x180 + node_id, "error_code", 6);  // 16bit
+  // Master side rpdo2 mapping
+  device->add_receive_pdo_mapping(0x280 + node_id, "position_actual_value",
+                                  0);  // 32bit
+  device->add_receive_pdo_mapping(0x280 + node_id,
+                                  "current_actual_values/current_actual_value",
+                                  4);  // 32bit
+  // Master side rpdo3 mapping
+  device->add_receive_pdo_mapping(0x380 + node_id, "digital_inputs",
+                                  0);  // 32bit
+  device->add_receive_pdo_mapping(0x380 + node_id, "torque_actual_value",
+                                  4);  // 16bit
+  device->add_receive_pdo_mapping(
+      0x380 + node_id, "torque_actual_values/torque_actual_value_averaged",
+      6);  // 16bit
+  /// Master side RPDO mapping ends here
 
+  /***************** TPDO MAPPING in DEVICE *****************/
+  /// Device side TPDO mapping starts here. This must be in line with the
+  /// master side RPDOs.
+  // Device side tpdo1 mapping entries and mapping
+  std::vector<uint32_t> tpdo1_entries_to_be_mapped = {0x606C0020, 0x60410010,
+                                                      0x603F0010};
+  map_tpdo_in_device(tpdo1, tpdo1_entries_to_be_mapped, 255, device);
+  // Device side tpdo2 mapping entries and mapping
+  std::vector<uint32_t> tpdo2_entries_to_be_mapped = {0x60640020, 0x30D10220};
+  map_tpdo_in_device(tpdo2, tpdo2_entries_to_be_mapped, 255, device);
+  // Device side tpdo3 mapping entries and mapping
+  std::vector<uint32_t> tpdo3_entries_to_be_mapped = {0x60FD0020, 0x60770010,
+                                                      0x30D20110};
+  map_tpdo_in_device(tpdo3, tpdo3_entries_to_be_mapped, 255, device);
+  // Device side tpdo4 mapping entries and mapping
+  std::vector<uint32_t> tpdo4_entries_to_be_mapped = {
+      0x603F0010, 0x32010110, 60770010, 32400408, 10010008};
+  // map_tpdo_in_device(tpdo4, tpdo4_entries_to_be_mapped, 255, device);
+  /// Device side TPDO mapping ends here;
   /***************** RPDO MAPPING in DEVICE *****************/
-  std::vector<uint32_t> rpdo1_entries_to_be_mapped = {0x60FF0020};
+  /// Device side RPDO mapping starts here.This must be in line with the
+  /// master side TPDOs.
+  std::vector<uint32_t> rpdo1_entries_to_be_mapped = {
+      0x60FF0020, 0x60400010,
+  };
   map_rpdo_in_device(rpdo1, rpdo1_entries_to_be_mapped, 255, device);
+  /// Device side RPDO mapping ends here
 }
 
 int main() {
@@ -198,17 +242,15 @@ int main() {
           core.nmt.send_nmt_message(node_id,
                                     kaco::NMT::Command::enter_preoperational);
           initializeDevice(device, heartbeat_interval, node_id);
-          uint16_t control_word_value = {0x0006};
-          device->set_entry(0x6040, 0x00, control_word_value,
-                            kaco::WriteAccessMethod::sdo);
+          device->set_entry("controlword", static_cast<uint16_t>(0x0006),
+                            kaco::WriteAccessMethod::pdo);
           int8_t set_mode_of_operation = 3;
           device->set_entry(0x6060, 0x00, set_mode_of_operation,
                             kaco::WriteAccessMethod::sdo);
+          device->request_heartbeat(heartbeat_interval);
           device->start();
           printDeviceInfo(device);
-
           device_connected = true;
-
         } catch (...) {
           std::cout << "Exception in device alive!" << std::endl;
           found_node = false;
@@ -236,13 +278,41 @@ int main() {
       std::lock_guard<std::mutex> lock(device_mutex);
 
       try {
-        std::cout << "main loop running!" << std::endl;
-
+        int32_t actual_vel =
+            device->get_entry("velocity_actual_value",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
+        uint16_t statusword = device->get_entry(
+            "statusword", kaco::ReadAccessMethod::pdo_request_and_wait);
+        int32_t actual_pos =
+            device->get_entry("position_actual_value",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
+        int32_t current =
+            device->get_entry("current_actual_values/current_actual_value",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
+        int16_t torque_actual =
+            device->get_entry("torque_actual_value",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
+        double torque_to_display = static_cast<double>(torque_actual) / 1000;
+        uint16_t error_code = device->get_entry(
+            "error_code", kaco::ReadAccessMethod::pdo_request_and_wait);
+        int16_t torque_actual_average = device->get_entry(
+            "torque_actual_values/torque_actual_value_averaged",
+            kaco::ReadAccessMethod::pdo_request_and_wait);
+        double torque_to_display_avg =
+            static_cast<double>(torque_actual_average) / 1000;
+        double current_to_display = static_cast<double>(current) / 1000;
+        std::cout << "actual achieved velocity=" << actual_vel << std::endl;
+        std::cout << "position_actual_value=" << actual_pos << std::endl;
+        std::cout << "Motor Current=" << current_to_display << std::endl;
+        std::cout << "Torque Actual=" << torque_to_display << std::endl;
+        std::cout << "Torque Actual Average=" << torque_to_display_avg
+                  << std::endl;
+        std::cout << "statusword=" << statusword << std::endl;
+        std::cout << "Error Code=" << error_code << std::endl;
         device->set_entry("target_velocity", static_cast<int>(2000),
                           kaco::WriteAccessMethod::pdo);
-        uint16_t control_word_value = {0x000F};
-        device->set_entry(0x6040, 0x00, control_word_value,
-                          kaco::WriteAccessMethod::sdo);
+        device->set_entry("controlword", static_cast<uint16_t>(0x000F),
+                          kaco::WriteAccessMethod::pdo);
       } catch (...) {
         std::cout << "Exception in main!" << std::endl;
       }

@@ -300,6 +300,10 @@ class Device {
   /// example be printed via print_dictionary().
   void read_complete_dictionary();
 
+  /// Creates a separate transmit tread to send heartbeat request to the connected
+  /// slave by sendig the COB_ID as 700 with RTR bit true
+  void request_heartbeat(uint16_t heartbeat_interval);
+
   ///@}
 
  private:
@@ -329,6 +333,7 @@ class Device {
 
   void pdo_received_callback(const ReceivePDOMapping& mapping,
                              std::vector<uint8_t> data);
+  void send_heartbeat(uint16_t heartbeat_interval);
 
   static const bool debug = false;
 
@@ -348,6 +353,8 @@ class Device {
   EDSLibrary m_eds_library;
 
   std::vector<uint16_t> cob_ids_;
+  std::thread request_heartbeat_thread_;
+  std::atomic_bool terminating_;
 };
 
 }  // end namespace kaco
