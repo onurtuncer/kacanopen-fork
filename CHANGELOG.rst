@@ -2,6 +2,23 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* changed the request_heartbeat_thread\_ to smart pointer to avoid duplicate thread creation
+* added sdo transaction for clearing all possible errors in the canopen device.
+* resolved merge conflicts
+* fixed the device exception
+* added more TPDO mappingg in device
+* checked master side heartbeat
+* added master side heartbeat request method
+* mapped two  entries in master tdpo1 and  tested with EPOS4
+* added object_dictionaries folder in resources
+* added few more examples
+* replaced "CMAKE_BUILD_TYPE EQUAL" with "CMAKE_BUILD_TYPE STREQUAL" to fix the example sub directory build issue
+* overloaded map_tpdo_in_device to support maxon EPOS series
+* added new eds file for Maxon EPOS4
+* Contributors: Musarraf, Musarraf Hossain
+
 0.2.0 (2018-10-28)
 ------------------
 * Merged in hotfix/catkin-install (pull request #1)
