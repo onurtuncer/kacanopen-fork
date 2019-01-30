@@ -147,10 +147,7 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   std::vector<uint32_t> tpdo3_entries_to_be_mapped = {0x60FD0020, 0x60770010,
                                                       0x30D20110};
   map_tpdo_in_device(tpdo3, tpdo3_entries_to_be_mapped, 255, device);
-  // Device side tpdo4 mapping entries and mapping
-  std::vector<uint32_t> tpdo4_entries_to_be_mapped = {
-      0x603F0010, 0x32010110, 60770010, 32400408, 10010008};
-  // map_tpdo_in_device(tpdo4, tpdo4_entries_to_be_mapped, 255, device);
+
   /// Device side TPDO mapping ends here;
   /***************** RPDO MAPPING in DEVICE *****************/
   /// Device side RPDO mapping starts here.This must be in line with the
@@ -160,6 +157,10 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   };
   map_rpdo_in_device(rpdo1, rpdo1_entries_to_be_mapped, 255, device);
   /// Device side RPDO mapping ends here
+
+  // Try to clear all possible errors in the CANOpen device
+  device->set_entry("controlword", static_cast<uint16_t>(0x0080),
+                    kaco::WriteAccessMethod::sdo);
 }
 
 int main() {
@@ -230,9 +231,7 @@ int main() {
         std::lock_guard<std::mutex> lock(device_mutex);
         try {
           // Initialize the device
-
           device.reset(new kaco::Device(core, node_id));
-
           std::string path = ros::package::getPath("kacanopen");
           boost::filesystem::path full_path =
               path + "/resources/eds_library/MaxonMotor/maxon_motor_EPOS4.eds";
