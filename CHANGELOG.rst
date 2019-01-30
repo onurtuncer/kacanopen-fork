@@ -2,8 +2,8 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.1 (2019-01-30)
+------------------
 * changed the request_heartbeat_thread\_ to smart pointer to avoid duplicate thread creation
 * added sdo transaction for clearing all possible errors in the canopen device.
 * resolved merge conflicts
