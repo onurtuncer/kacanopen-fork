@@ -49,12 +49,12 @@ Device::Device(Core& core, uint8_t node_id)
     : m_core(core),
       m_node_id(node_id),
       m_eds_library(m_dictionary, m_name_to_address),
-      terminating_(false){}
+      terminating_(false) {}
 
 Device::~Device() {
   for (auto& cob_id : cob_ids_) m_core.pdo.remove_pdo_received_callback(cob_id);
   terminating_ = true;
-  if (request_heartbeat_thread_.joinable()) request_heartbeat_thread_.join();
+  if (request_heartbeat_thread_->joinable()) request_heartbeat_thread_->join();
 }
 
 void Device::start() {
@@ -157,10 +157,10 @@ void Device::set_entry(const uint16_t index, const uint8_t subindex,
   }
   Entry& entry = m_dictionary[Address{index, subindex}];
   if (value.type != entry.type) {
-    throw dictionary_error(
-        dictionary_error::type::wrong_type, index_string,
-        "Entry type: " + Utils::type_to_string(entry.type) +
-            ", given type: " + Utils::type_to_string(value.type));
+    throw dictionary_error(dictionary_error::type::wrong_type, index_string,
+                           "Entry type: " + Utils::type_to_string(entry.type) +
+                               ", given type: " +
+                               Utils::type_to_string(value.type));
   }
   entry.set_value(value);
   if (access_method == WriteAccessMethod::sdo ||
@@ -376,12 +376,12 @@ Value Device::get_entry_via_sdo(uint32_t index, uint8_t subindex, Type type) {
     }
   }
 
-  throw sdo_error(
-      sdo_error::type::response_timeout,
-      "Device::get_entry_via_sdo() device " + std::to_string(m_node_id) +
-          " failed after " +
-          std::to_string(Config::repeats_on_sdo_timeout + 1) +
-          " repeats. Last error: " + std::string(last_error.what()));
+  throw sdo_error(sdo_error::type::response_timeout,
+                  "Device::get_entry_via_sdo() device " +
+                      std::to_string(m_node_id) + " failed after " +
+                      std::to_string(Config::repeats_on_sdo_timeout + 1) +
+                      " repeats. Last error: " +
+                      std::string(last_error.what()));
 }
 
 void Device::set_entry_via_sdo(uint32_t index, uint8_t subindex,
@@ -406,12 +406,12 @@ void Device::set_entry_via_sdo(uint32_t index, uint8_t subindex,
     }
   }
 
-  throw sdo_error(
-      sdo_error::type::response_timeout,
-      "Device::set_entry_via_sdo() device " + std::to_string(m_node_id) +
-          " failed after " +
-          std::to_string(Config::repeats_on_sdo_timeout + 1) +
-          " repeats. Last error: " + std::string(last_error.what()));
+  throw sdo_error(sdo_error::type::response_timeout,
+                  "Device::set_entry_via_sdo() device " +
+                      std::to_string(m_node_id) + " failed after " +
+                      std::to_string(Config::repeats_on_sdo_timeout + 1) +
+                      " repeats. Last error: " +
+                      std::string(last_error.what()));
 }
 
 std::string Device::load_dictionary_from_library() {
@@ -624,8 +624,10 @@ void Device::send_heartbeat(uint16_t heartbeat_interval) {
 }
 void Device::request_heartbeat(uint16_t heartbeat_interval) {
   if (heartbeat_interval) {
-    request_heartbeat_thread_ =
-        std::thread(&Device::send_heartbeat, this, heartbeat_interval);
+    if (!request_heartbeat_thread_) {
+      request_heartbeat_thread_.reset(
+          new std::thread(&Device::send_heartbeat, this, heartbeat_interval));
+    }
   }
 }
 }  // end namespace kaco

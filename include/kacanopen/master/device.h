@@ -271,11 +271,15 @@ class Device {
   ///
   /// 	The following command maps the "Controlword" entry (2 bytes, see CiA
   /// 402)
-  ///		to the first two bytes of the PDO channel with cob_id 0x206 (RPDO1 of
-  ///CANOpen device 6), 		and the "Target Position" entry (4 bytes, see CiA 402)
-  ///to bytes 2-5 of this PDO channel. 		The PDO is sent whenever one of the
-  ///values is changed via set_entry("Controlword", ...) 		or set_entry("Target
-  ///Position", ...),
+  ///		to the first two bytes of the PDO channel with cob_id 0x206 (RPDO1
+  ///of
+  /// CANOpen device 6), 		and the "Target Position" entry (4 bytes, see CiA
+  /// 402)
+  /// to bytes 2-5 of this PDO channel. 		The PDO is sent whenever one of
+  /// the
+  /// values is changed via set_entry("Controlword", ...) 		or
+  /// set_entry("Target
+  /// Position", ...),
   ///
   /// 	device.add_transmit_pdo_mapping(0x206, {{"Controlword", 0, 0},{"Target
   /// Position", 2, 0}});
@@ -300,7 +304,8 @@ class Device {
   /// example be printed via print_dictionary().
   void read_complete_dictionary();
 
-  /// Creates a separate transmit tread to send heartbeat request to the connected
+  /// Creates a separate transmit tread to send heartbeat request to the
+  /// connected
   /// slave by sendig the COB_ID as 700 with RTR bit true
   void request_heartbeat(uint16_t heartbeat_interval);
 
@@ -353,7 +358,7 @@ class Device {
   EDSLibrary m_eds_library;
 
   std::vector<uint16_t> cob_ids_;
-  std::thread request_heartbeat_thread_;
+  std::shared_ptr<std::thread> request_heartbeat_thread_;
   std::atomic_bool terminating_;
 };
 
