@@ -55,33 +55,61 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
                       uint16_t heartbeat_interval, uint8_t node_id) {
   // Load eds file. The eds file must be in the same folder in which the
   // binary is being executed.
-  std::string path = ros::package::getPath("kacanopen_examples");
-  boost::filesystem::path full_path =
-      path + "/config/roboteq_motor_controllers_v80beta_v2.0.eds";
+  std::string path = ros::package::getPath("kacanopen");
+  boost::filesystem::path full_path = path +
+                                      "/resources/eds_library/Roboteq/"
+                                      "roboteq_motor_controllers_v2.0-30-01-"
+                                      "2019.eds";
   device->load_dictionary_from_eds(full_path.string());
 
   // set the our desired heartbeat_interval time
   device->set_entry(0x1017, 0x0, heartbeat_interval,
                     kaco::WriteAccessMethod::sdo);
-
   // Master side rpdo1 mapping
   device->add_receive_pdo_mapping(
       0x180 + node_id, "qry_abspeed_read_encoder_motor_speed/encoder_1",
       0);  // 32bit unsigned
   device->add_receive_pdo_mapping(
       0x180 + node_id, "qry_abspeed_read_encoder_motor_speed/encoder_2",
-      4);  //// 32bit unsigned
+      4);  // 32bit unsigned
 
   // Master side rpdo2 mapping
-  device->add_receive_pdo_mapping(0x280 + node_id,
-                                  "qry_volts_read_internal_voltages/v_int", 0);
-  device->add_receive_pdo_mapping(0x280 + node_id,
-                                  "qry_volts_read_internal_voltages/v_bat", 2);
-  //  device->add_receive_pdo_mapping(
-  //      0x280 + node_id, "qry_volts_read_internal_voltages/v_5vout ", 4);
-  //  device->add_receive_pdo_mapping(0x280 + node_id,
-  //                                  "qry_digout_read_current_digital_outputs",
-  //                                  6);
+  device->add_receive_pdo_mapping(
+      0x280 + node_id, "qry_abcntr_read_absolute_encoder_counter/encoder_1",
+      0);  // 32bit
+  device->add_receive_pdo_mapping(
+      0x280 + node_id, "qry_abcntr_read_absolute_encoder_counter/encoder_2",
+      4);  // 32bit
+
+  // Master side rpdo3 mapping
+  device->add_receive_pdo_mapping(0x380 + node_id,
+                                  "qry_volts_read_internal_voltages/v_int",
+                                  0);  // 16bit
+  device->add_receive_pdo_mapping(0x380 + node_id,
+                                  "qry_volts_read_internal_voltages/v_bat",
+                                  2);  // 16bit
+  device->add_receive_pdo_mapping(0x380 + node_id,
+                                  "qry_volts_read_internal_voltages/v_5vout",
+                                  4);  // 16bit
+  device->add_receive_pdo_mapping(0x380 + node_id,
+                                  "qry_temp_read_temperature/sensor_1",
+                                  6);  // 8bit
+  device->add_receive_pdo_mapping(0x380 + node_id,
+                                  "qry_temp_read_temperature/sensor_2",
+                                  7);  // 8bit
+  // Master side rpdo4 mapping
+  device->add_receive_pdo_mapping(0x480 + node_id,
+                                  "qry_motamps_read_motor_amps/channel_1",
+                                  0);  // 16bit
+  device->add_receive_pdo_mapping(0x480 + node_id,
+                                  "qry_motamps_read_motor_amps/channel_2",
+                                  2);  // 16bit
+  device->add_receive_pdo_mapping(
+      0x480 + node_id, "qry_motpwr_read_applied_power_level/channel_1",
+      4);  // 16bit
+  device->add_receive_pdo_mapping(
+      0x480 + node_id, "qry_motpwr_read_applied_power_level/channel_2",
+      6);  // 16bit
 
   // Mater side Periodic Tranmit pdo1 value initialization
   device->set_entry("cmd_cango_set_motor_command/channel_1", 0x0,
@@ -100,16 +128,26 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
       kaco::TransmissionType::PERIODIC, std::chrono::milliseconds(250));
 
   // Device side tpdo1 mapping entries and mapping
-  // Using 0x21030310 for channel2 feedback instead of 21030210 for roboteq bug
   const std::vector<uint32_t> tpdo1_entries_to_be_mapped{0x21030120,
                                                          0x21030220};
   map_tpdo_in_device(tpdo1, tpdo1_entries_to_be_mapped, 255, 100, 250, device);
 
   // Device side tpdo2 mapping entries and mapping
-  const std::vector<uint32_t> tpdo2_entries_to_be_mapped{
-      0x210D0110,
-      0x210D0210};  // 0x210D0110, 0x210D0210, 0x210D0310, 0x21130010
+  const std::vector<uint32_t> tpdo2_entries_to_be_mapped{0x21040120,
+                                                         0x21040220};
   map_tpdo_in_device(tpdo2, tpdo2_entries_to_be_mapped, 255, 100, 250, device);
+
+  // Device side tpdo3 mapping entries and mapping
+  const std::vector<uint32_t> tpdo3_entries_to_be_mapped{
+      0x210D0110, 0x210D0210, 0x210D0310, 0x210F0208, 0x210F0308};
+  map_tpdo_in_device(tpdo3, tpdo2_entries_to_be_mapped, 255, 100, 250, device);
+
+  // Device side tpdo4 mapping entries and mapping
+  const std::vector<uint32_t> tpdo4_entries_to_be_mapped{0x21020110,
+                                                         0x21000110};
+  device->set_entry(0x1A03, 0x0, 04, kaco::WriteAccessMethod::sdo);
+  map_tpdo_in_device(tpdo4, tpdo4_entries_to_be_mapped, 255, 100, 250, device);
+
   // Device side rpdo1 mapping entries and mapping
   const std::vector<uint32_t> rpdo1_entries_to_be_mapped{0x20000120};
   map_rpdo_in_device(rpdo1, rpdo1_entries_to_be_mapped, 255, device);
@@ -131,7 +169,7 @@ int main() {
   // test this program.//
 
   // The node ID of the slave we want to communicate with.
-  const uint8_t node_id = 11;
+  const uint8_t node_id = 4;
 
   // Set the name of your CAN bus. "slcan0" is a common bus name
   // for the first SocketCAN device on a Linux system.
@@ -197,16 +235,15 @@ int main() {
       }
     }
   });
-  core.nmt.register_device_dead_callback([&](const uint8_t current_node_id) {
-    if (device_connected && found_node) {
+  core.nmt.register_device_dead_callback([&](const uint8_t new_node_id) {
+    if ((device_connected && found_node) && (new_node_id == node_id)) {
       // Lock device mutex
       std::lock_guard<std::mutex> lock(device_mutex);
       // Check if our node is disconnected.
       found_node = false;
       device_connected = false;
       device.reset();
-
-      std::cout << "Device with Node ID=0x" << std::hex << current_node_id
+      std::cout << "Device with Node ID=0x" << std::hex << new_node_id
                 << " is disconnected...." << std::endl;
     }
   });
