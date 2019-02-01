@@ -420,7 +420,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1400]
-ParameterName=RPDO1 Communication Parameter
+ParameterName=1st Receive PDO Communication Parameter
 SubNumber=3
 ObjectType=0x9
 
@@ -442,7 +442,7 @@ DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
 AccessType=rw
-DefaultValue=$MY_NODE_ID+0x200
+DefaultValue=$NODEID+0x200
 PDOMapping=0
 ObjFlags=0x0
 
@@ -458,7 +458,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1401]
-ParameterName=RPDO2 Communication Parameter
+ParameterName=2nd Receive PDO Communication Parameter
 SubNumber=3
 ObjectType=0x9
 
@@ -480,7 +480,7 @@ DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
 AccessType=rw
-DefaultValue=$MY_NODE_ID+0x300
+DefaultValue=$NODEID+0x300
 PDOMapping=0
 ObjFlags=0x0
 
@@ -496,7 +496,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1402]
-ParameterName=RPDO3 Communication Parameter
+ParameterName=3rd Receive PDO Communication Parameter
 SubNumber=3
 ObjectType=0x9
 
@@ -518,7 +518,7 @@ DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
 AccessType=rw
-DefaultValue=$MY_NODE_ID+0x400
+DefaultValue=$NODEID+0x400
 PDOMapping=0
 ObjFlags=0x0
 
@@ -534,7 +534,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1403]
-ParameterName=RPDO4 Communication Parameter
+ParameterName=4th Receive PDO Communication Parameter
 SubNumber=3
 ObjectType=0x9
 
@@ -556,7 +556,7 @@ DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
 AccessType=rw
-DefaultValue=$MY_NODE_ID+0x500
+DefaultValue=$NODEID+0x500
 PDOMapping=0
 ObjFlags=0x0
 
@@ -572,7 +572,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1600]
-ParameterName=RPDO1 Mapping Parameter
+ParameterName=1st Receive PDO Mapping Parameter
 SubNumber=3
 ObjectType=0x8
 
@@ -610,7 +610,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1601]
-ParameterName=RPDO2 Mapping Parameter
+ParameterName=2nd Receive PDO Mapping Parameter
 SubNumber=3
 ObjectType=0x8
 
@@ -648,7 +648,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1602]
-ParameterName=RPDO3 Mapping Parameter
+ParameterName=3rd Receive PDO Mapping Parameter
 SubNumber=3
 ObjectType=0x8
 
@@ -686,7 +686,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1603]
-ParameterName=RPDO4 Mapping Parameter
+ParameterName=4th Receive PDO Mapping Parameter
 SubNumber=3
 ObjectType=0x8
 
@@ -724,7 +724,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1800]
-ParameterName=TPDO1 Communication Parameter
+ParameterName=1st Transmit PDO Communication Parameter
 SubNumber=5
 ObjectType=0x9
 
@@ -746,7 +746,7 @@ DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
 AccessType=rw
-DefaultValue=$MY_NODE_ID+0x40000180
+DefaultValue=$NODEID+0x40000180
 PDOMapping=0
 ObjFlags=0x0
 
@@ -784,7 +784,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1801]
-ParameterName=TPDO2 Communication Parameter
+ParameterName=2nd Transmit PDO Communication Parameter
 SubNumber=5
 ObjectType=0x9
 
@@ -806,7 +806,7 @@ DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
 AccessType=rw
-DefaultValue=$MY_NODE_ID+0x40000280
+DefaultValue=$NODEID+0x40000280
 PDOMapping=0
 ObjFlags=0x0
 
@@ -844,7 +844,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1802]
-ParameterName=TPDO3 Communication Parameter
+ParameterName=3rd Transmit PDO Communication Parameter
 SubNumber=5
 ObjectType=0x9
 
@@ -866,7 +866,7 @@ DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
 AccessType=rw
-DefaultValue=$MY_NODE_ID+0x40000380
+DefaultValue=$NODEID+0x40000380
 PDOMapping=0
 ObjFlags=0x0
 
@@ -904,7 +904,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1803]
-ParameterName=TPDO4 Communication Parameter
+ParameterName=4th Transmit PDO Communication Parameter
 SubNumber=5
 ObjectType=0x9
 
@@ -926,7 +926,7 @@ DataType=0x0007
 LowLimit=0x00000001
 HighLimit=0xFFFFFFFF
 AccessType=rw
-DefaultValue=$MY_NODE_ID+0x40000480
+DefaultValue=$NODEID+0x40000480
 PDOMapping=0
 ObjFlags=0x0
 
@@ -964,7 +964,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A00]
-ParameterName=TPDO1 Mapping Parameter
+ParameterName=1st Transmit PDO Mapping Parameter
 SubNumber=3
 ObjectType=0x8
 
@@ -1001,8 +1001,41 @@ DefaultValue=0x21060220
 PDOMapping=0
 ObjFlags=0x0
 
+[1A00sub3]
+ParameterName=PDO Mapping Entry - Qry_VAR 2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060220
+PDOMapping=0
+ObjFlags=0x0
+
+[1A00sub4]
+ParameterName=PDO Mapping Entry - Qry_VAR 2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060220
+PDOMapping=0
+ObjFlags=0x0
+
+[1A00sub5]
+ParameterName=PDO Mapping Entry - Qry_VAR 2
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060220
+PDOMapping=0
+ObjFlags=0x0
+
 [1A01]
-ParameterName=TPDO2 Mapping Parameter
+ParameterName=2nd Transmit PDO Mapping Parameter
 SubNumber=3
 ObjectType=0x8
 
@@ -1039,10 +1072,42 @@ DefaultValue=0x21060420
 PDOMapping=0
 ObjFlags=0x0
 
+[1A01sub3]
+ParameterName=PDO Mapping Entry - Qry_VAR 4
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060420
+PDOMapping=0
+ObjFlags=0x0
+
+[1A01sub4]
+ParameterName=PDO Mapping Entry - Qry_VAR 4
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060420
+PDOMapping=0
+ObjFlags=0x0
 [1A02]
-ParameterName=TPDO3 Mapping Parameter
+ParameterName=3rd Transmit PDO Mapping Parameter
 SubNumber=3
 ObjectType=0x8
+
+[1A01sub5]
+ParameterName=PDO Mapping Entry - Qry_VAR 4
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060420
+PDOMapping=0
+ObjFlags=0x0
 
 [1A02sub0]
 ParameterName=Number of entries
@@ -1077,8 +1142,41 @@ DefaultValue=0x21060620
 PDOMapping=0
 ObjFlags=0x0
 
+[1A02sub3]
+ParameterName=PDO Mapping Entry - Qry_VAR 6
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060620
+PDOMapping=0
+ObjFlags=0x0
+
+[1A02sub4]
+ParameterName=PDO Mapping Entry - Qry_VAR 6
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060620
+PDOMapping=0
+ObjFlags=0x0
+
+[1A02sub5]
+ParameterName=PDO Mapping Entry - Qry_VAR 6
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060620
+PDOMapping=0
+ObjFlags=0x0
+
 [1A03]
-ParameterName=TPDO4 Mapping Parameter
+ParameterName=4th Transmit PDO Mapping Parameter
 SubNumber=3
 ObjectType=0x8
 
@@ -1114,6 +1212,111 @@ AccessType=rw
 DefaultValue=0x21060820
 PDOMapping=0
 ObjFlags=0x0
+
+[1A03sub3]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A03sub4]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A03sub5]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A04]
+ParameterName=5th Transmit PDO Mapping Parameter
+SubNumber=3
+ObjectType=0x8
+
+[1A04sub0]
+ParameterName=Number of entries
+ObjectType=0x7
+DataType=0x0005
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x02
+PDOMapping=0
+ObjFlags=0x0
+
+[1A04sub1]
+ParameterName=PDO Mapping Entry - Qry_VAR 7
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060720
+PDOMapping=0
+ObjFlags=0x0
+
+[1A04sub2]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A04sub3]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A04sub4]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A04sub5]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
 
 [6040]
 ParameterName=Control Word 1
