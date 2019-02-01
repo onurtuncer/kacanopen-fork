@@ -133,19 +133,21 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   map_tpdo_in_device(tpdo1, tpdo1_entries_to_be_mapped, 255, 100, 250, device);
 
   // Device side tpdo2 mapping entries and mapping
-  const std::vector<uint32_t> tpdo2_entries_to_be_mapped{0x21040120,
-                                                         0x21040220};
+  const std::vector<uint32_t> tpdo2_entries_to_be_mapped{
+      0x21040120, 0x21040220,
+  };
   map_tpdo_in_device(tpdo2, tpdo2_entries_to_be_mapped, 255, 100, 250, device);
 
   // Device side tpdo3 mapping entries and mapping
   const std::vector<uint32_t> tpdo3_entries_to_be_mapped{
       0x210D0110, 0x210D0210, 0x210D0310, 0x210F0208, 0x210F0308};
-  map_tpdo_in_device(tpdo3, tpdo2_entries_to_be_mapped, 255, 100, 250, device);
+  const std::vector<uint32_t> tpdo3_test_entries{0x210D0110, 0x210D0210,
+                                                 0x210D0110, 0x210D0210};
+  map_tpdo_in_device(tpdo3, tpdo3_entries_to_be_mapped, 255, 100, 250, device);
 
   // Device side tpdo4 mapping entries and mapping
-  const std::vector<uint32_t> tpdo4_entries_to_be_mapped{0x21020110,
-                                                         0x21000110};
-  device->set_entry(0x1A03, 0x0, 04, kaco::WriteAccessMethod::sdo);
+  const std::vector<uint32_t> tpdo4_entries_to_be_mapped{
+      0x21000110, 0x21000210, 0x21020110, 0x21020210};
   map_tpdo_in_device(tpdo4, tpdo4_entries_to_be_mapped, 255, 100, 250, device);
 
   // Device side rpdo1 mapping entries and mapping
@@ -294,35 +296,32 @@ int main() {
                               kaco::ReadAccessMethod::pdo_request_and_wait);
         std::cout << "Channel 2 speed feedback = " << std::dec
                   << ch2_speed_feedback << std::endl;
-        //        auto v_int =
-        //            device->get_entry("qry_volts_read_internal_voltages/v_int",
-        //                              kaco::ReadAccessMethod::pdo_request_and_wait);
-        //        std::cout << "Internal Voltage = " << std::dec
-        //                  << static_cast<float>(static_cast<float>(v_int) /
-        //                                        static_cast<float>(10))
-        //                  << "V" << std::endl;
-        //        auto v_bat =
-        //            device->get_entry("qry_volts_read_internal_voltages/v_bat",
-        //                              kaco::ReadAccessMethod::pdo_request_and_wait);
-        //        std::cout << "Battery Voltage = " << std::dec
-        //                  << static_cast<float>(static_cast<float>(v_bat) /
-        //                                        static_cast<float>(10))
-        //                  << "V" << std::endl;
-        //        uint16_t v_5vout = device->get_entry(
-        //            "qry_volts/v_5vout",
-        //            kaco::ReadAccessMethod::pdo_request_and_wait);
-        //        std::cout << "Internal 5V supply = " << std::dec
-        //                  << static_cast<float>(static_cast<float>(v_5vout) /
-        //                                        static_cast<float>(1000))
-        //                  << "V" << std::endl;
-        //        uint16_t digout = device->get_entry(
-        //            "qry_digout",
-        //            kaco::ReadAccessMethod::pdo_request_and_wait);
-        //        std::cout << "Status of Digital Outs = " << std::hex << digout
-        //        << ""
-        //                  << std::endl;
-
-        // std::cout << "Step in main!" << std::endl;
+        uint16_t v_int =
+            device->get_entry("qry_volts_read_internal_voltages/v_int",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
+        std::cout << "Internal Voltage = " << std::dec
+                  << static_cast<float>(static_cast<float>(v_int) /
+                                        static_cast<float>(10))
+                  << "V" << std::endl;
+        uint16_t v_bat =
+            device->get_entry("qry_volts_read_internal_voltages/v_bat",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
+        std::cout << "Battery Voltage = " << std::dec
+                  << static_cast<float>(static_cast<float>(v_bat) /
+                                        static_cast<float>(10))
+                  << "V" << std::endl;
+        uint16_t v_5vout =
+            device->get_entry("qry_volts_read_internal_voltages/v_5vout",
+                              kaco::ReadAccessMethod::pdo_request_and_wait);
+        std::cout << "Internal 5V supply = " << std::dec
+                  << static_cast<float>(static_cast<float>(v_5vout) /
+                                        static_cast<float>(1000))
+                  << "V" << std::endl;
+        uint16_t digout =
+            device->get_entry("qry_digout_read_current_digital_outputs",
+                              kaco::ReadAccessMethod::sdo);
+        std::cout << "Status of Digital Outs = " << std::hex << digout << ""
+                  << std::endl;
       } catch (...) {
         std::cout << "Exception in main!" << std::endl;
       }
