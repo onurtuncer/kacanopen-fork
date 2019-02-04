@@ -64,15 +64,15 @@ int main() {
 
   // Set the name of your CAN bus. "slcan0" is a common bus name
   // for the first SocketCAN device on a Linux system.
-  const std::string busname = "can0";
+  const std::string busname = "slcan0";
 
   // Set the baudrate of your CAN bus. Most drivers support the values
   // "1M", "500K", "125K", "100K", "50K", "20K", "10K" and "5K".
   const std::string baudrate = "500K";
 
   const uint16_t index_Qry_DIGIN = 0x210E;
-  const uint16_t index_ch1_speed = 0x2000;
-  const uint16_t index_ch2_speed = 0x2000;
+  const uint16_t index_ch1_speed = 0x1000;
+  const uint16_t index_ch2_speed = 0x1000;
   const uint16_t index_ch1_speed_feedback = 0x2103;
   const uint16_t index_ch2_speed_feedback = 0x2103;
   const uint16_t index_ch1_Battery_Amps = 0x210C;
@@ -121,8 +121,8 @@ int main() {
   std::cout << "Registering a callback which is called when a device is "
                "detected via NMT..."
             << std::endl;
-  core.nmt.register_device_alive_callback([&](const uint8_t
-                                                  new_node_id) mutable {
+  core.nmt.register_device_alive_callback([&](
+      const uint8_t new_node_id) mutable {
     // Check if this is the node we are looking for.
     if (new_node_id == node_id) {
       if (!found_node) {
@@ -131,9 +131,10 @@ int main() {
         // Load eds file. The eds file must be in the same folder in which the
         // binary is being executed.
         std::string path = ros::package::getPath("kacanopen");
-        boost::filesystem::path full_path =
-            path +
-            "resources/eds_library/roboteq_motor_controllers_v80beta.eds";
+        boost::filesystem::path full_path = path +
+                                            "/resources/eds_library/Roboteq/"
+                                            "roboteq_motor_controllers_v80beta."
+                                            "eds";
         device->load_dictionary_from_eds(full_path.string());
         device->start();
         // device->load_dictionary_from_library();
