@@ -269,6 +269,39 @@ void Device::add_receive_pdo_mapping(
   m_core.pdo.add_pdo_received_callback(cob_id, std::move(binding));
 }
 
+void Device::add_receive_pdo_mapping(uint16_t cob_id,
+                                      uint16_t entry_index,
+                                      uint8_t entry_subindex,
+                                     uint8_t offset) {
+  Address  entry_addresss_temp;
+  entry_addresss_temp.index=entry_index;
+  entry_addresss_temp.subindex=entry_subindex;
+  Address & entry_addresss=entry_addresss_temp;
+  Entry& entry = m_dictionary[entry_addresss];
+  const uint8_t type_size = Utils::get_type_size(entry.type);
+
+  if (offset + type_size > 8) {
+    throw dictionary_error(dictionary_error::type::mapping_size, entry.name,
+                           "offset (" + std::to_string(offset) +
+                               ") + type_size (" + std::to_string(type_size) +
+                               ") > 8.");
+  }
+
+  ReceivePDOMapping* pdo_temp;
+
+  {
+    std::lock_guard<std::mutex> lock(m_receive_pdo_mappings_mutex);
+    m_receive_pdo_mappings.push_front({cob_id, entry.name, offset});
+    pdo_temp = &m_receive_pdo_mappings.front();
+  }
+
+  ReceivePDOMapping& pdo = *pdo_temp;
+  auto binding = std::bind(&Device::pdo_received_callback, this, pdo,
+                           std::placeholders::_1);
+  cob_ids_.push_back(cob_id);
+  m_core.pdo.add_pdo_received_callback(cob_id, std::move(binding));
+}
+
 void Device::add_transmit_pdo_mapping(uint16_t cob_id,
                                       const std::vector<Mapping>& mappings,
                                       TransmissionType transmission_type,
