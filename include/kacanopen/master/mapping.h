@@ -48,4 +48,15 @@ struct Mapping {
   uint8_t offset;
 };
 
+struct MappingByIndex {
+  /// Index of the mapped dictionary entry.
+  uint16_t entry_index;
+
+  /// Sub index of the mapped entry
+  uint8_t entry_subindex;
+
+  /// index of the first mapped byte in the PDO message
+  uint8_t offset;
+};
+
 }  // end namespace kaco
