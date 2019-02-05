@@ -355,6 +355,74 @@ void Device::add_transmit_pdo_mapping(uint16_t cob_id,
   }
 }
 
+void Device::add_transmit_pdo_mapping(
+    uint16_t cob_id, const std::vector<MappingByIndex>& mappings_by_index,
+    TransmissionType transmission_type, std::chrono::milliseconds repeat_time) {
+
+  TransmitPDOMapping* pdo_temp;
+
+  // Wrap MappingByIndex to Mapping
+  std::vector<Mapping> mappings;
+
+  for (auto i : mappings_by_index) {
+    Address entry_addresss_temp;
+    entry_addresss_temp.index = i.entry_index;
+    entry_addresss_temp.subindex = i.entry_subindex;
+    Address& entry_addresss = entry_addresss_temp;
+    Entry& entry = m_dictionary[entry_addresss];
+    Mapping mapping_entry_temp;
+    mapping_entry_temp.entry_name = entry.name;
+    mapping_entry_temp.offset = i.offset;
+    mappings.push_back(mapping_entry_temp);
+  }
+
+  {
+    std::lock_guard<std::mutex> lock(
+        m_transmit_pdo_mappings_mutex);  // unlocks in case of exception
+    // Contructor can throw dictionary_error. Letting user handle this.
+    m_transmit_pdo_mappings.emplace_front(
+        m_core, m_dictionary, m_name_to_address, cob_id, transmission_type,
+        repeat_time, mappings);
+    pdo_temp = &m_transmit_pdo_mappings.front();
+  }
+
+  TransmitPDOMapping& pdo = *pdo_temp;
+
+  if (transmission_type == TransmissionType::ON_CHANGE) {
+    for (const Mapping& mapping : pdo.mappings) {
+      const std::string entry_name = Utils::escape(mapping.entry_name);
+
+      // entry exists because check_correctness() == true.
+      Entry& entry = m_dictionary.at(m_name_to_address.at(entry_name));
+
+      entry.add_value_changed_callback([entry_name, &pdo](const Value& value) {
+        DEBUG_LOG("[Callback] Value of " << entry_name << " changed to "
+                                         << value);
+        pdo.send();
+      });
+    }
+
+  } else {
+    // transmission_type==TransmissionType::PERIODIC
+
+    if (repeat_time == std::chrono::milliseconds(0)) {
+      WARN(
+          "[Device::add_transmit_pdo_mapping] Repeat time is 0. This could "
+          "overload the bus.");
+    }
+
+    pdo.run_periodic_transmitter = true;
+    pdo.periodic_transmitter =
+        std::unique_ptr<std::thread>(new std::thread([&pdo, repeat_time]() {
+          while (pdo.run_periodic_transmitter) {
+            DEBUG_LOG("[Timer thread] Sending periodic PDO.");
+            pdo.send();
+            std::this_thread::sleep_for(repeat_time);
+          }
+        }));
+  }
+}
+
 void Device::pdo_received_callback(const ReceivePDOMapping& mapping,
                                    std::vector<uint8_t> data) {
   DEBUG_LOG("[Device::pdo_received_callback] Received a PDO for mapping '"
