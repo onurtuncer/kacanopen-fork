@@ -297,6 +297,11 @@ class Device {
       TransmissionType transmission_type = TransmissionType::ON_CHANGE,
       std::chrono::milliseconds repeat_time = std::chrono::milliseconds(0));
 
+  void add_transmit_pdo_mapping(
+      uint16_t cob_id, const std::vector<MappingByIndex>& mappings_by_index,
+      TransmissionType transmission_type = TransmissionType::ON_CHANGE,
+      std::chrono::milliseconds repeat_time = std::chrono::milliseconds(0));
+
   /// Prints the dictionary together with currently cached values to command
   /// line.
   void print_dictionary() const;
