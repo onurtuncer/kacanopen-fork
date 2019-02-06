@@ -263,8 +263,8 @@ class Device {
       uint16_t cob_id, const std::string& entry_name, uint8_t offset,
       std::function<void(const ReceivePDOMapping&, std::vector<uint8_t>)>
           funtion);
-  void add_receive_pdo_mapping(uint16_t cob_id, const uint16_t entry_index,
-                               const uint8_t entry_subindex, uint8_t offset);
+  void add_receive_pdo_mapping(uint16_t cob_id, uint16_t entry_index,
+                               uint8_t entry_subindex, uint8_t offset);
 
   /// Adds a transmit PDO mapping. This means values from the dictionary cache
   /// are sent to the device.

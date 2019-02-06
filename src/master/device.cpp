@@ -269,13 +269,9 @@ void Device::add_receive_pdo_mapping(
   m_core.pdo.add_pdo_received_callback(cob_id, std::move(binding));
 }
 
-void Device::add_receive_pdo_mapping(uint16_t cob_id,
-                                      uint16_t entry_index,
-                                      uint8_t entry_subindex,
-                                     uint8_t offset) {
-  Address  entry_addresss_temp;
-  entry_addresss_temp.index=entry_index;
-  entry_addresss_temp.subindex=entry_subindex;
+void Device::add_receive_pdo_mapping(uint16_t cob_id, uint16_t entry_index,
+                                     uint8_t entry_subindex, uint8_t offset) {
+  Address entry_addresss_temp {entry_index, entry_subindex};
   Address & entry_addresss=entry_addresss_temp;
   Entry& entry = m_dictionary[entry_addresss];
   const uint8_t type_size = Utils::get_type_size(entry.type);
@@ -365,9 +361,7 @@ void Device::add_transmit_pdo_mapping(
   std::vector<Mapping> mappings;
 
   for (auto i : mappings_by_index) {
-    Address entry_addresss_temp;
-    entry_addresss_temp.index = i.entry_index;
-    entry_addresss_temp.subindex = i.entry_subindex;
+    Address entry_addresss_temp {i.entry_index, i.entry_subindex};
     Address& entry_addresss = entry_addresss_temp;
     Entry& entry = m_dictionary[entry_addresss];
     Mapping mapping_entry_temp;
