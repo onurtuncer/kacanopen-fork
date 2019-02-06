@@ -1,205 +1,840 @@
-Starting Core (connect to the driver and start the receiver thread)...
-Registering a callback which is called when a device is detected via NMT...
-Giving the devices one second time to respond...
+
+*******************************************************
+*******************************************************
+* Device Profile number found CiA-402
+* Device Name found as 'RoboMC'
+* Hardware version=1.0
+* Firmware version=1.0
+*******************************************************
+*******************************************************
+
+
+Dumping Manufacturer device name 
+device->get_entry( "Manufacturer device name") = RoboMC
+Dumping Manufacturer software version 
+device->get_entry("Manufacturer software version") = 8.0
+read_state_16_input_lines/number_of_elements.. 
 Printing Device Object Dictionary
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = -1
-Channel 2 Battery Amps in decimal = -1
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 240
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = -1
-Channel 2 Battery Amps in decimal = -1
-Digital input status = 80
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 585
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = -1
-Channel 2 Battery Amps in decimal = -1
-Digital input status = 40
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 690
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = -1
-Digital input status = 0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 915
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = -1
-Digital input status = 0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 1155
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = -1
-Digital input status = 40
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = -65551
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = -1
-Channel 2 Battery Amps in decimal = -1
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = -1
-Channel 2 Battery Amps in decimal = -1
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = -1
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = -1
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = -1
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Sending speed reference to Roboteq channel 1...[34,f3,ff,ff]
-Sending speed reference to Roboteq channel 2...[cc,c,0,0]
-Reading the sdo at 2103....
-Channel 1 speed in decimal = 0
-Channel 2 speed in hex= 0
-Channel 1 Battery Amps in decimal = 0
-Channel 2 Battery Amps in decimal = 0
-Digital input status = c0
-Finished.
+0x1000/0	ro	device_type                                                                 402       
+0x1001/0	ro	error_register                                                              empty     
+0x1002/0	ro	manufacturer_status_register                                                empty     
+0x1003/0	rw	pre_defined_error_field/number_of_errors                                    empty     
+0x1003/1	ro	pre_defined_error_field/standard_error_field                                empty     
+0x1003/2	ro	pre_defined_error_field/standard_error_field_2                              empty     
+0x1003/3	ro	pre_defined_error_field/standard_error_field_3                              empty     
+0x1003/4	ro	pre_defined_error_field/standard_error_field_4                              empty     
+0x1005/0	rw	cob_id_sync                                                                 empty     
+0x1006/0	rw	communication_cycle_period                                                  empty     
+0x1007/0	rw	synchronous_window_length                                                   empty     
+0x1008/0	const	manufacturer_device_name                                                    RoboMC    
+0x1009/0	const	manufacturer_hardware_version                                               empty     
+0x100a/0	const	manufacturer_software_version                                               8.0       
+0x100c/0	rw	guard_time                                                                  empty     
+0x100d/0	rw	life_time_factor                                                            empty     
+0x1010/0	const	store_parameters/highest_sub_index_supported                                empty     
+0x1010/1	rw	store_parameters/save_all_parameters                                        empty     
+0x1010/2	rw	store_parameters/save_communication_parameters                              empty     
+0x1010/3	rw	store_parameters/save_application_parameters                                empty     
+0x1010/4	rw	store_parameters/save_manufacturer_defined_parameters                       empty     
+0x1011/0	const	restore_default_parameters/highest_sub_index_supported                      empty     
+0x1011/1	rw	restore_default_parameters/restore_all_default_parameters                   empty     
+0x1011/2	rw	restore_default_parameters/restore_communication_default_parameters         empty     
+0x1011/3	rw	restore_default_parameters/restore_application_default_parameters           empty     
+0x1011/4	rw	restore_default_parameters/restore_manufacturer_defined_default_parameters  empty     
+0x1012/0	rw	cob_id_time_stamp_message                                                   empty     
+0x1013/0	rw	high_resolution_time_stamp                                                  empty     
+0x1014/0	rw	cob_id_emergency_message                                                    empty     
+0x1015/0	rw	inhibit_time_emcy                                                           empty     
+0x1016/0	ro	consumer_heartbeat_time/number_of_entries                                   empty     
+0x1016/1	rw	consumer_heartbeat_time/consumer_heartbeat_time                             empty     
+0x1016/2	rw	consumer_heartbeat_time/consumer_heartbeat_time_1                           empty     
+0x1016/3	rw	consumer_heartbeat_time/consumer_heartbeat_time_2                           empty     
+0x1016/4	rw	consumer_heartbeat_time/consumer_heartbeat_time_3                           empty     
+0x1017/0	rw	producer_heartbeat_time                                                     empty     
+0x1018/0	ro	identity_object/number_of_entries                                           empty     
+0x1018/1	const	identity_object/vendor_id                                                   empty     
+0x1018/2	ro	identity_object/product_code                                                empty     
+0x1018/3	ro	identity_object/revision_number                                             empty     
+0x1018/4	ro	identity_object/serial_number                                               empty     
+0x1019/0	rw	synchronous_counter_overflow_value                                          empty     
+0x1020/0	const	verify_configuration/highest_sub_index_supported                            empty     
+0x1020/1	rw	verify_configuration/configuration_date                                     empty     
+0x1020/2	rw	verify_configuration/configuration_time                                     empty     
+0x1022/0	ro	store_format                                                                empty     
+0x1023/0	const	os_command/highest_sub_index_supported                                      empty     
+0x1023/1	rw	os_command/command                                                          empty     
+0x1023/2	ro	os_command/status                                                           empty     
+0x1023/3	ro	os_command/reply                                                            empty     
+0x1024/0	wo	os_command_mode                                                             empty     
+0x1025/0	const	os_debugger_interface/highest_sub_index_supported                           empty     
+0x1025/1	rw	os_debugger_interface/command                                               empty     
+0x1025/2	ro	os_debugger_interface/status                                                empty     
+0x1025/3	ro	os_debugger_interface/reply                                                 empty     
+0x1026/0	const	os_prompt/highest_sub_index_supported                                       empty     
+0x1026/1	wo	os_prompt/stdin                                                             empty     
+0x1026/2	ro	os_prompt/stdout                                                            empty     
+0x1026/3	ro	os_prompt/stderr                                                            empty     
+0x1027/0	const	module_list/number_of_connected_modules                                     empty     
+0x1027/1	ro	module_list/module_1                                                        empty     
+0x1027/2	ro	module_list/module_2_to_module_254                                          empty     
+0x1028/0	const	emergency_consumer/highest_sub_index_supported                              empty     
+0x1028/1	rw	emergency_consumer/emergency_consumer_1                                     empty     
+0x1028/2	rw	emergency_consumer/emergency_consumer_2_to_127                              empty     
+0x1029/0	const	error_behavior/highest_sub_index_supported                                  empty     
+0x1029/1	rw	error_behavior/communication_error                                          empty     
+0x1029/2	rw	error_behavior/profile__or_manufacturer_specific_error                      empty     
+0x1200/0	const	sdo_server_parameter/highest_sub_index_supported                            empty     
+0x1200/1	rw	sdo_server_parameter/cob_id_client__>_server_(rx)                           empty     
+0x1200/2	rw	sdo_server_parameter/cob_id_server__>_client_(tx)                           empty     
+0x1200/3	rw	sdo_server_parameter/node_id_of_the_sdo_client                              empty     
+0x1280/0	const	sdo_client_parameter/highest_sub_index_supported                            empty     
+0x1280/1	rw	sdo_client_parameter/cob_id_client__>_server_(tx)                           empty     
+0x1280/2	rw	sdo_client_parameter/cob_id_server__>_client_(rx)                           empty     
+0x1280/3	rw	sdo_client_parameter/node_id_of_the_sdo_server                              empty     
+0x1400/0	ro	rpdo1_communication_parameter/number_of_entries                             empty     
+0x1400/1	rw	rpdo1_communication_parameter/cob_id                                        empty     
+0x1400/2	rw	rpdo1_communication_parameter/transmission_type                             empty     
+0x1400/3	rw	rpdo_communication_parameter/inhibit_time                                   empty     
+0x1400/4	rw	rpdo_communication_parameter/compatibility_entry                            empty     
+0x1400/5	rw	rpdo_communication_parameter/event_timer                                    empty     
+0x1400/6	rw	rpdo_communication_parameter/sync_start_value                               empty     
+0x1401/0	ro	rpdo2_communication_parameter/number_of_entries                             empty     
+0x1401/1	rw	rpdo2_communication_parameter/cob_id                                        empty     
+0x1401/2	rw	rpdo2_communication_parameter/transmission_type                             empty     
+0x1402/0	ro	rpdo3_communication_parameter/number_of_entries                             empty     
+0x1402/1	rw	rpdo3_communication_parameter/cob_id                                        empty     
+0x1402/2	rw	rpdo3_communication_parameter/transmission_type                             empty     
+0x1403/0	ro	rpdo4_communication_parameter/number_of_entries                             empty     
+0x1403/1	rw	rpdo4_communication_parameter/cob_id                                        empty     
+0x1403/2	rw	rpdo4_communication_parameter/transmission_type                             empty     
+0x1600/0	rw	rpdo1_mapping_parameter/number_of_entries                                   empty     
+0x1600/1	rw	rpdo1_mapping_parameter/pdo_mapping_entry___cmd_var_9                       empty     
+0x1600/2	rw	rpdo1_mapping_parameter/pdo_mapping_entry___cmd_var_10                      empty     
+0x1601/0	rw	rpdo2_mapping_parameter/number_of_entries                                   empty     
+0x1601/1	rw	rpdo2_mapping_parameter/pdo_mapping_entry___cmd_var_11                      empty     
+0x1601/2	rw	rpdo2_mapping_parameter/pdo_mapping_entry___cmd_var_12                      empty     
+0x1602/0	rw	rpdo3_mapping_parameter/number_of_entries                                   empty     
+0x1602/1	rw	rpdo3_mapping_parameter/pdo_mapping_entry___cmd_var_13                      empty     
+0x1602/2	rw	rpdo3_mapping_parameter/pdo_mapping_entry___cmd_var_14                      empty     
+0x1603/0	rw	rpdo4_mapping_parameter/number_of_entries                                   empty     
+0x1603/1	rw	rpdo4_mapping_parameter/pdo_mapping_entry___cmd_var_15                      empty     
+0x1603/2	rw	rpdo4_mapping_parameter/pdo_mapping_entry___cmd_var_16                      empty     
+0x1800/0	ro	tpdo1_communication_parameter/number_of_entries                             empty     
+0x1800/1	rw	tpdo1_communication_parameter/cob_id                                        empty     
+0x1800/2	rw	tpdo1_communication_parameter/transmission_type                             empty     
+0x1800/3	rw	tpdo1_communication_parameter/inhibit_time                                  empty     
+0x1800/4	rw	tpdo_communication_parameter/reserved                                       empty     
+0x1800/5	rw	tpdo1_communication_parameter/event_timer                                   empty     
+0x1800/6	rw	tpdo_communication_parameter/sync_start_value                               empty     
+0x1801/0	ro	tpdo2_communication_parameter/number_of_entries                             empty     
+0x1801/1	rw	tpdo2_communication_parameter/cob_id                                        empty     
+0x1801/2	rw	tpdo2_communication_parameter/transmission_type                             empty     
+0x1801/3	rw	tpdo2_communication_parameter/inhibit_time                                  empty     
+0x1801/5	rw	tpdo2_communication_parameter/event_timer                                   empty     
+0x1802/0	ro	tpdo3_communication_parameter/number_of_entries                             empty     
+0x1802/1	rw	tpdo3_communication_parameter/cob_id                                        empty     
+0x1802/2	rw	tpdo3_communication_parameter/transmission_type                             empty     
+0x1802/3	rw	tpdo3_communication_parameter/inhibit_time                                  empty     
+0x1802/5	rw	tpdo3_communication_parameter/event_timer                                   empty     
+0x1803/0	ro	tpdo4_communication_parameter/number_of_entries                             empty     
+0x1803/1	rw	tpdo4_communication_parameter/cob_id                                        empty     
+0x1803/2	rw	tpdo4_communication_parameter/transmission_type                             empty     
+0x1803/3	rw	tpdo4_communication_parameter/inhibit_time                                  empty     
+0x1803/5	rw	tpdo4_communication_parameter/event_timer                                   empty     
+0x1a00/0	rw	tpdo1_mapping_parameter/number_of_entries                                   empty     
+0x1a00/1	rw	tpdo1_mapping_parameter/pdo_mapping_entry___qry_var_1                       empty     
+0x1a00/2	rw	tpdo1_mapping_parameter/pdo_mapping_entry___qry_var_2                       empty     
+0x1a01/0	rw	tpdo2_mapping_parameter/number_of_entries                                   empty     
+0x1a01/1	rw	tpdo2_mapping_parameter/pdo_mapping_entry___qry_var_3                       empty     
+0x1a01/2	rw	tpdo2_mapping_parameter/pdo_mapping_entry___qry_var_4                       empty     
+0x1a02/0	rw	tpdo3_mapping_parameter/number_of_entries                                   empty     
+0x1a02/1	rw	tpdo3_mapping_parameter/pdo_mapping_entry___qry_var_5                       empty     
+0x1a02/2	rw	tpdo3_mapping_parameter/pdo_mapping_entry___qry_var_6                       empty     
+0x1a03/0	rw	tpdo4_mapping_parameter/number_of_entries                                   empty     
+0x1a03/1	rw	tpdo4_mapping_parameter/pdo_mapping_entry___qry_var_7                       empty     
+0x1a03/2	rw	tpdo4_mapping_parameter/pdo_mapping_entry___qry_var_8                       empty     
+0x1fa0/0	const	object_scanner_list/highest_sub_index_supported                             empty     
+0x1fa0/1	rw	object_scanner_list/scan_1                                                  empty     
+0x1fa0/2	rw	object_scanner_list/scan_2_to_scan_254                                      empty     
+0x1fd0/0	const	object_dispatching_list/highest_sub_index_support                           empty     
+0x1fd0/1	rw	object_dispatching_list/dispatch_1                                          empty     
+0x1fd0/2	rw	object_dispatching_list/dispatch_2_to_dispatch_254                          empty     
+0x2000/0	ro	cmd_cango_set_motor_command/number_of_entries                               empty     
+0x2000/1	wo	cmd_cango_set_motor_command/channel_1                                       empty     
+0x2000/2	wo	cmd_cango_set_motor_command/channel_2                                       empty     
+0x2000/3	wo	cmd_cango_set_motor_command/channel_3                                       empty     
+0x2001/0	ro	cmd_motpos_set_position/number_of_entries                                   empty     
+0x2001/1	wo	cmd_motpos_set_position/channel_1                                           empty     
+0x2001/2	wo	cmd_motpos_set_position/channel_2                                           empty     
+0x2001/3	wo	cmd_motpos_set_position/channel_3                                           empty     
+0x2002/0	ro	cmd_motvel_set_velocity/number_of_entries                                   empty     
+0x2002/1	wo	cmd_motvel_set_velocity/channel_1                                           empty     
+0x2002/2	wo	cmd_motvel_set_velocity/channel_2                                           empty     
+0x2002/3	wo	cmd_motvel_set_velocity/channel_3                                           empty     
+0x2003/0	ro	cmd_sencntr_set_encoder_counter/number_of_entries                           empty     
+0x2003/1	wo	cmd_sencntr_set_encoder_counter/encoder_1                                   empty     
+0x2003/2	wo	cmd_sencntr_set_encoder_counter/encoder_2                                   empty     
+0x2003/3	wo	cmd_sencntr_set_encoder_counter/encoder_3                                   empty     
+0x2004/0	ro	cmd_sblcntr_set_brushless_counter/number_of_entries                         empty     
+0x2004/1	wo	cmd_sblcntr_set_brushless_counter/channel_1                                 empty     
+0x2004/2	wo	cmd_sblcntr_set_brushless_counter/channel_2                                 empty     
+0x2004/3	wo	cmd_sblcntr_set_brushless_counter/channel_3                                 empty     
+0x2005/0	ro	cmd_var_set_user_integer_variable/number_of_entries                         empty     
+0x2005/1	wo	cmd_var_set_user_integer_variable/user_integer_variable_1                   empty     
+0x2005/2	wo	cmd_var_set_user_integer_variable/user_integer_variable_2                   empty     
+0x2005/3	wo	cmd_var_set_user_integer_variable/user_integer_variable_3                   empty     
+0x2005/4	wo	cmd_var_set_user_integer_variable/user_integer_variable_4                   empty     
+0x2005/5	wo	cmd_var_set_user_integer_variable/user_integer_variable_5                   empty     
+0x2005/6	wo	cmd_var_set_user_integer_variable/user_integer_variable_6                   empty     
+0x2005/7	wo	cmd_var_set_user_integer_variable/user_integer_variable_7                   empty     
+0x2005/8	wo	cmd_var_set_user_integer_variable/user_integer_variable_8                   empty     
+0x2005/9	wo	cmd_var_set_user_integer_variable/user_integer_variable_9                   empty     
+0x2005/10	wo	cmd_var_set_user_integer_variable/user_integer_variable_10                  empty     
+0x2005/11	wo	cmd_var_set_user_integer_variable/user_integer_variable_11                  empty     
+0x2005/12	wo	cmd_var_set_user_integer_variable/user_integer_variable_12                  empty     
+0x2005/13	wo	cmd_var_set_user_integer_variable/user_integer_variable_13                  empty     
+0x2005/14	wo	cmd_var_set_user_integer_variable/user_integer_variable_14                  empty     
+0x2005/15	wo	cmd_var_set_user_integer_variable/user_integer_variable_15                  empty     
+0x2005/16	wo	cmd_var_set_user_integer_variable/user_integer_variable_16                  empty     
+0x2005/17	wo	cmd_var_set_user_integer_variable/user_integer_variable_17                  empty     
+0x2005/18	wo	cmd_var_set_user_integer_variable/user_integer_variable_18                  empty     
+0x2005/19	wo	cmd_var_set_user_integer_variable/user_integer_variable_19                  empty     
+0x2005/20	wo	cmd_var_set_user_integer_variable/user_integer_variable_20                  empty     
+0x2005/21	wo	cmd_var_set_user_integer_variable/user_integer_variable_21                  empty     
+0x2005/22	wo	cmd_var_set_user_integer_variable/user_integer_variable_22                  empty     
+0x2005/23	wo	cmd_var_set_user_integer_variable/user_integer_variable_23                  empty     
+0x2005/24	wo	cmd_var_set_user_integer_variable/user_integer_variable_24                  empty     
+0x2005/25	wo	cmd_var_set_user_integer_variable/user_integer_variable_25                  empty     
+0x2005/26	wo	cmd_var_set_user_integer_variable/user_integer_variable_26                  empty     
+0x2005/27	wo	cmd_var_set_user_integer_variable/user_integer_variable_27                  empty     
+0x2005/28	wo	cmd_var_set_user_integer_variable/user_integer_variable_28                  empty     
+0x2005/29	wo	cmd_var_set_user_integer_variable/user_integer_variable_29                  empty     
+0x2005/30	wo	cmd_var_set_user_integer_variable/user_integer_variable_30                  empty     
+0x2005/31	wo	cmd_var_set_user_integer_variable/user_integer_variable_31                  empty     
+0x2005/32	wo	cmd_var_set_user_integer_variable/user_integer_variable_32                  empty     
+0x2005/33	wo	cmd_var_set_user_integer_variable/user_integer_variable_33                  empty     
+0x2005/34	wo	cmd_var_set_user_integer_variable/user_integer_variable_34                  empty     
+0x2005/35	wo	cmd_var_set_user_integer_variable/user_integer_variable_35                  empty     
+0x2005/36	wo	cmd_var_set_user_integer_variable/user_integer_variable_36                  empty     
+0x2005/37	wo	cmd_var_set_user_integer_variable/user_integer_variable_37                  empty     
+0x2005/38	wo	cmd_var_set_user_integer_variable/user_integer_variable_38                  empty     
+0x2005/39	wo	cmd_var_set_user_integer_variable/user_integer_variable_39                  empty     
+0x2005/40	wo	cmd_var_set_user_integer_variable/user_integer_variable_40                  empty     
+0x2005/41	wo	cmd_var_set_user_integer_variable/user_integer_variable_41                  empty     
+0x2005/42	wo	cmd_var_set_user_integer_variable/user_integer_variable_42                  empty     
+0x2005/43	wo	cmd_var_set_user_integer_variable/user_integer_variable_43                  empty     
+0x2005/44	wo	cmd_var_set_user_integer_variable/user_integer_variable_44                  empty     
+0x2005/45	wo	cmd_var_set_user_integer_variable/user_integer_variable_45                  empty     
+0x2005/46	wo	cmd_var_set_user_integer_variable/user_integer_variable_46                  empty     
+0x2005/47	wo	cmd_var_set_user_integer_variable/user_integer_variable_47                  empty     
+0x2005/48	wo	cmd_var_set_user_integer_variable/user_integer_variable_48                  empty     
+0x2006/0	ro	cmd_accel_set_acceleration/number_of_entries                                empty     
+0x2006/1	wo	cmd_accel_set_acceleration/channel_1                                        empty     
+0x2006/2	wo	cmd_accel_set_acceleration/channel_2                                        empty     
+0x2006/3	wo	cmd_accel_set_acceleration/channel_3                                        empty     
+0x2007/0	ro	cmd_decel_set_deceleration/number_of_entries                                empty     
+0x2007/1	wo	cmd_decel_set_deceleration/channel_1                                        empty     
+0x2007/2	wo	cmd_decel_set_deceleration/channel_2                                        empty     
+0x2007/3	wo	cmd_decel_set_deceleration/channel_3                                        empty     
+0x2008/0	wo	cmd_dout_set_all_digital_out_bits                                           empty     
+0x2009/0	wo	cmd_dset_set_individual_digital_out_bits                                    empty     
+0x200a/0	wo	cmd_dres_reset_individual_digital_out_bits                                  empty     
+0x200b/0	ro	cmd_home_load_home_counter/highest_subindex                                 empty     
+0x200b/1	wo	cmd_home_load_home_counter/encoder_1                                        empty     
+0x200b/2	wo	cmd_home_load_home_counter/encoder_2                                        empty     
+0x200b/3	wo	cmd_home_load_home_counter/encoder_3                                        empty     
+0x200c/0	wo	cmd_estop_emergency_shutdown                                                empty     
+0x200d/0	wo	cmd_mgo_release_shutdown                                                    empty     
+0x200e/0	wo	cmd_mstop_stop_in_all_modes                                                 empty     
+0x200f/0	ro	cmd_mposrel_set_pos_relative/highest_subindex                               empty     
+0x200f/1	wo	cmd_mposrel_set_pos_relative/channel_1                                      empty     
+0x200f/2	wo	cmd_mposrel_set_pos_relative/channel_2                                      empty     
+0x200f/3	wo	cmd_mposrel_set_pos_relative/channel_3                                      empty     
+0x2010/0	ro	cmd_nxtpos_set_next_pos_absolute/highest_subindex                           empty     
+0x2010/1	wo	cmd_nxtpos_set_next_pos_absolute/channel_1                                  empty     
+0x2010/2	wo	cmd_nxtpos_set_next_pos_absolute/channel_2                                  empty     
+0x2010/3	wo	cmd_nxtpos_set_next_pos_absolute/channel_3                                  empty     
+0x2011/0	ro	cmd_nxtposr_set_next_pos_relative/number_of_entries                         empty     
+0x2011/1	wo	cmd_nxtposr_set_next_pos_relative/channel_1                                 empty     
+0x2011/2	wo	cmd_nxtposr_set_next_pos_relative/channel_2                                 empty     
+0x2011/3	wo	cmd_nxtposr_set_next_pos_relative/channel_3                                 empty     
+0x2012/0	ro	cmd_nxtacc_set_next_acceleration/highest_subindex                           empty     
+0x2012/1	wo	cmd_nxtacc_set_next_acceleration/channel_1                                  empty     
+0x2012/2	wo	cmd_nxtacc_set_next_acceleration/channel_2                                  empty     
+0x2012/3	wo	cmd_nxtacc_set_next_acceleration/channel_3                                  empty     
+0x2013/0	ro	cmd_nxtdec_set_next_deceleration/highest_subindex                           empty     
+0x2013/1	wo	cmd_nxtdec_set_next_deceleration/channel_1                                  empty     
+0x2013/2	wo	cmd_nxtdec_set_next_deceleration/channel_2                                  empty     
+0x2013/3	wo	cmd_nxtdec_set_next_deceleration/channel_3                                  empty     
+0x2014/0	ro	cmd_nxtvel_set_next_velocity/highest_subindex                               empty     
+0x2014/1	wo	cmd_nxtvel_set_next_velocity/channel_1                                      empty     
+0x2014/2	wo	cmd_nxtvel_set_next_velocity/channel_2                                      empty     
+0x2014/3	wo	cmd_nxtvel_set_next_velocity/channel_3                                      empty     
+0x2015/0	ro	cmd_bool_set_user_boolean_variable/highest_subindex                         empty     
+0x2015/1	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_1                  empty     
+0x2015/2	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_2                  empty     
+0x2015/3	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_3                  empty     
+0x2015/4	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_4                  empty     
+0x2015/5	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_5                  empty     
+0x2015/6	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_6                  empty     
+0x2015/7	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_7                  empty     
+0x2015/8	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_8                  empty     
+0x2015/9	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_9                  empty     
+0x2015/10	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_10                 empty     
+0x2015/11	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_11                 empty     
+0x2015/12	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_12                 empty     
+0x2015/13	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_13                 empty     
+0x2015/14	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_14                 empty     
+0x2015/15	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_15                 empty     
+0x2015/16	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_16                 empty     
+0x2015/17	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_17                 empty     
+0x2015/18	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_18                 empty     
+0x2015/19	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_19                 empty     
+0x2015/20	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_20                 empty     
+0x2015/21	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_21                 empty     
+0x2015/22	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_22                 empty     
+0x2015/23	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_23                 empty     
+0x2015/24	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_24                 empty     
+0x2015/25	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_25                 empty     
+0x2015/26	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_26                 empty     
+0x2015/27	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_27                 empty     
+0x2015/28	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_28                 empty     
+0x2015/29	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_29                 empty     
+0x2015/30	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_30                 empty     
+0x2015/31	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_31                 empty     
+0x2015/32	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_32                 empty     
+0x2015/33	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_33                 empty     
+0x2015/34	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_34                 empty     
+0x2015/35	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_35                 empty     
+0x2015/36	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_36                 empty     
+0x2015/37	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_37                 empty     
+0x2015/38	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_38                 empty     
+0x2015/39	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_39                 empty     
+0x2015/40	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_40                 empty     
+0x2015/41	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_41                 empty     
+0x2015/42	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_42                 empty     
+0x2015/43	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_43                 empty     
+0x2015/44	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_44                 empty     
+0x2015/45	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_45                 empty     
+0x2015/46	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_46                 empty     
+0x2015/47	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_47                 empty     
+0x2015/48	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_48                 empty     
+0x2015/49	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_49                 empty     
+0x2015/50	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_50                 empty     
+0x2015/51	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_51                 empty     
+0x2015/52	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_52                 empty     
+0x2015/53	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_53                 empty     
+0x2015/54	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_54                 empty     
+0x2015/55	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_55                 empty     
+0x2015/56	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_56                 empty     
+0x2015/57	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_57                 empty     
+0x2015/58	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_58                 empty     
+0x2015/59	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_59                 empty     
+0x2015/60	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_60                 empty     
+0x2015/61	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_61                 empty     
+0x2015/62	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_62                 empty     
+0x2015/63	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_63                 empty     
+0x2015/64	wo	cmd_bool_set_user_boolean_variable/user_boolean_variable_64                 empty     
+0x2016/0	ro	cmd_rcout_set_rc_pulse_out/highest_subindex                                 empty     
+0x2016/1	wo	cmd_rcout_set_rc_pulse_out/pulse_out_1                                      empty     
+0x2016/2	wo	cmd_rcout_set_rc_pulse_out/pulse_out_2                                      empty     
+0x2017/0	wo	cmd_eesav_save_config_to_flash                                              empty     
+0x2018/0	wo	cmd_brun_run_microbasic_script                                              empty     
+0x201f/0	ro	cmd_css_set_absolute_ssi_counter/number_of_entries                          empty     
+0x201f/1	wo	cmd_css_set_absolute_ssi_counter/sensor_1                                   empty     
+0x201f/2	wo	cmd_css_set_absolute_ssi_counter/sensor_2                                   empty     
+0x2100/0	ro	qry_motamps_read_motor_amps/number_of_entries                               empty     
+0x2100/1	ro	qry_motamps_read_motor_amps/channel_1                                       empty     
+0x2100/2	ro	qry_motamps_read_motor_amps/channel_2                                       empty     
+0x2100/3	ro	qry_motamps_read_motor_amps/channel_3                                       empty     
+0x2101/0	ro	qry_motcmd_read_actual_motor_command/number_of_entries                      empty     
+0x2101/1	ro	qry_motcmd_read_actual_motor_command/channel_1                              empty     
+0x2101/2	ro	qry_motcmd_read_actual_motor_command/channel_2                              empty     
+0x2101/3	ro	qry_motcmd_read_actual_motor_command/channel_3                              empty     
+0x2102/0	ro	qry_motpwr_read_applied_power_level/number_of_entries                       empty     
+0x2102/1	ro	qry_motpwr_read_applied_power_level/channel_1                               empty     
+0x2102/2	ro	qry_motpwr_read_applied_power_level/channel_2                               empty     
+0x2102/3	ro	qry_motpwr_read_applied_power_level/channel_3                               empty     
+0x2103/0	ro	qry_abspeed_read_encoder_motor_speed/number_of_entries                      empty     
+0x2103/1	ro	qry_abspeed_read_encoder_motor_speed/encoder_1                              empty     
+0x2103/2	ro	qry_abspeed_read_encoder_motor_speed/encoder_2                              empty     
+0x2103/3	ro	qry_abspeed_read_encoder_motor_speed/encoder_3                              empty     
+0x2104/0	ro	qry_abcntr_read_absolute_encoder_counter/number_of_entries                  empty     
+0x2104/1	ro	qry_abcntr_read_absolute_encoder_counter/encoder_1                          empty     
+0x2104/2	ro	qry_abcntr_read_absolute_encoder_counter/encoder_2                          empty     
+0x2104/3	ro	qry_abcntr_read_absolute_encoder_counter/encoder_3                          empty     
+0x2105/0	ro	qry_blcntr_read_absolute_brushless/highest_subindex                         empty     
+0x2105/1	ro	qry_blcntr_read_absolute_brushless/channel_1                                empty     
+0x2105/2	ro	qry_blcntr_read_absolute_brushless/channel_2                                empty     
+0x2105/3	ro	qry_blcntr_read_absolute_brushless/channel_3                                empty     
+0x2106/0	ro	qry_var_read_user_integer_variable/number_of_entries                        empty     
+0x2106/1	ro	qry_var_read_user_integer_variable/user_integer_variable_1                  empty     
+0x2106/2	ro	qry_var_read_user_integer_variable/user_integer_variable_2                  empty     
+0x2106/3	ro	qry_var_read_user_integer_variable/user_integer_variable_3                  empty     
+0x2106/4	ro	qry_var_read_user_integer_variable/user_integer_variable_4                  empty     
+0x2106/5	ro	qry_var_read_user_integer_variable/user_integer_variable_5                  empty     
+0x2106/6	ro	qry_var_read_user_integer_variable/user_integer_variable_6                  empty     
+0x2106/7	ro	qry_var_read_user_integer_variable/user_integer_variable_7                  empty     
+0x2106/8	ro	qry_var_read_user_integer_variable/user_integer_variable_8                  empty     
+0x2106/9	ro	qry_var_read_user_integer_variable/user_integer_variable_9                  empty     
+0x2106/10	ro	qry_var_read_user_integer_variable/user_integer_variable_10                 empty     
+0x2106/11	ro	qry_var_read_user_integer_variable/user_integer_variable_11                 empty     
+0x2106/12	ro	qry_var_read_user_integer_variable/user_integer_variable_12                 empty     
+0x2106/13	ro	qry_var_read_user_integer_variable/user_integer_variable_13                 empty     
+0x2106/14	ro	qry_var_read_user_integer_variable/user_integer_variable_14                 empty     
+0x2106/15	ro	qry_var_read_user_integer_variable/user_integer_variable_15                 empty     
+0x2106/16	ro	qry_var_read_user_integer_variable/user_integer_variable_16                 empty     
+0x2106/17	ro	qry_var_read_user_integer_variable/user_integer_variable_17                 empty     
+0x2106/18	ro	qry_var_read_user_integer_variable/user_integer_variable_18                 empty     
+0x2106/19	ro	qry_var_read_user_integer_variable/user_integer_variable_19                 empty     
+0x2106/20	ro	qry_var_read_user_integer_variable/user_integer_variable_20                 empty     
+0x2106/21	ro	qry_var_read_user_integer_variable/user_integer_variable_21                 empty     
+0x2106/22	ro	qry_var_read_user_integer_variable/user_integer_variable_22                 empty     
+0x2106/23	ro	qry_var_read_user_integer_variable/user_integer_variable_23                 empty     
+0x2106/24	ro	qry_var_read_user_integer_variable/user_integer_variable_24                 empty     
+0x2106/25	ro	qry_var_read_user_integer_variable/user_integer_variable_25                 empty     
+0x2106/26	ro	qry_var_read_user_integer_variable/user_integer_variable_26                 empty     
+0x2106/27	ro	qry_var_read_user_integer_variable/user_integer_variable_27                 empty     
+0x2106/28	ro	qry_var_read_user_integer_variable/user_integer_variable_28                 empty     
+0x2106/29	ro	qry_var_read_user_integer_variable/user_integer_variable_29                 empty     
+0x2106/30	ro	qry_var_read_user_integer_variable/user_integer_variable_30                 empty     
+0x2106/31	ro	qry_var_read_user_integer_variable/user_integer_variable_31                 empty     
+0x2106/32	ro	qry_var_read_user_integer_variable/user_integer_variable_32                 empty     
+0x2106/33	ro	qry_var_read_user_integer_variable/user_integer_variable_33                 empty     
+0x2106/34	ro	qry_var_read_user_integer_variable/user_integer_variable_34                 empty     
+0x2106/35	ro	qry_var_read_user_integer_variable/user_integer_variable_35                 empty     
+0x2106/36	ro	qry_var_read_user_integer_variable/user_integer_variable_36                 empty     
+0x2106/37	ro	qry_var_read_user_integer_variable/user_integer_variable_37                 empty     
+0x2106/38	ro	qry_var_read_user_integer_variable/user_integer_variable_38                 empty     
+0x2106/39	ro	qry_var_read_user_integer_variable/user_integer_variable_39                 empty     
+0x2106/40	ro	qry_var_read_user_integer_variable/user_integer_variable_40                 empty     
+0x2106/41	ro	qry_var_read_user_integer_variable/user_integer_variable_41                 empty     
+0x2106/42	ro	qry_var_read_user_integer_variable/user_integer_variable_42                 empty     
+0x2106/43	ro	qry_var_read_user_integer_variable/user_integer_variable_43                 empty     
+0x2106/44	ro	qry_var_read_user_integer_variable/user_integer_variable_44                 empty     
+0x2106/45	ro	qry_var_read_user_integer_variable/user_integer_variable_45                 empty     
+0x2106/46	ro	qry_var_read_user_integer_variable/user_integer_variable_46                 empty     
+0x2106/47	ro	qry_var_read_user_integer_variable/user_integer_variable_47                 empty     
+0x2106/48	ro	qry_var_read_user_integer_variable/user_integer_variable_48                 empty     
+0x2107/0	ro	qry_relspeed_read_relative_encoder_motor_speed/number_of_entries            empty     
+0x2107/1	ro	qry_relspeed_read_relative_encoder_motor_speed/encoder_1                    empty     
+0x2107/2	ro	qry_relspeed_read_relative_encoder_motor_speed/encoder_2                    empty     
+0x2107/3	ro	qry_relspeed_read_relative_encoder_motor_speed/encoder_3                    empty     
+0x2108/0	ro	qry_relcntr_read_encoder_count_relative/number_of_entries                   empty     
+0x2108/1	ro	qry_relcntr_read_encoder_count_relative/encoder_1                           empty     
+0x2108/2	ro	qry_relcntr_read_encoder_count_relative/encoder_2                           empty     
+0x2108/3	ro	qry_relcntr_read_encoder_count_relative/encoder_3                           empty     
+0x2109/0	ro	qry_blrcntr_read_brushless_count_relative/number_of_entries                 empty     
+0x2109/1	ro	qry_blrcntr_read_brushless_count_relative/channel_1                         empty     
+0x2109/2	ro	qry_blrcntr_read_brushless_count_relative/channel_2                         empty     
+0x2109/3	ro	qry_blrcntr_read_brushless_count_relative/channel_3                         empty     
+0x210a/0	ro	qry_blspeed_read_bl_motor_speed_in_rpm/number_of_entries                    empty     
+0x210a/1	ro	qry_blspeed_read_bl_motor_speed_in_rpm/channel_1                            empty     
+0x210a/2	ro	qry_blspeed_read_bl_motor_speed_in_rpm/channel_2                            empty     
+0x210a/3	ro	qry_blspeed_read_bl_motor_speed_in_rpm/channel_3                            empty     
+0x210b/0	ro	qry_blrspeed_read_relative_bl_motor_speed/number_of_entries                 empty     
+0x210b/1	ro	qry_blrspeed_read_relative_bl_motor_speed/channel_1                         empty     
+0x210b/2	ro	qry_blrspeed_read_relative_bl_motor_speed/channel_2                         empty     
+0x210b/3	ro	qry_blrspeed_read_relative_bl_motor_speed/channel_3                         empty     
+0x210c/0	ro	qry_batamps_read_battery_amps/number_of_entries                             empty     
+0x210c/1	ro	qry_batamps_read_battery_amps/channel_1                                     empty     
+0x210c/2	ro	qry_batamps_read_battery_amps/channel_2                                     empty     
+0x210c/3	ro	qry_batamps_read_battery_amps/channel_3                                     empty     
+0x210d/0	ro	qry_volts_read_internal_voltages/number_of_entries                          empty     
+0x210d/1	ro	qry_volts_read_internal_voltages/v_int                                      empty     
+0x210d/2	ro	qry_volts_read_internal_voltages/v_bat                                      empty     
+0x210d/3	ro	qry_volts_read_internal_voltages/v_5vout                                    empty     
+0x210e/0	ro	qry_digin_read_all_digital_inputs                                           empty     
+0x210f/0	ro	qry_temp_read_temperature/highest_subindex                                  empty     
+0x210f/1	ro	qry_temp_read_temperature/mcu                                               empty     
+0x210f/2	ro	qry_temp_read_temperature/sensor_1                                          empty     
+0x210f/3	ro	qry_temp_read_temperature/sensor_2                                          empty     
+0x2110/0	ro	qry_feedback_read_feedback/highest_subindex                                 empty     
+0x2110/1	ro	qry_feedback_read_feedback/channel_1                                        empty     
+0x2110/2	ro	qry_feedback_read_feedback/channel_2                                        empty     
+0x2110/3	ro	qry_feedback_read_feedback/channel_3                                        empty     
+0x2111/0	ro	qry_stflag_read_status_flags                                                empty     
+0x2112/0	ro	qry_fltflag_read_fault_flags                                                empty     
+0x2113/0	ro	qry_digout_read_current_digital_outputs                                     empty     
+0x2114/0	ro	qry_lperr_read_closed_loop_error/highest_subindex                           empty     
+0x2114/1	ro	qry_lperr_read_closed_loop_error/channel_1                                  empty     
+0x2114/2	ro	qry_lperr_read_closed_loop_error/channel_2                                  empty     
+0x2114/3	ro	qry_lperr_read_closed_loop_error/channel_3                                  empty     
+0x2115/0	ro	qry_bool_read_user_boolean_variable/highest_subindex                        empty     
+0x2115/1	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_1                 empty     
+0x2115/2	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_2                 empty     
+0x2115/3	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_3                 empty     
+0x2115/4	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_4                 empty     
+0x2115/5	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_5                 empty     
+0x2115/6	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_6                 empty     
+0x2115/7	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_7                 empty     
+0x2115/8	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_8                 empty     
+0x2115/9	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_9                 empty     
+0x2115/10	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_10                empty     
+0x2115/11	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_11                empty     
+0x2115/12	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_12                empty     
+0x2115/13	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_13                empty     
+0x2115/14	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_14                empty     
+0x2115/15	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_15                empty     
+0x2115/16	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_16                empty     
+0x2115/17	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_17                empty     
+0x2115/18	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_18                empty     
+0x2115/19	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_19                empty     
+0x2115/20	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_20                empty     
+0x2115/21	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_21                empty     
+0x2115/22	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_22                empty     
+0x2115/23	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_23                empty     
+0x2115/24	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_24                empty     
+0x2115/25	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_25                empty     
+0x2115/26	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_26                empty     
+0x2115/27	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_27                empty     
+0x2115/28	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_28                empty     
+0x2115/29	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_29                empty     
+0x2115/30	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_30                empty     
+0x2115/31	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_31                empty     
+0x2115/32	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_32                empty     
+0x2115/33	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_33                empty     
+0x2115/34	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_34                empty     
+0x2115/35	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_35                empty     
+0x2115/36	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_36                empty     
+0x2115/37	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_37                empty     
+0x2115/38	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_38                empty     
+0x2115/39	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_39                empty     
+0x2115/40	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_40                empty     
+0x2115/41	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_41                empty     
+0x2115/42	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_42                empty     
+0x2115/43	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_43                empty     
+0x2115/44	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_44                empty     
+0x2115/45	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_45                empty     
+0x2115/46	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_46                empty     
+0x2115/47	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_47                empty     
+0x2115/48	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_48                empty     
+0x2115/49	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_49                empty     
+0x2115/50	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_50                empty     
+0x2115/51	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_51                empty     
+0x2115/52	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_52                empty     
+0x2115/53	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_53                empty     
+0x2115/54	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_54                empty     
+0x2115/55	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_55                empty     
+0x2115/56	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_56                empty     
+0x2115/57	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_57                empty     
+0x2115/58	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_58                empty     
+0x2115/59	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_59                empty     
+0x2115/60	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_60                empty     
+0x2115/61	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_61                empty     
+0x2115/62	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_62                empty     
+0x2115/63	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_63                empty     
+0x2115/64	ro	qry_bool_read_user_boolean_variable/user_boolean_variable_64                empty     
+0x2116/0	ro	qry_cmdser_read_internal_serial_command/highest_subindex                    empty     
+0x2116/1	ro	qry_cmdser_read_internal_serial_command/channel_1                           empty     
+0x2116/2	ro	qry_cmdser_read_internal_serial_command/channel_2                           empty     
+0x2116/3	ro	qry_cmdser_read_internal_serial_command/channel_3                           empty     
+0x2117/0	ro	qry_cmdana_read_internal_analog_command/highest_subindex                    empty     
+0x2117/1	ro	qry_cmdana_read_internal_analog_command/channel_1                           empty     
+0x2117/2	ro	qry_cmdana_read_internal_analog_command/channel_2                           empty     
+0x2117/3	ro	qry_cmdana_read_internal_analog_command/channel_3                           empty     
+0x2118/0	ro	qry_cmdpls_read_internal_pulse_command/highest_subindex                     empty     
+0x2118/1	ro	qry_cmdpls_read_internal_pulse_command/channel_1                            empty     
+0x2118/2	ro	qry_cmdpls_read_internal_pulse_command/channel_2                            empty     
+0x2118/3	ro	qry_cmdpls_read_internal_pulse_command/channel_3                            empty     
+0x2119/0	ro	qry_time_read_time                                                          empty     
+0x211a/0	ro	qry_spektrum_read_spektrum_radio_capture/highest_subindex                   empty     
+0x211a/1	ro	qry_spektrum_read_spektrum_radio_capture/spektrum_1                         empty     
+0x211a/2	ro	qry_spektrum_read_spektrum_radio_capture/spektrum_2                         empty     
+0x211a/3	ro	qry_spektrum_read_spektrum_radio_capture/spektrum_3                         empty     
+0x211a/4	ro	qry_spektrum_read_spektrum_radio_capture/spektrum_4                         empty     
+0x211a/5	ro	qry_spektrum_read_spektrum_radio_capture/spektrum_5                         empty     
+0x211a/6	ro	qry_spektrum_read_spektrum_radio_capture/spektrum_6                         empty     
+0x211a/7	ro	qry_spektrum_read_spektrum_radio_capture/spektrum_7                         empty     
+0x211b/0	ro	qry_reached_destination_pos_reached_flag/highest_subindex                   empty     
+0x211b/1	ro	qry_reached_destination_pos_reached_flag/channel_1                          empty     
+0x211b/2	ro	qry_reached_destination_pos_reached_flag/channel_2                          empty     
+0x211b/3	ro	qry_reached_destination_pos_reached_flag/channel_3                          empty     
+0x211c/0	ro	qry_mems_read_mems_accelerometer/highest_subindex                           empty     
+0x211c/1	ro	qry_mems_read_mems_accelerometer/sensor_1                                   empty     
+0x211c/2	ro	qry_mems_read_mems_accelerometer/sensor_2                                   empty     
+0x211c/3	ro	qry_mems_read_mems_accelerometer/sensor_3                                   empty     
+0x211c/4	ro	qry_mems_read_mems_accelerometer/sensor_4                                   empty     
+0x211c/5	ro	qry_mems_read_mems_accelerometer/sensor_5                                   empty     
+0x211c/6	ro	qry_mems_read_mems_accelerometer/sensor_6                                   empty     
+0x211d/0	ro	qry_mgdet_read_magsensor_track_detect/highest_subindex                      empty     
+0x211d/1	ro	qry_mgdet_read_magsensor_track_detect/magsensor_1                           empty     
+0x211d/2	ro	qry_mgdet_read_magsensor_track_detect/magsensor_2                           empty     
+0x211d/3	ro	qry_mgdet_read_magsensor_track_detect/magsensor_3                           empty     
+0x211d/4	ro	qry_mgdet_read_magsensor_track_detect/magsensor_4                           empty     
+0x211d/5	ro	qry_mgdet_read_magsensor_track_detect/magsensor_5                           empty     
+0x211d/6	ro	qry_mgdet_read_magsensor_track_detect/magsensor_6                           empty     
+0x211d/7	ro	qry_mgdet_read_magsensor_track_detect/magsensor_7                           empty     
+0x211d/8	ro	qry_mgdet_read_magsensor_track_detect/magsensor_8                           empty     
+0x211e/0	ro	qry_mgtrack_read_magsensor_track_position/highest_subindex                  empty     
+0x211e/1	ro	qry_mgtrack_read_magsensor_track_position/magsensor_1_left_track            empty     
+0x211e/2	ro	qry_mgtrack_read_magsensor_track_position/magsensor_1_right_track           empty     
+0x211e/3	ro	qry_mgtrack_read_magsensor_track_position/magsensor_1_active_track          empty     
+0x211e/4	ro	qry_mgtrack_read_magsensor_track_position/magsensor_2_left_track            empty     
+0x211e/5	ro	qry_mgtrack_read_magsensor_track_position/magsensor_2_right_track           empty     
+0x211e/6	ro	qry_mgtrack_read_magsensor_track_position/magsensor_2_active_track          empty     
+0x211e/7	ro	qry_mgtrack_read_magsensor_track_position/magsensor_3_left_track            empty     
+0x211e/8	ro	qry_mgtrack_read_magsensor_track_position/magsensor_3_right_track           empty     
+0x211e/9	ro	qry_mgtrack_read_magsensor_track_position/magsensor_3_active_track          empty     
+0x211e/10	ro	qry_mgtrack_read_magsensor_track_position/magsensor_4_left_track            empty     
+0x211e/11	ro	qry_mgtrack_read_magsensor_track_position/magsensor_4_right_track           empty     
+0x211e/12	ro	qry_mgtrack_read_magsensor_track_position/magsensor_4_active_track          empty     
+0x211e/13	ro	qry_mgtrack_read_magsensor_track_position/magsensor_5_left_track            empty     
+0x211e/14	ro	qry_mgtrack_read_magsensor_track_position/magsensor_5_right_track           empty     
+0x211e/15	ro	qry_mgtrack_read_magsensor_track_position/magsensor_5_active_track          empty     
+0x211e/16	ro	qry_mgtrack_read_magsensor_track_position/magsensor_6_left_track            empty     
+0x211e/17	ro	qry_mgtrack_read_magsensor_track_position/magsensor_6_right_track           empty     
+0x211e/18	ro	qry_mgtrack_read_magsensor_track_position/magsensor_6_active_track          empty     
+0x211e/19	ro	qry_mgtrack_read_magsensor_track_position/magsensor_7_left_track            empty     
+0x211e/20	ro	qry_mgtrack_read_magsensor_track_position/magsensor_7_right_track           empty     
+0x211e/21	ro	qry_mgtrack_read_magsensor_track_position/magsensor_7_active_track          empty     
+0x211e/22	ro	qry_mgtrack_read_magsensor_track_position/magsensor_8_left_track            empty     
+0x211e/23	ro	qry_mgtrack_read_magsensor_track_position/magsensor_8_right_track           empty     
+0x211e/24	ro	qry_mgtrack_read_magsensor_track_position/magsensor_8_active_track          empty     
+0x211f/0	ro	qry_mgmrkr_read_magsensor_markers/highest_subindex                          empty     
+0x211f/1	ro	qry_mgmrkr_read_magsensor_markers/magsensor_1_left_marker                   empty     
+0x211f/2	ro	qry_mgmrkr_read_magsensor_markers/magsensor_1_right_marker                  empty     
+0x211f/3	ro	qry_mgmrkr_read_magsensor_markers/magsensor_2_left_marker                   empty     
+0x211f/4	ro	qry_mgmrkr_read_magsensor_markers/magsensor_2_right_marker                  empty     
+0x211f/5	ro	qry_mgmrkr_read_magsensor_markers/magsensor_3_left_marker                   empty     
+0x211f/6	ro	qry_mgmrkr_read_magsensor_markers/magsensor_3_right_marker                  empty     
+0x211f/7	ro	qry_mgmrkr_read_magsensor_markers/magsensor_4_left_marker                   empty     
+0x211f/8	ro	qry_mgmrkr_read_magsensor_markers/magsensor_4_right_marker                  empty     
+0x211f/9	ro	qry_mgmrkr_read_magsensor_markers/magsensor_5_left_marker                   empty     
+0x211f/10	ro	qry_mgmrkr_read_magsensor_markers/magsensor_5_right_marker                  empty     
+0x211f/11	ro	qry_mgmrkr_read_magsensor_markers/magsensor_6_left_marker                   empty     
+0x211f/12	ro	qry_mgmrkr_read_magsensor_markers/magsensor_6_right_marker                  empty     
+0x211f/13	ro	qry_mgmrkr_read_magsensor_markers/magsensor_7_left_marker                   empty     
+0x211f/14	ro	qry_mgmrkr_read_magsensor_markers/magsensor_7_right_marker                  empty     
+0x211f/15	ro	qry_mgmrkr_read_magsensor_markers/magsensor_8_left_marker                   empty     
+0x211f/16	ro	qry_mgmrkr_read_magsensor_markers/magsensor_8_right_marker                  empty     
+0x2120/0	ro	qry_mgstatus_read_magsensor_status/highest_subindex                         empty     
+0x2120/1	ro	qry_mgstatus_read_magsensor_status/magsensor_1                              empty     
+0x2120/2	ro	qry_mgstatus_read_magsensor_status/magsensor_2                              empty     
+0x2120/3	ro	qry_mgstatus_read_magsensor_status/magsensor_3                              empty     
+0x2120/4	ro	qry_mgstatus_read_magsensor_status/magsensor_4                              empty     
+0x2120/5	ro	qry_mgstatus_read_magsensor_status/magsensor_5                              empty     
+0x2120/6	ro	qry_mgstatus_read_magsensor_status/magsensor_6                              empty     
+0x2120/7	ro	qry_mgstatus_read_magsensor_status/magsensor_7                              empty     
+0x2120/8	ro	qry_mgstatus_read_magsensor_status/magsensor_8                              empty     
+0x2121/0	ro	qry_mggyro_read_magsensor_gyroscope/highest_subindex                        empty     
+0x2121/1	ro	qry_mggyro_read_magsensor_gyroscope/magsensor_1                             empty     
+0x2121/2	ro	qry_mggyro_read_magsensor_gyroscope/magsensor_2                             empty     
+0x2121/3	ro	qry_mggyro_read_magsensor_gyroscope/magsensor_3                             empty     
+0x2121/4	ro	qry_mggyro_read_magsensor_gyroscope/magsensor_4                             empty     
+0x2121/5	ro	qry_mggyro_read_magsensor_gyroscope/magsensor_5                             empty     
+0x2121/6	ro	qry_mggyro_read_magsensor_gyroscope/magsensor_6                             empty     
+0x2121/7	ro	qry_mggyro_read_magsensor_gyroscope/magsensor_7                             empty     
+0x2121/8	ro	qry_mggyro_read_magsensor_gyroscope/magsensor_8                             empty     
+0x2122/0	ro	qry_motflags_read_motor_status_flags/highest_subindex                       empty     
+0x2122/1	ro	qry_motflags_read_motor_status_flags/channel_1                              empty     
+0x2122/2	ro	qry_motflags_read_motor_status_flags/channel_2                              empty     
+0x2122/3	ro	qry_motflags_read_motor_status_flags/channel_3                              empty     
+0x2123/0	ro	qry_hsense_read_hall_sensor_states/highest_subindex                         empty     
+0x2123/1	ro	qry_hsense_read_hall_sensor_states/channel_1                                empty     
+0x2123/2	ro	qry_hsense_read_hall_sensor_states/channel_2                                empty     
+0x2123/3	ro	qry_hsense_read_hall_sensor_states/channel_3                                empty     
+0x2124/0	ro	qry_lk_read_lock_status                                                     empty     
+0x2125/0	ro	qry_tr_read_destination_tracking/highest_subindex                           empty     
+0x2125/1	ro	qry_tr_read_destination_tracking/channel_1                                  empty     
+0x2125/2	ro	qry_tr_read_destination_tracking/channel_2                                  empty     
+0x2125/3	ro	qry_tr_read_destination_tracking/channel_3                                  empty     
+0x2132/0	ro	qry_ang_read_rotor_angle/highest_subindex                                   empty     
+0x2132/1	ro	qry_ang_read_rotor_angle/channel_1                                          empty     
+0x2132/2	ro	qry_ang_read_rotor_angle/channel_2                                          empty     
+0x2132/3	ro	qry_ang_read_rotor_angle/channel_3                                          empty     
+0x2133/0	ro	qry_scc_read_script_checksum                                                empty     
+0x2134/0	ro	qry_icl_read_node_is_alive                                                  empty     
+0x2135/0	ro	qry_fc_read_foc_angle_correction/highest_subindex                           empty     
+0x2135/1	ro	qry_fc_read_foc_angle_correction/channel_1                                  empty     
+0x2135/2	ro	qry_fc_read_foc_angle_correction/channel_2                                  empty     
+0x2135/3	ro	qry_fc_read_foc_angle_correction/channel_3                                  empty     
+0x2136/0	ro	qry_sl_read_ac_induction_slip/highest_subindex                              empty     
+0x2136/1	ro	qry_sl_read_ac_induction_slip/ac_motor_1                                    empty     
+0x2136/2	ro	qry_sl_read_ac_induction_slip/ac_motor_2                                    empty     
+0x2137/0	ro	qry_fin_read_firmware_id/highest_subindex                                   empty     
+0x2137/1	ro	qry_fin_read_firmware_id/version                                            empty     
+0x2137/2	ro	qry_fin_read_firmware_id/month                                              empty     
+0x2137/3	ro	qry_fin_read_firmware_id/day                                                empty     
+0x2137/4	ro	qry_fin_read_firmware_id/year                                               empty     
+0x2138/0	ro	qry_mgx_read_magsensor_cross_tape/highest_subindex                          empty     
+0x2138/1	ro	qry_mgx_read_magsensor_cross_tape/magsensor_1                               empty     
+0x2138/2	ro	qry_mgx_read_magsensor_cross_tape/magsensor_2                               empty     
+0x2138/3	ro	qry_mgx_read_magsensor_cross_tape/magsensor_3                               empty     
+0x2138/4	ro	qry_mgx_read_magsensor_cross_tape/magsensor_4                               empty     
+0x2138/5	ro	qry_mgx_read_magsensor_cross_tape/magsensor_5                               empty     
+0x2138/6	ro	qry_mgx_read_magsensor_cross_tape/magsensor_6                               empty     
+0x2138/7	ro	qry_mgx_read_magsensor_cross_tape/magsensor_7                               empty     
+0x2138/8	ro	qry_mgx_read_magsensor_cross_tape/magsensor_8                               empty     
+0x213a/0	ro	qry_bsc_read_bms_battery's_state_of_charge                                  empty     
+0x213c/0	ro	qry_ss_read_ssi_sensor_motor_speed/highest_subindex                         empty     
+0x213c/1	ro	qry_ss_read_ssi_sensor_motor_speed/sensor_1                                 empty     
+0x213c/2	ro	qry_ss_read_ssi_sensor_motor_speed/sensor_2                                 empty     
+0x213d/0	ro	qry_ssr_read_relative_ssi_sensor_motro_speed/highest_subindex               empty     
+0x213d/1	ro	qry_ssr_read_relative_ssi_sensor_motro_speed/sensor_1                       empty     
+0x213d/2	ro	qry_ssr_read_relative_ssi_sensor_motro_speed/sensor_2                       empty     
+0x213e/0	ro	qry_css_read_ssi_absolute_counter/highest_subindex                          empty     
+0x213e/1	ro	qry_css_read_ssi_absolute_counter/sensor_1                                  empty     
+0x213e/2	ro	qry_css_read_ssi_absolute_counter/sensor_2                                  empty     
+0x213f/0	ro	qry_csr_read_ssi_rlative_counter/highest_subindex                           empty     
+0x213f/1	ro	qry_csr_read_ssi_rlative_counter/sensor_1                                   empty     
+0x213f/2	ro	qry_csr_read_ssi_rlative_counter/sensor_2                                   empty     
+0x2141/0	ro	qry_bmc_read_bms_state_of_charge                                            empty     
+0x2142/0	ro	qry_bmf_read_bms_status_flags                                               empty     
+0x2143/0	ro	qry_bms_read_bms_operational_state                                          empty     
+0x2145/0	ro	qry_din_read_digital_inputs/number_of_entries                               empty     
+0x2145/1	ro	qry_din_read_digital_inputs/digital_input_1                                 empty     
+0x2145/2	ro	qry_din_read_digital_inputs/digital_input_2                                 empty     
+0x2145/3	ro	qry_din_read_digital_inputs/digital_input_3                                 empty     
+0x2145/4	ro	qry_din_read_digital_inputs/digital_input_4                                 empty     
+0x2145/5	ro	qry_din_read_digital_inputs/digital_input_5                                 empty     
+0x2145/6	ro	qry_din_read_digital_inputs/digital_input_6                                 empty     
+0x2145/7	ro	qry_din_read_digital_inputs/digital_input_7                                 empty     
+0x2145/8	ro	qry_din_read_digital_inputs/digital_input_8                                 empty     
+0x2145/9	ro	qry_din_read_digital_inputs/digital_input_9                                 empty     
+0x2145/10	ro	qry_din_read_digital_inputs/digital_input_10                                empty     
+0x2145/11	ro	qry_din_read_digital_inputs/digital_input_11                                empty     
+0x2145/12	ro	qry_din_read_digital_inputs/digital_input_12                                empty     
+0x2145/13	ro	qry_din_read_digital_inputs/digital_input_13                                empty     
+0x2145/14	ro	qry_din_read_digital_inputs/digital_input_14                                empty     
+0x2145/15	ro	qry_din_read_digital_inputs/digital_input_15                                empty     
+0x2145/16	ro	qry_din_read_digital_inputs/digital_input_16                                empty     
+0x2145/17	ro	qry_din_read_digital_inputs/digital_input_17                                empty     
+0x2145/18	ro	qry_din_read_digital_inputs/digital_input_18                                empty     
+0x2145/19	ro	qry_din_read_digital_inputs/digital_input_19                                empty     
+0x2146/0	ro	qry_anain_read_analog_inputs/number_of_entries                              empty     
+0x2146/1	ro	qry_anain_read_analog_inputs/analog_input_1                                 empty     
+0x2146/2	ro	qry_anain_read_analog_inputs/analog_input_2                                 empty     
+0x2146/3	ro	qry_anain_read_analog_inputs/analog_input_3                                 empty     
+0x2146/4	ro	qry_anain_read_analog_inputs/analog_input_4                                 empty     
+0x2146/5	ro	qry_anain_read_analog_inputs/analog_input_5                                 empty     
+0x2146/6	ro	qry_anain_read_analog_inputs/analog_input_6                                 empty     
+0x2146/7	ro	qry_anain_read_analog_inputs/analog_input_7                                 empty     
+0x2146/8	ro	qry_anain_read_analog_inputs/analog_input_8                                 empty     
+0x2146/9	ro	qry_anain_read_analog_inputs/analog_input_9                                 empty     
+0x2146/10	ro	qry_anain_read_analog_inputs/analog_input_10                                empty     
+0x2146/11	ro	qry_anain_read_analog_inputs/analog_input_11                                empty     
+0x2147/0	ro	qry_anainc_read_analog_inputs_converted/number_of_entries                   empty     
+0x2147/1	ro	qry_anainc_read_analog_inputs_converted/analog_input_1                      empty     
+0x2147/2	ro	qry_anainc_read_analog_inputs_converted/analog_input_2                      empty     
+0x2147/3	ro	qry_anainc_read_analog_inputs_converted/analog_input_3                      empty     
+0x2147/4	ro	qry_anainc_read_analog_inputs_converted/analog_input_4                      empty     
+0x2147/5	ro	qry_anainc_read_analog_inputs_converted/analog_input_5                      empty     
+0x2147/6	ro	qry_anainc_read_analog_inputs_converted/analog_input_6                      empty     
+0x2147/7	ro	qry_anainc_read_analog_inputs_converted/analog_input_7                      empty     
+0x2147/8	ro	qry_anainc_read_analog_inputs_converted/analog_input_8                      empty     
+0x2147/9	ro	qry_anainc_read_analog_inputs_converted/analog_input_9                      empty     
+0x2147/10	ro	qry_anainc_read_analog_inputs_converted/analog_input_10                     empty     
+0x2147/11	ro	qry_anainc_read_analog_inputs_converted/analog_input_11                     empty     
+0x2148/0	ro	qry_plsin_read_pulse_inputs/number_of_entries                               empty     
+0x2148/1	ro	qry_plsin_read_pulse_inputs/pulse_input_1                                   empty     
+0x2148/2	ro	qry_plsin_read_pulse_inputs/pulse_input_2                                   empty     
+0x2148/3	ro	qry_plsin_read_pulse_inputs/pulse_input_3                                   empty     
+0x2148/4	ro	qry_plsin_read_pulse_inputs/pulse_input_4                                   empty     
+0x2148/5	ro	qry_plsin_read_pulse_inputs/pulse_input_5                                   empty     
+0x2148/6	ro	qry_plsin_read_pulse_inputs/pulse_input_6                                   empty     
+0x2148/7	ro	qry_plsin_read_pulse_inputs/pulse_input_7                                   empty     
+0x2148/8	ro	qry_plsin_read_pulse_inputs/pulse_input_8                                   empty     
+0x2149/0	ro	qry_plsinc_read_pulse_inputs_converted/number_of_entries                    empty     
+0x2149/1	ro	qry_plsinc_read_pulse_inputs_converted/pulse_input_1                        empty     
+0x2149/2	ro	qry_plsinc_read_pulse_inputs_converted/pulse_input_2                        empty     
+0x2149/3	ro	qry_plsinc_read_pulse_inputs_converted/pulse_input_3                        empty     
+0x2149/4	ro	qry_plsinc_read_pulse_inputs_converted/pulse_input_4                        empty     
+0x2149/5	ro	qry_plsinc_read_pulse_inputs_converted/pulse_input_5                        empty     
+0x2149/6	ro	qry_plsinc_read_pulse_inputs_converted/pulse_input_6                        empty     
+0x2149/7	ro	qry_plsinc_read_pulse_inputs_converted/pulse_input_7                        empty     
+0x2149/8	ro	qry_plsinc_read_pulse_inputs_converted/pulse_input_8                        empty     
+0x214a/0	ro	qry_flx_read_flowsensor_x/highest_subindex                                  empty     
+0x214a/1	ro	qry_flx_read_flowsensor_x/flowsensor_1                                      empty     
+0x214a/2	ro	qry_flx_read_flowsensor_x/flowsensor_2                                      empty     
+0x214a/3	ro	qry_flx_read_flowsensor_x/flowsensor_3                                      empty     
+0x214a/4	ro	qry_flx_read_flowsensor_x/flowsensor_4                                      empty     
+0x214b/0	ro	qry_flx_read_flowsensor_y/highest_subindex                                  empty     
+0x214b/1	ro	qry_flx_read_flowsensor_y/flowsensor_1                                      empty     
+0x214b/2	ro	qry_flx_read_flowsensor_y/flowsensor_2                                      empty     
+0x214b/3	ro	qry_flx_read_flowsensor_y/flowsensor_3                                      empty     
+0x214b/4	ro	qry_flx_read_flowsensor_y/flowsensor_4                                      empty     
+0x6040/0	rw	control_word_1                                                              empty     
+0x6041/0	ro	status_word_1                                                               empty     
+0x6042/0	rw	target_velocity_1                                                           empty     
+0x6043/0	ro	vl_velocity_demand_1                                                        empty     
+0x6044/0	ro	vl_velocity_actual_value_1                                                  empty     
+0x6046/0	ro	vl_velocity_min_max_amount_1/highest_subindex                               empty     
+0x6046/1	rw	vl_velocity_min_max_amount_1/vl_velocity_min_amount                         empty     
+0x6046/2	rw	vl_velocity_min_max_amount_1/vl_velocity_max_amount                         empty     
+0x6048/0	ro	velocity_acceleration_1/number_of_entries                                   empty     
+0x6048/1	rw	velocity_acceleration_1/delta_speed                                         empty     
+0x6048/2	rw	velocity_acceleration_1/delta_time                                          empty     
+0x6049/0	ro	velocity_deceleration_1/number_of_entries                                   empty     
+0x6049/1	rw	velocity_deceleration_1/delta_speed                                         empty     
+0x6049/2	rw	velocity_deceleration_1/delta_time                                          empty     
+0x6060/0	rw	modes_of_operation_1                                                        empty     
+0x6061/0	ro	modes_of_operation_display_1                                                empty     
+0x6064/0	ro	position_actual_value_1                                                     empty     
+0x606c/0	ro	velocity_actual_value_1                                                     empty     
+0x6071/0	rw	target_torque_1                                                             empty     
+0x6077/0	ro	torque_actual_value_1                                                       empty     
+0x607a/0	rw	target_position_1                                                           empty     
+0x6081/0	rw	profile_velocity_1                                                          empty     
+0x6083/0	rw	profile_acceleration_1                                                      empty     
+0x6084/0	rw	profile_deceleration_1                                                      empty     
+0x6087/0	rw	torque_slope_1                                                              empty     
+0x60ff/0	rw	target_profile_velocity_1                                                   empty     
+0x6502/0	const	supported_drive_modes__1                                                    empty     
+0x67fe/0	const	version_number_1                                                            empty     
+0x6840/0	rw	control_word_2                                                              empty     
+0x6841/0	ro	status_word_2                                                               empty     
+0x6842/0	rw	target_velocity_2                                                           empty     
+0x6843/0	ro	vl_velocity_demand_2                                                        empty     
+0x6844/0	ro	vl_velocity_actual_value_2                                                  empty     
+0x6846/0	ro	vl_velocity_min_max_amount_2/highest_subindex                               empty     
+0x6846/1	rw	vl_velocity_min_max_amount_2/vl_velocity_min_amount                         empty     
+0x6846/2	rw	vl_velocity_min_max_amount_2/vl_velocity_max_amount                         empty     
+0x6848/0	ro	velocity_acceleration_2/number_of_entries                                   empty     
+0x6848/1	rw	velocity_acceleration_2/delta_speed                                         empty     
+0x6848/2	rw	velocity_acceleration_2/delta_time                                          empty     
+0x6849/0	ro	velocity_deceleration_2/number_of_entries                                   empty     
+0x6849/1	rw	velocity_deceleration_2/delta_speed                                         empty     
+0x6849/2	rw	velocity_deceleration_2/delta_time                                          empty     
+0x6860/0	rw	modes_of_operation_2                                                        empty     
+0x6861/0	ro	modes_of_operation_display_2                                                empty     
+0x6864/0	ro	position_actual_value_2                                                     empty     
+0x686c/0	ro	velocity_actual_value_2                                                     empty     
+0x6871/0	rw	target_torque_2                                                             empty     
+0x6877/0	ro	torque_actual_value_2                                                       empty     
+0x687a/0	rw	target_position_2                                                           empty     
+0x6881/0	rw	profile_velocity_2                                                          empty     
+0x6883/0	rw	profile_acceleration_2                                                      empty     
+0x6884/0	rw	profile_deceleration_2                                                      empty     
+0x6887/0	rw	torque_slope_2                                                              empty     
+0x68ff/0	rw	target_profile_velocity_2                                                   empty     
+0x6d02/0	const	supported_drive_modes__2                                                    empty     
+0x6ffe/0	const	version_number_2                                                            empty     
+0x7040/0	rw	control_word_3                                                              empty     
+0x7041/0	ro	status_word_3                                                               empty     
+0x7042/0	rw	target_velocity_3                                                           empty     
+0x7043/0	ro	vl_velocity_demand_3                                                        empty     
+0x7044/0	ro	vl_velocity_actual_value_3                                                  empty     
+0x7046/0	ro	vl_velocity_min_max_amount_3/highest_subindex                               empty     
+0x7046/1	rw	vl_velocity_min_max_amount_3/vl_velocity_min_amount                         empty     
+0x7046/2	rw	vl_velocity_min_max_amount_3/vl_velocity_max_amount                         empty     
+0x7048/0	ro	velocity_acceleration_3/number_of_entries                                   empty     
+0x7048/1	rw	velocity_acceleration_3/delta_speed                                         empty     
+0x7048/2	rw	velocity_acceleration_3/delta_time                                          empty     
+0x7049/0	ro	velocity_deceleration_3/number_of_entries                                   empty     
+0x7049/1	rw	velocity_deceleration_3/delta_speed                                         empty     
+0x7049/2	rw	velocity_deceleration_3/delta_time                                          empty     
+0x7060/0	rw	modes_of_operation_3                                                        empty     
+0x7061/0	ro	modes_of_operation_display_3                                                empty     
+0x7064/0	ro	position_actual_value_3                                                     empty     
+0x706c/0	ro	velocity_actual_value_3                                                     empty     
+0x7071/0	rw	target_torque_3                                                             empty     
+0x7077/0	ro	torque_actual_value_3                                                       empty     
+0x707a/0	rw	target_position_3                                                           empty     
+0x7081/0	rw	profile_velocity_3                                                          empty     
+0x7083/0	rw	profile_acceleration_3                                                      empty     
+0x7084/0	rw	profile_deceleration_3                                                      empty     
+0x7087/0	rw	torque_slope_3                                                              empty     
+0x70ff/0	rw	target_profile_velocity_3                                                   empty     
+0x7502/0	const	supported_drive_modes__3                                                    empty     
+0x77fe/0	const	version_number_3                                                            empty
