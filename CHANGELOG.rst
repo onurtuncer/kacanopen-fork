@@ -2,6 +2,28 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merged in feature (pull request #3)
+  Feature
+  Approved-by: Aswin Thomas <ata@blue-ocean-robotics.com>
+  Approved-by: Naveed Usmani <nu@blue-ocean-robotics.com>
+* fixed PR review comments
+* moved the object dictionary to the appropriate folder
+* added backward compatible example for roboteq firmware v2.0 beta and v2.0 RC
+* added overloaded method for transmit pdo mapping by index and subindex
+* overloaded the prototype  the add_transmit_pdo_mapping
+* added MappingByIndex struct
+* removed roboteq_object_dictionary_v2.0.txt from eds_library
+* overloaded add add_receive_pdo_mapping method to map entry by  index and subindex
+* fixed the eds path after refactoring
+* first complete port for roboteq firmware version 2.0
+* edited the eds as per roboteq's suggestion to fix the PDO mapping issue
+* some minor cleanup
+* moved the object dictionary file to the appropriate folder
+* added roboteq eds released on 30-01-2019
+* Contributors: Musarraf, Musarraf Hossain, Musarraf Hossain Sekh
+
 0.2.1 (2019-01-30)
 ------------------
 * changed the request_heartbeat_thread\_ to smart pointer to avoid duplicate thread creation
