@@ -2,8 +2,8 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.2 (2019-02-07)
+------------------
 * Merged in feature (pull request #3)
   Feature
   Approved-by: Aswin Thomas <ata@blue-ocean-robotics.com>

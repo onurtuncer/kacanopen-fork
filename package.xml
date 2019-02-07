@@ -2,7 +2,7 @@
 <package format="2">
 
 	<name>kacanopen</name>
-	<version>0.2.1</version>
+	<version>0.2.2</version>
 	<description>KaCanOpen: An Open Plug&amp;Play CANopen Stack for ROS in Modern C++</description>
 	<maintainer email="thomas.keh@student.kit.edu">Thomas Keh</maintainer>
 	<author email="thomas.keh@student.kit.edu">Thomas Keh</author>
