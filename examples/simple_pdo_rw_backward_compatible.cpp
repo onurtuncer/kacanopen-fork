@@ -44,90 +44,103 @@
 #include "kacanopen/tools/device_rpdo.h"
 #include "kacanopen/tools/device_tpdo.h"
 static volatile int keepRunning = 1;
-
+static bool legacy_mode = false;
+static int ch1_mode = 1;  // for velocity mode
+static int ch2_mode = 1;  // for velocity mode
+static bool initialized = false;
+static uint16_t firmware_major_version = 2;
+static uint16_t firmware_release_year = 2019;
+static uint16_t firmware_release_month = 02;
+static uint16_t firmware_relase_day = 01;
 void intHandler(int dummy) {
   (void)dummy;
   keepRunning = 0;
 }
 
-void initializeDevice(std::shared_ptr<kaco::Device> device,
+std::string util_demangle(std::string to_demangle) {
+  int status = 0;
+  char* buff =
+      __cxxabiv1::__cxa_demangle(to_demangle.c_str(), NULL, NULL, &status);
+  std::string demangled = buff;
+  std::free(buff);
+  return demangled;
+}
+bool initializeDevice(std::shared_ptr<kaco::Device> device,
                       uint16_t heartbeat_interval, uint8_t node_id) {
-  // Load eds file. The eds file must be in the same folder in which the
-  // binary is being executed.
-  std::string path = ros::package::getPath("kacanopen");
-  boost::filesystem::path full_path = path +
-                                      "/resources/eds_library/Roboteq/"
-                                      "roboteq_motor_controllers_v2.0-30-01-"
-                                      "2019.eds";
-  device->load_dictionary_from_eds(full_path.string());
-
   // set the our desired heartbeat_interval time
   device->set_entry(0x1017, 0x0, heartbeat_interval,
                     kaco::WriteAccessMethod::sdo);
+  /// Master side RPDO mapping starts here. This must be in line with device
+  /// side TPDOs.
   // Master side rpdo1 mapping
-  device->add_receive_pdo_mapping(0x180 + node_id, 0x2103,
-                                  static_cast<uint8_t>(0x01),
-                                  0);  // 32bit unsigned
-  device->add_receive_pdo_mapping(0x180 + node_id, 0x2103,
-                                  static_cast<uint8_t>(0x02),
-                                  4);  // 32bit unsigned
+  if (legacy_mode) {
+    device->add_receive_pdo_mapping(
+        0x180 + node_id, 0x2103, static_cast<uint8_t>(0x01),
+        0);  // 16bit unsigned entry for Channel 1 speed
+    device->add_receive_pdo_mapping(
+        0x180 + node_id, 0x2103, static_cast<uint8_t>(0x02),
+        2);  // 16bit unsigned entry for Channel 2 speed
+  } else {
+    device->add_receive_pdo_mapping(
+        0x180 + node_id, 0x2103, static_cast<uint8_t>(0x01),
+        0);  // 32bit unsigned entry for Channel 1 speed
+    device->add_receive_pdo_mapping(
+        0x180 + node_id, 0x2103, static_cast<uint8_t>(0x02),
+        4);  // 32bit unsigned entry for Channel 2 speed
+  }
   // Master side rpdo2 mapping
   device->add_receive_pdo_mapping(0x280 + node_id, 0x2104,
                                   static_cast<uint8_t>(0x01),
-                                  0);  // 32bit
+                                  0);  // 32bit entry for Channel 1 position
   device->add_receive_pdo_mapping(0x280 + node_id, 0x2104,
                                   static_cast<uint8_t>(0x02),
-                                  4);  // 32bit
+                                  4);  // 32bit entry for Channel 2 position
   // Master side rpdo3 mapping
   device->add_receive_pdo_mapping(0x380 + node_id, 0x210D,
                                   static_cast<uint8_t>(0x01),
-                                  0);  // 16bit
+                                  0);  // 16bit entry for V internal
   device->add_receive_pdo_mapping(0x380 + node_id, 0x210D,
                                   static_cast<uint8_t>(0x02),
-                                  2);  // 16bit
+                                  2);  // 16bit entry for V BAT
   device->add_receive_pdo_mapping(0x380 + node_id, 0x210D,
                                   static_cast<uint8_t>(0x03),
-                                  4);  // 16bit
-  device->add_receive_pdo_mapping(0x380 + node_id, 0x210F,
-                                  static_cast<uint8_t>(0x02),
-                                  6);  // 8bit
-  device->add_receive_pdo_mapping(0x380 + node_id, 0x210F,
-                                  static_cast<uint8_t>(0x03),
-                                  7);  // 8bit
+                                  4);  // 16bit entry for V_5V
+  device->add_receive_pdo_mapping(
+      0x380 + node_id, 0x210F, static_cast<uint8_t>(0x02),
+      6);  // 8bit entry for Channel 1 MOSFET Temperature
+  device->add_receive_pdo_mapping(
+      0x380 + node_id, 0x210F, static_cast<uint8_t>(0x03),
+      7);  // 8bit entry for Channel 2 MOSFET Temperature
   // Master side rpdo4 mapping
   device->add_receive_pdo_mapping(0x480 + node_id, 0x2100,
                                   static_cast<uint8_t>(0x01),
-                                  0);  // 16bit
+                                  0);  // 16bit entry for Channel 1 motor Amps
   device->add_receive_pdo_mapping(0x480 + node_id, 0x2100,
                                   static_cast<uint8_t>(0x02),
-                                  2);  // 16bit
+                                  2);  // 16bit entry for Channel 2 motor Amps
   device->add_receive_pdo_mapping(0x480 + node_id, 0x2102,
                                   static_cast<uint8_t>(0x01),
-                                  4);  // 16bit
+                                  4);  // 16bit entry for Channel 1 motor Power
   device->add_receive_pdo_mapping(0x480 + node_id, 0x2102,
                                   static_cast<uint8_t>(0x02),
-                                  6);  // 16bit
+                                  6);  // 16bit entry for Channel 2 motor Power
 
-  // Mater side Periodic Tranmit pdo1 value initialization
-  device->set_entry(0x2000, static_cast<uint8_t>(0x01), 0x0,
-                    kaco::WriteAccessMethod::pdo);
-  // Mater side Periodic Tranmit pdo2 value initialization
-  device->set_entry(0x2000, static_cast<uint8_t>(0x02), static_cast<int>(0x0),
-                    kaco::WriteAccessMethod::pdo);
-  // Master side tpdo1 mapping
-  device->add_transmit_pdo_mapping(
-      0x200 + node_id, {{0x2000, static_cast<uint8_t>(0x01), 0}},
-      kaco::TransmissionType::PERIODIC, std::chrono::milliseconds(250));
+  /// Master side RPDO mapping ends here
 
-  // Master side tpdo2 mapping
-  device->add_transmit_pdo_mapping(
-      0x300 + node_id, {{0x2000, static_cast<uint8_t>(0x02), 0}},
-      kaco::TransmissionType::PERIODIC, std::chrono::milliseconds(250));
-
+  /// Device side TPDO mapping starts here. This must be in line with the
+  /// master side RPDOs.
   // Device side tpdo1 mapping entries and mapping
-  const std::vector<uint32_t> tpdo1_entries_to_be_mapped{0x21030110,
-                                                         0x21030210};
-  map_tpdo_in_device(tpdo1, tpdo1_entries_to_be_mapped, 255, 100, 250, device);
+  if (legacy_mode) {
+    const std::vector<uint32_t> tpdo1_entries_to_be_mapped{0x21030110,
+                                                           0x21030210};
+    map_tpdo_in_device(tpdo1, tpdo1_entries_to_be_mapped, 255, 100, 250,
+                       device);
+  } else {
+    const std::vector<uint32_t> tpdo1_entries_to_be_mapped{0x21030120,
+                                                           0x21030220};
+    map_tpdo_in_device(tpdo1, tpdo1_entries_to_be_mapped, 255, 100, 250,
+                       device);
+  }
 
   // Device side tpdo2 mapping entries and mapping
   const std::vector<uint32_t> tpdo2_entries_to_be_mapped{
@@ -146,14 +159,71 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   const std::vector<uint32_t> tpdo4_entries_to_be_mapped{
       0x21000110, 0x21000210, 0x21020110, 0x21020210};
   map_tpdo_in_device(tpdo4, tpdo4_entries_to_be_mapped, 255, 100, 250, device);
+  /// Device side TPDO mapping ends here.
 
-  // Device side rpdo1 mapping entries and mapping
-  const std::vector<uint32_t> rpdo1_entries_to_be_mapped{0x20000120};
-  map_rpdo_in_device(rpdo1, rpdo1_entries_to_be_mapped, 255, device);
+  /// Master side TPDO mapping starts here.This must be in line with device
+  /// side RPDOs.
+  if (1 == ch1_mode /*Close Loop Speed Mode*/) {
+    // Mater side Periodic Tranmit pdo1 value initialization
+    device->set_entry(0x2000, static_cast<uint8_t>(0x01), 0x0,
+                      kaco::WriteAccessMethod::sdo);
+    // Master side Periodic Tranmit pdo1 mapping
+    device->add_transmit_pdo_mapping(0x200 + static_cast<uint16_t>(node_id),
+                                     {{0x2000, static_cast<uint8_t>(0x01), 0}},
+                                     kaco::TransmissionType::PERIODIC,
+                                     std::chrono::milliseconds(50));
+  } else if (3 == ch1_mode /*Close Loop Position Count Mode*/) {
+    // Mater side Periodic Tranmit pdo1 value initialization
+    device->set_entry(0x2001, static_cast<uint8_t>(0x01), 0x0,
+                      kaco::WriteAccessMethod::sdo);
+    // Master side Periodic Tranmit pdo1 mapping
+    device->add_transmit_pdo_mapping(0x200 + static_cast<uint16_t>(node_id),
+                                     {{0x2001, static_cast<uint8_t>(0x01), 0}},
+                                     kaco::TransmissionType::PERIODIC,
+                                     std::chrono::milliseconds(50));
+  }
+  if (1 == ch2_mode /*Close Loop Speed Mode*/) {
+    // Mater side Periodic Tranmit pdo1 value initialization
+    device->set_entry(0x2000, static_cast<uint8_t>(0x02), 0x0,
+                      kaco::WriteAccessMethod::sdo);
+    // Master side Periodic Tranmit pdo1 mapping
+    device->add_transmit_pdo_mapping(0x300 + static_cast<uint16_t>(node_id),
+                                     {{0x2000, static_cast<uint8_t>(0x02), 0}},
+                                     kaco::TransmissionType::PERIODIC,
+                                     std::chrono::milliseconds(50));
+  } else if (3 == ch2_mode /*Close Loop Position Count Mode*/) {
+    // Mater side Periodic Tranmit pdo1 value initialization
+    device->set_entry(0x2001, static_cast<uint8_t>(0x02), 0x0,
+                      kaco::WriteAccessMethod::sdo);
+    // Master side Periodic Tranmit pdo1 mapping
+    device->add_transmit_pdo_mapping(0x300 + static_cast<uint16_t>(node_id),
+                                     {{0x2001, static_cast<uint8_t>(0x02), 0}},
+                                     kaco::TransmissionType::PERIODIC,
+                                     std::chrono::milliseconds(50));
+  }
+  /// Master side TPDO mapping ends here
 
-  // Device side rpdo2 mapping entries and mapping
-  const std::vector<uint32_t> rpdo2_entries_to_be_mapped{0x20000120};
-  map_rpdo_in_device(rpdo2, rpdo2_entries_to_be_mapped, 255, device);
+  if (1 == ch1_mode /*Close Loop Speed Mode*/) {
+    // Device side rpdo1 mapping entries and mapping
+    const std::vector<uint32_t> rpdo1_entries_to_be_mapped{0x20000120};
+    map_rpdo_in_device(rpdo1, rpdo1_entries_to_be_mapped, 255, device);
+  } else if (3 == ch1_mode /*Close Loop Position Count Mode*/) {
+    // Device side rpdo1 mapping entries and mapping
+    const std::vector<uint32_t> rpdo1_entries_to_be_mapped{0x20010120};
+    map_rpdo_in_device(rpdo1, rpdo1_entries_to_be_mapped, 255, device);
+  }
+  if (1 == ch2_mode /*Close Loop Speed Mode*/) {
+    // Device side rpdo2 mapping entries and mapping
+    const std::vector<uint32_t> rpdo2_entries_to_be_mapped{0x20000220};
+    map_rpdo_in_device(rpdo2, rpdo2_entries_to_be_mapped, 255, device);
+  } else if (3 == ch2_mode /*Close Loop Position Count Mode*/) {
+    // Device side rpdo2 mapping entries and mapping
+    const std::vector<uint32_t> rpdo2_entries_to_be_mapped{0x20010220};
+    map_rpdo_in_device(rpdo2, rpdo2_entries_to_be_mapped, 255, device);
+  }
+
+  initialized = true;
+  return initialized;
 }
 
 int main() {
@@ -213,7 +283,8 @@ int main() {
                "detected via NMT..."
             << std::endl;
   // make sure that the node is reset and goes back to NMT preoperational
-  core.nmt.send_nmt_message(node_id, kaco::NMT::Command::reset_node);
+  // core.nmt.send_nmt_message(node_id, kaco::NMT::Command::reset_node);
+  // std::this_thread::sleep_for(std::chrono::milliseconds(300));
   core.nmt.register_device_alive_callback([&](const uint8_t new_node_id) {
     // Check if this is the node we are looking for.
     if (new_node_id == node_id) {
@@ -223,12 +294,56 @@ int main() {
         // Lock device mutex
         std::lock_guard<std::mutex> lock(device_mutex);
         try {
-          // Initialize the device
           device.reset(new kaco::Device(core, node_id));
-          initializeDevice(device, heartbeat_interval, node_id);
-          device_connected = true;
+          core.nmt.send_nmt_message(node_id,
+                                    kaco::NMT::Command::enter_preoperational);
+          // Load eds file. The eds file must be in the same folder in which the
+          // binary is being executed.
+          std::string path = ros::package::getPath("kacanopen");
+          if (!legacy_mode) {
+            boost::filesystem::path full_path =
+                path +
+                "/resources/eds_library/Roboteq/"
+                "roboteq_motor_controllers_v2.0-30-01-"
+                "2019.eds";
+            device->load_dictionary_from_eds(full_path.string());
+          } else {
+            std::cout << "Legacy Mode is enabled" << std::endl;
+            boost::filesystem::path full_path =
+                path +
+                "/resources/eds_library/Roboteq/"
+                "roboteq_motor_controllers_v80beta.eds";
+            device->load_dictionary_from_eds(full_path.string());
+          }
+
+          uint16_t version = device->get_entry(
+              0x2137, static_cast<uint8_t>(0x01), kaco::ReadAccessMethod::sdo);
+          uint16_t month = device->get_entry(0x2137, static_cast<uint8_t>(0x02),
+                                             kaco::ReadAccessMethod::sdo);
+          uint16_t day = device->get_entry(0x2137, static_cast<uint8_t>(0x03),
+                                           kaco::ReadAccessMethod::sdo);
+          uint16_t year = device->get_entry(0x2137, static_cast<uint8_t>(0x04),
+                                            kaco::ReadAccessMethod::sdo);
+          uint16_t major = version / 10;
+          if ((year == 2018) && (month == 07) && (day == 03) && (major == 2))
+            legacy_mode = true;
+          if ((firmware_major_version != major) ||
+              (firmware_relase_day != day) ||
+              (firmware_release_month != month)) {
+            std::cout << "Firmware version mismatch" << std::endl;
+            exit(1);
+          }
+          if (initializeDevice(device, heartbeat_interval, node_id)) {
+            device->start();
+            device_connected = true;
+          }
         } catch (...) {
-          std::cout << "Exception in device alive!" << std::endl;
+          std::cout
+              << "Exception occured while registering device alive callback! "
+                 "Type: "
+              << util_demangle(
+                     __cxxabiv1::__cxa_current_exception_type()->name())
+              << std::endl;
           found_node = false;
           device_connected = false;
         }
@@ -250,7 +365,7 @@ int main() {
 
   int channel1_speed_ref = 0;
   int channel2_speed_ref = 0;
-  int max_rpm = 600;
+  int max_rpm = 800;
   bool max = false;
   while (keepRunning) {
     if (device_connected) {
@@ -283,9 +398,9 @@ int main() {
                               kaco::ReadAccessMethod::pdo_request_and_wait);
         std::cout << "Channel 1 speed feedback = " << std::dec
                   << (ch1_speed_feedback) << std::endl;
-        device->set_entry(0x2000, static_cast<uint8_t>(0x02),
-                          static_cast<int>(channel2_speed_ref),
-                          kaco::WriteAccessMethod::pdo);
+        //        device->set_entry(0x2000, static_cast<uint8_t>(0x02),
+        //                          static_cast<int>(channel2_speed_ref),
+        //                          kaco::WriteAccessMethod::pdo);
         std::cout << "Channel 2 speed command = " << std::dec
                   << channel1_speed_ref << std::endl;
         int32_t ch2_speed_feedback =
