@@ -54,7 +54,10 @@ Device::Device(Core& core, uint8_t node_id)
 Device::~Device() {
   for (auto& cob_id : cob_ids_) m_core.pdo.remove_pdo_received_callback(cob_id);
   terminating_ = true;
-  if (request_heartbeat_thread_->joinable()) request_heartbeat_thread_->join();
+  if (thread_created_) {
+    if (request_heartbeat_thread_->joinable())
+      request_heartbeat_thread_->join();
+  }
 }
 
 void Device::start() {

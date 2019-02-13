@@ -367,6 +367,7 @@ class Device {
   std::vector<uint16_t> cob_ids_;
   std::shared_ptr<std::thread> request_heartbeat_thread_;
   std::atomic_bool terminating_;
+  std::atomic_bool thread_created_;
 };
 
 }  // end namespace kaco
