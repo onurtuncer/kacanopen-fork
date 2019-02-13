@@ -2,6 +2,12 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* request_heartbeat thread closing was corrected for the devices only  which has created the thread
+* added legacy mode and firmware check
+* Contributors: Musarraf
+
 0.2.2 (2019-02-07)
 ------------------
 * Merged in feature (pull request #3)
