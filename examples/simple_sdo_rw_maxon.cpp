@@ -128,7 +128,7 @@ int main() {
             core.sdo.upload(node_id, 0x1009, 0x0);
         std::vector<uint8_t> read_firmware_version =
             core.sdo.upload(node_id, 0x100A, 0x0);
-        uint16_t profile = parse_sdo_read(read_device_type);
+        uint16_t profile = parse_sdo_read_as_int(read_device_type);
         std::cout << "" << std::endl;
         std::cout << "" << std::endl;
         std::cout << "*******************************************************"
@@ -194,7 +194,7 @@ int main() {
       std::vector<uint8_t> ch1_speed_feedback =
           core.sdo.upload(node_id, 0x6064, 0x0);
       std::vector<uint8_t> status_word;
-      int readout1 = parse_sdo_read(ch1_speed_feedback);
+      int readout1 = parse_sdo_read_as_int(ch1_speed_feedback);
       std::cout << "0x6064, 0x00=" << std::dec << readout1 << std::endl;
       std::cout << "setting target velocity=" << 300 << std::endl;
       const uint16_t index_target_velocity = 0x60FF;
@@ -203,14 +203,14 @@ int main() {
           0x10, 0x10, 0x00, 0x00};  //{0x10, 0x10, 0x00, 0x00};
 
       status_word = core.sdo.upload(node_id, 0x6041, 0x0);
-      int status_decoded = parse_sdo_read(status_word);
+      int status_decoded = parse_sdo_read_as_int(status_word);
       std::cout << "status word value=" << std::dec << status_decoded << "...."
                 << std::endl;
       core.sdo.upload(node_id, 0x6041, 0x0);
       core.sdo.download(node_id, index_control_word, subindex_control_word,
                         control_word_value2.size(), control_word_value2);
       status_word = core.sdo.upload(node_id, 0x6041, 0x0);
-      status_decoded = parse_sdo_read(status_word);
+      status_decoded = parse_sdo_read_as_int(status_word);
       std::cout << "status word value=" << std::dec << status_decoded << "...."
                 << std::endl;
 

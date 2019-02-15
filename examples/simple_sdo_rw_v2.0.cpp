@@ -145,7 +145,7 @@ int main() {
             core.sdo.upload(node_id, 0x1009, 0x0);
         std::vector<uint8_t> read_firmware_version =
             core.sdo.upload(node_id, 0x100A, 0x0);
-        uint16_t profile = parse_sdo_read(read_device_type);
+        uint16_t profile = parse_sdo_read_as_int(read_device_type);
         std::cout << "" << std::endl;
         std::cout << "" << std::endl;
         std::cout << "*******************************************************"
@@ -221,11 +221,11 @@ int main() {
           node_id, index_ch2_Battery_Amps, subindex_ch2_Battery_Amps);
       std::vector<uint8_t> Qry_DIGIN =
           core.sdo.upload(node_id, index_Qry_DIGIN, subindex_Qry_DIGIN);
-      int readout1 = parse_sdo_read(ch1_speed_feedback);
-      int readout2 = parse_sdo_read(ch2_speed_feedback);
-      int readout3 = parse_sdo_read(ch1_Battery_Amps);
-      int readout4 = parse_sdo_read(ch2_Battery_Amps);
-      int readout5 = parse_sdo_read(Qry_DIGIN);
+      int readout1 = parse_sdo_read_as_int(ch1_speed_feedback);
+      int readout2 = parse_sdo_read_as_int(ch2_speed_feedback);
+      int readout3 = parse_sdo_read_as_int(ch1_Battery_Amps);
+      int readout4 = parse_sdo_read_as_int(ch2_Battery_Amps);
+      int readout5 = parse_sdo_read_as_int(Qry_DIGIN);
       std::cout << "Channel 1 speed in decimal = " << std::dec << readout1
                 << std::endl;
       std::cout << "Channel 2 speed in hex= " << std::hex << readout2
