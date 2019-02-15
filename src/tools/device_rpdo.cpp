@@ -10,97 +10,113 @@ void map_rpdo_in_device(RPDO_NO rpdo_no,
     case rpdo1:
 
       // disable rpdo1
-      cob_id = device->get_entry(0x1400, 01, kaco::ReadAccessMethod::sdo);
+      cob_id = device->get_entry(0x1400, static_cast<uint8_t>(0x01),
+                                 kaco::ReadAccessMethod::sdo);
       cob_id ^= static_cast<uint32_t>((-1 ^ cob_id) & (1UL << 31));
-      device->set_entry(0x1400, 0x01, static_cast<uint32_t>(cob_id),
+      device->set_entry(0x1400, static_cast<uint8_t>(0x01),
+                        static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       // delete no. of mapped entries
-      device->set_entry(0x1600, 0x00, static_cast<uint8_t>(0x00),
+      device->set_entry(0x1600, static_cast<uint8_t>(0x00),
+                        static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
       write_entry(0x1600, entries_to_be_mapped, device);
       // update no. of mapped entries
-      device->set_entry(0x1600, 0x00,
+      device->set_entry(0x1600, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
                         kaco::WriteAccessMethod::sdo);
       // set transmit type
-      device->set_entry(0x1400, 0x02, transmit_type,
+      device->set_entry(0x1400, static_cast<uint8_t>(0x02), transmit_type,
                         kaco::WriteAccessMethod::sdo);
       // enable rpdo1
       cob_id ^= static_cast<uint32_t>((0 ^ cob_id) & (1UL << 31));
-      device->set_entry(0x1400, 0x01, static_cast<uint32_t>(cob_id),
+      device->set_entry(0x1400, static_cast<uint8_t>(0x01),
+                        static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
     case rpdo2:
 
       // disable rpdo2
-      cob_id = device->get_entry(0x1401, 01, kaco::ReadAccessMethod::sdo);
+      cob_id = device->get_entry(0x1401, static_cast<uint8_t>(0x01),
+                                 kaco::ReadAccessMethod::sdo);
       cob_id ^= static_cast<uint32_t>((-1 ^ cob_id) & (1UL << 31));
-      device->set_entry(0x1401, 0x01, static_cast<uint32_t>(cob_id),
+      device->set_entry(0x1401, static_cast<uint8_t>(0x01),
+                        static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       // delete no. of mapped entries
-      device->set_entry(0x1601, 0x00, static_cast<uint8_t>(0x00),
+      device->set_entry(0x1601, static_cast<uint8_t>(0x00),
+                        static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
       write_entry(0x1601, entries_to_be_mapped, device);
       // update no. of mapped entries
-      device->set_entry(0x1601, 0x00,
+      device->set_entry(0x1601, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
                         kaco::WriteAccessMethod::sdo);
       // set transmit type
-      device->set_entry(0x1401, 0x02, transmit_type,
+      device->set_entry(0x1401, static_cast<uint8_t>(0x02), transmit_type,
                         kaco::WriteAccessMethod::sdo);
       // enable rpdo2
       cob_id ^= static_cast<uint32_t>((0 ^ cob_id) & (1UL << 31));
-      device->set_entry(0x1401, 0x01, static_cast<uint32_t>(cob_id),
+      device->set_entry(0x1401, static_cast<uint8_t>(0x01),
+                        static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
     case rpdo3:
 
       // disable rpdo3
-      cob_id = device->get_entry(0x1402, 01, kaco::ReadAccessMethod::sdo);
+      cob_id = device->get_entry(0x1402, static_cast<uint8_t>(0x01),
+                                 kaco::ReadAccessMethod::sdo);
       cob_id ^= static_cast<uint32_t>((-1 ^ cob_id) & (1UL << 31));
-      device->set_entry(0x1402, 0x01, static_cast<uint32_t>(cob_id),
+      device->set_entry(0x1402, static_cast<uint8_t>(0x01),
+                        static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       // delete no. of mapped entries
-      device->set_entry(0x1602, 0x00, static_cast<uint8_t>(0x00),
+      device->set_entry(0x1602, static_cast<uint8_t>(0x00),
+                        static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
       write_entry(0x1602, entries_to_be_mapped, device);
       // update no. of mapped entries
-      device->set_entry(0x1602, 0x00,
+      device->set_entry(0x1602, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
                         kaco::WriteAccessMethod::sdo);
       // set transmit type
-      device->set_entry(0x1402, 0x02, transmit_type,
+      device->set_entry(0x1402, static_cast<uint8_t>(0x02), transmit_type,
                         kaco::WriteAccessMethod::sdo);
       // enable rpdo3
       cob_id ^= static_cast<uint32_t>((0 ^ cob_id) & (1UL << 31));
-      device->set_entry(0x1402, 0x01, static_cast<uint32_t>(cob_id),
+      device->set_entry(0x1402, static_cast<uint8_t>(0x01),
+                        static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
     case rpdo4:
 
       // disable rpdo4
-      cob_id = device->get_entry(0x1403, 01, kaco::ReadAccessMethod::sdo);
+      cob_id = device->get_entry(0x1403, static_cast<uint8_t>(0x01),
+                                 kaco::ReadAccessMethod::sdo);
       cob_id ^= static_cast<uint32_t>((-1 ^ cob_id) & (1UL << 31));
-      device->set_entry(0x1403, 0x01, static_cast<uint32_t>(cob_id),
+      device->set_entry(0x1403, static_cast<uint8_t>(0x01),
+                        static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       // delete no. of mapped entries
-      device->set_entry(0x1603, 0x00, static_cast<uint8_t>(0x00),
+      device->set_entry(0x1603, static_cast<uint8_t>(0x00),
+                        static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
       write_entry(0x1603, entries_to_be_mapped, device);
       // update no. of mapped entries
-      device->set_entry(0x1603, 0x00,
+      device->set_entry(0x1603, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
                         kaco::WriteAccessMethod::sdo);
       // set transmit type
-      device->set_entry(0x1403, 0x02, transmit_type,
+      device->set_entry(0x1403, static_cast<uint8_t>(0x02), transmit_type,
                         kaco::WriteAccessMethod::sdo);
       // enable rpdo4
       cob_id ^= static_cast<uint32_t>((0 ^ cob_id) & (1UL << 31));
-      device->set_entry(0x1403, 0x01, static_cast<uint32_t>(cob_id),
+      device->set_entry(0x1403, static_cast<uint8_t>(0x01),
+                        static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
 
