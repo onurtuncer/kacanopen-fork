@@ -57,6 +57,7 @@ Device::~Device() {
   if (thread_created_) {
     if (request_heartbeat_thread_->joinable())
       request_heartbeat_thread_->join();
+    thread_created_ = false;
   }
 }
 
@@ -274,8 +275,8 @@ void Device::add_receive_pdo_mapping(
 
 void Device::add_receive_pdo_mapping(uint16_t cob_id, uint16_t entry_index,
                                      uint8_t entry_subindex, uint8_t offset) {
-  Address entry_addresss_temp {entry_index, entry_subindex};
-  Address & entry_addresss=entry_addresss_temp;
+  Address entry_addresss_temp{entry_index, entry_subindex};
+  Address& entry_addresss = entry_addresss_temp;
   Entry& entry = m_dictionary[entry_addresss];
   const uint8_t type_size = Utils::get_type_size(entry.type);
 
@@ -357,14 +358,13 @@ void Device::add_transmit_pdo_mapping(uint16_t cob_id,
 void Device::add_transmit_pdo_mapping(
     uint16_t cob_id, const std::vector<MappingByIndex>& mappings_by_index,
     TransmissionType transmission_type, std::chrono::milliseconds repeat_time) {
-
   TransmitPDOMapping* pdo_temp;
 
   // Wrap MappingByIndex to Mapping
   std::vector<Mapping> mappings;
 
   for (auto i : mappings_by_index) {
-    Address entry_addresss_temp {i.entry_index, i.entry_subindex};
+    Address entry_addresss_temp{i.entry_index, i.entry_subindex};
     Address& entry_addresss = entry_addresss_temp;
     Entry& entry = m_dictionary[entry_addresss];
     Mapping mapping_entry_temp;
