@@ -2,6 +2,15 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* reduced the speed step size
+* renamed the sdo parsing method
+* general cleanup and some casting fix
+* thread_created flag is now false after the thread is joined
+* renamed the method and corrected compiler warning
+* Contributors: Musarraf
+
 0.2.3 (2019-02-13)
 ------------------
 * request_heartbeat thread closing was corrected for the devices only  which has created the thread
@@ -389,8 +398,8 @@ Changelog for package kacanopen
 * Improved Logging. Adding a Value printer. New CMake option EXHAUSTIVE_DEBUGGING.
 * - Adding PDO mapping functionality.
   - get_entry() and set_entry() can now be called with a new AccessMethod argument,
-  which specifies if the value shoud be fetched/set via SDO or if only the
-  cached value should be returned (probably set by a PDO mapping).
+  - which specifies if the value shoud be fetched/set via SDO or if only the
+  - cached value should be returned (probably set by a PDO mapping).
   - PDO callbacks now use cob_id instead of node_id -> more generic approach.
   - Entry type now fully supports arrays.
   - Minor changes:
