@@ -2,8 +2,8 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.4 (2019-02-15)
+------------------
 * reduced the speed step size
 * renamed the sdo parsing method
 * general cleanup and some casting fix
