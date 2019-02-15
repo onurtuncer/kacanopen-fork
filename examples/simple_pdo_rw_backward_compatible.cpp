@@ -365,7 +365,7 @@ int main() {
 
   int channel1_speed_ref = 0;
   int channel2_speed_ref = 0;
-  int max_rpm = 800;
+  int max_rpm = 300;
   bool max = false;
   while (keepRunning) {
     if (device_connected) {
@@ -375,14 +375,14 @@ int main() {
         // Prepare the commands; master side tpdo1 and tpdo2
         if (max_rpm > channel1_speed_ref && max == false) {
           // channel1_speed_ref++;
-          channel1_speed_ref = channel1_speed_ref + 50;
+          channel1_speed_ref = channel1_speed_ref + 20;
           if (max_rpm == channel1_speed_ref) {
             max = true;
           }
         }
         if (-max_rpm < channel1_speed_ref && max == true) {
           // channel1_speed_ref--;
-          channel1_speed_ref = channel1_speed_ref - 50;
+          channel1_speed_ref = channel1_speed_ref - 20;
           if (-max_rpm == channel1_speed_ref) {
             max = false;
           }
@@ -398,9 +398,9 @@ int main() {
                               kaco::ReadAccessMethod::pdo_request_and_wait);
         std::cout << "Channel 1 speed feedback = " << std::dec
                   << (ch1_speed_feedback) << std::endl;
-        //        device->set_entry(0x2000, static_cast<uint8_t>(0x02),
-        //                          static_cast<int>(channel2_speed_ref),
-        //                          kaco::WriteAccessMethod::pdo);
+//        device->set_entry(0x2000, static_cast<uint8_t>(0x02),
+//                          static_cast<int>(channel2_speed_ref),
+//                          kaco::WriteAccessMethod::pdo);
         std::cout << "Channel 2 speed command = " << std::dec
                   << channel1_speed_ref << std::endl;
         int32_t ch2_speed_feedback =
