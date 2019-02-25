@@ -114,9 +114,9 @@ int main() {
         device.reset(new kaco::Device(core, node_id));
         // Load eds file. The eds file must be in the same folder in which the
         // binary is being executed.
-        std::string path = ros::package::getPath("kacanopen_examples");
+        std::string path = ros::package::getPath("kacanopen");
         boost::filesystem::path full_path =
-            path + "/config/maxon_motor_EPOS4_0150h_6050h_0000h_0000h.eds";
+            path + "/resources/eds_library/MaxonMotor/maxon_motor_EPOS4.eds";
         device->load_dictionary_from_eds(full_path.string());
         device->start();
         // device->load_dictionary_from_library();
