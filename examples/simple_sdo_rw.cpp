@@ -71,8 +71,8 @@ int main() {
   const std::string baudrate = "500K";
 
   const uint16_t index_Qry_DIGIN = 0x210E;
-  const uint16_t index_ch1_speed = 0x1000;
-  const uint16_t index_ch2_speed = 0x1000;
+  const uint16_t index_ch1_speed = 0x2000;
+  const uint16_t index_ch2_speed = 0x2000;
   const uint16_t index_ch1_speed_feedback = 0x2103;
   const uint16_t index_ch2_speed_feedback = 0x2103;
   const uint16_t index_ch1_Battery_Amps = 0x210C;
@@ -87,7 +87,7 @@ int main() {
   const uint8_t subindex_ch2_Battery_Amps = 0x02;
 
   const std::vector<uint8_t> ch1_speed{
-      0x34, 0xF3, 0xFF, 0xFF};  // speed reference to roboteq : +3276 .This is
+      0x00, 0x01, 0xFF, 0xFF};  // speed reference to roboteq : +3276 .This is
                                 // the lowest valid reference.
   // const std::vector<uint8_t> ch1_speed {0x34,0xF3,0xFF,0xFF}; //speed
   // reference to roboteq :-3276 .This is the lowest valid reference.
@@ -208,8 +208,8 @@ int main() {
                         ch1_speed.size(), ch1_speed);
       std::cout << "Sending speed reference to Roboteq channel 2..." << std::hex
                 << ch2_speed << std::endl;
-      core.sdo.download(node_id, index_ch2_speed, subindex_ch2_speed,
-                        ch2_speed.size(), ch2_speed);
+      //      core.sdo.download(node_id, index_ch2_speed, subindex_ch2_speed,
+      //                        ch2_speed.size(), ch2_speed);
       std::cout << "Reading the sdo at " << std::hex << index_ch1_speed_feedback
                 << "...." << std::endl;
       std::vector<uint8_t> ch1_speed_feedback = core.sdo.upload(
