@@ -998,7 +998,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A00sub3]
-ParameterName=PDO Mapping Entry - Qry_VAR 2
+ParameterName=PDO Mapping Entry - Qry_VAR 3
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1009,7 +1009,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A00sub4]
-ParameterName=PDO Mapping Entry - Qry_VAR 2
+ParameterName=PDO Mapping Entry - Qry_VAR 4
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1020,7 +1020,40 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A00sub5]
-ParameterName=PDO Mapping Entry - Qry_VAR 2
+ParameterName=PDO Mapping Entry - Qry_VAR 5
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060220
+PDOMapping=0
+ObjFlags=0x0
+
+[1A00sub6]
+ParameterName=PDO Mapping Entry - Qry_VAR 6
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060220
+PDOMapping=0
+ObjFlags=0x0
+
+[1A00sub7]
+ParameterName=PDO Mapping Entry - Qry_VAR 7
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060220
+PDOMapping=0
+ObjFlags=0x0
+
+[1A00sub8]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1047,7 +1080,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A01sub1]
-ParameterName=PDO Mapping Entry - Qry_VAR 3
+ParameterName=PDO Mapping Entry - Qry_VAR 1
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1058,7 +1091,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A01sub2]
-ParameterName=PDO Mapping Entry - Qry_VAR 4
+ParameterName=PDO Mapping Entry - Qry_VAR 2
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1069,7 +1102,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A01sub3]
-ParameterName=PDO Mapping Entry - Qry_VAR 4
+ParameterName=PDO Mapping Entry - Qry_VAR 3
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1095,7 +1128,40 @@ SubNumber=3
 ObjectType=0x8
 
 [1A01sub5]
-ParameterName=PDO Mapping Entry - Qry_VAR 4
+ParameterName=PDO Mapping Entry - Qry_VAR 5
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060420
+PDOMapping=0
+ObjFlags=0x0
+
+[1A01sub6]
+ParameterName=PDO Mapping Entry - Qry_VAR 6
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060420
+PDOMapping=0
+ObjFlags=0x0
+
+[1A01sub7]
+ParameterName=PDO Mapping Entry - Qry_VAR 7
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060420
+PDOMapping=0
+ObjFlags=0x0
+
+[1A01sub8]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1117,7 +1183,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A02sub1]
-ParameterName=PDO Mapping Entry - Qry_VAR 5
+ParameterName=PDO Mapping Entry - Qry_VAR 1
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1128,7 +1194,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A02sub2]
-ParameterName=PDO Mapping Entry - Qry_VAR 6
+ParameterName=PDO Mapping Entry - Qry_VAR 2
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1139,7 +1205,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A02sub3]
-ParameterName=PDO Mapping Entry - Qry_VAR 6
+ParameterName=PDO Mapping Entry - Qry_VAR 3
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1150,7 +1216,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A02sub4]
-ParameterName=PDO Mapping Entry - Qry_VAR 6
+ParameterName=PDO Mapping Entry - Qry_VAR 4
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1161,7 +1227,40 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A02sub5]
+ParameterName=PDO Mapping Entry - Qry_VAR 5
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060620
+PDOMapping=0
+ObjFlags=0x0
+
+[1A02sub6]
 ParameterName=PDO Mapping Entry - Qry_VAR 6
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060620
+PDOMapping=0
+ObjFlags=0x0
+
+[1A02sub7]
+ParameterName=PDO Mapping Entry - Qry_VAR 7
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060620
+PDOMapping=0
+ObjFlags=0x0
+
+[1A02sub8]
+ParameterName=PDO Mapping Entry - Qry_VAR 8
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1188,7 +1287,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A03sub1]
-ParameterName=PDO Mapping Entry - Qry_VAR 7
+ParameterName=PDO Mapping Entry - Qry_VAR 1
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1199,7 +1298,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A03sub2]
-ParameterName=PDO Mapping Entry - Qry_VAR 8
+ParameterName=PDO Mapping Entry - Qry_VAR 2
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1210,7 +1309,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A03sub3]
-ParameterName=PDO Mapping Entry - Qry_VAR 8
+ParameterName=PDO Mapping Entry - Qry_VAR 3
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1221,7 +1320,7 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A03sub4]
-ParameterName=PDO Mapping Entry - Qry_VAR 8
+ParameterName=PDO Mapping Entry - Qry_VAR 4
 ObjectType=0x7
 DataType=0x0007
 LowLimit=
@@ -1232,6 +1331,39 @@ PDOMapping=0
 ObjFlags=0x0
 
 [1A03sub5]
+ParameterName=PDO Mapping Entry - Qry_VAR 5
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A03sub6]
+ParameterName=PDO Mapping Entry - Qry_VAR 6
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A03sub7]
+ParameterName=PDO Mapping Entry - Qry_VAR 7
+ObjectType=0x7
+DataType=0x0007
+LowLimit=
+HighLimit=
+AccessType=rw
+DefaultValue=0x21060820
+PDOMapping=0
+ObjFlags=0x0
+
+[1A03sub8]
 ParameterName=PDO Mapping Entry - Qry_VAR 8
 ObjectType=0x7
 DataType=0x0007
