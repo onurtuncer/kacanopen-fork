@@ -2,6 +2,15 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.2.5 (2019-04-01)
+------------------
+* added more pdo mapping entries
+* EDS file added for Infranor
+* cleaned up and added generic sdo parsing
+* fixed the eds path
+* fixed the speed index
+* Contributors: Musarraf
+
 0.2.4 (2019-02-15)
 ------------------
 * reduced the speed step size
