@@ -16,7 +16,7 @@ void map_tpdo_in_device(TPDO_NO tpdo_no,
                         std::shared_ptr<kaco::Device> device) {
   uint32_t cob_id = 0;
   switch (tpdo_no) {
-    case tpdo1:
+    case TPDO_1:
 
       // disable tpdo
       cob_id = device->get_entry(0x1800, static_cast<uint8_t>(0x01),
@@ -48,7 +48,7 @@ void map_tpdo_in_device(TPDO_NO tpdo_no,
                         static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
-    case tpdo2:
+    case TPDO_2:
 
       cob_id = device->get_entry(0x1801, static_cast<uint8_t>(0x01),
                                  kaco::ReadAccessMethod::sdo);
@@ -83,7 +83,7 @@ void map_tpdo_in_device(TPDO_NO tpdo_no,
                         static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
-    case tpdo3:
+    case TPDO_3:
 
       // disable tpdo3
       cob_id = device->get_entry(0x1802, static_cast<uint8_t>(0x01),
@@ -117,7 +117,7 @@ void map_tpdo_in_device(TPDO_NO tpdo_no,
                         static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
-    case tpdo4:
+    case TPDO_4:
 
       // disable tpdo4
       cob_id = device->get_entry(0x1803, static_cast<uint8_t>(0x01),
@@ -164,7 +164,7 @@ void map_tpdo_in_device(TPDO_NO tpdo_no,
                         std::shared_ptr<kaco::Device> device) {
   uint32_t cob_id = 0;
   switch (tpdo_no) {
-    case tpdo1:
+    case TPDO_1:
 
       // disable tpdo
       cob_id = device->get_entry(0x1800, static_cast<uint8_t>(0x01),
@@ -195,7 +195,7 @@ void map_tpdo_in_device(TPDO_NO tpdo_no,
                         static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
-    case tpdo2:
+    case TPDO_2:
 
       cob_id = device->get_entry(0x1801, static_cast<uint8_t>(0x01),
                                  kaco::ReadAccessMethod::sdo);
@@ -227,7 +227,7 @@ void map_tpdo_in_device(TPDO_NO tpdo_no,
                         static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
-    case tpdo3:
+    case TPDO_3:
 
       // disable tpdo3
       cob_id = device->get_entry(0x1802, static_cast<uint8_t>(0x01),
@@ -258,7 +258,7 @@ void map_tpdo_in_device(TPDO_NO tpdo_no,
                         static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
-    case tpdo4:
+    case TPDO_4:
 
       // disable tpdo4
       cob_id = device->get_entry(0x1803, static_cast<uint8_t>(0x01),
@@ -302,7 +302,7 @@ void map_tpdo_in_device(TPDO_NO tpdo_no,
                         std::shared_ptr<kaco::Device> device) {
   uint32_t cob_id = 0;
   switch (tpdo_no) {
-    case tpdo1:
+    case TPDO_1:
 
       // disable tpdo
       cob_id = device->get_entry(0x1800, static_cast<uint8_t>(0x01),
@@ -330,7 +330,7 @@ void map_tpdo_in_device(TPDO_NO tpdo_no,
                         static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
-    case tpdo2:
+    case TPDO_2:
 
       cob_id = device->get_entry(0x1801, static_cast<uint8_t>(0x01),
                                  kaco::ReadAccessMethod::sdo);
@@ -359,7 +359,7 @@ void map_tpdo_in_device(TPDO_NO tpdo_no,
                         static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
-    case tpdo3:
+    case TPDO_3:
 
       // disable tpdo3
       cob_id = device->get_entry(0x1802, static_cast<uint8_t>(0x01),
@@ -387,7 +387,7 @@ void map_tpdo_in_device(TPDO_NO tpdo_no,
                         static_cast<uint32_t>(cob_id),
                         kaco::WriteAccessMethod::sdo);
       break;
-    case tpdo4:
+    case TPDO_4:
 
       // disable tpdo4
       cob_id = device->get_entry(0x1803, static_cast<uint8_t>(0x01),

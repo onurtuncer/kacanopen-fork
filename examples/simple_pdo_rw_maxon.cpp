@@ -139,14 +139,14 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   // Device side tpdo1 mapping entries and mapping
   std::vector<uint32_t> tpdo1_entries_to_be_mapped = {0x606C0020, 0x60410010,
                                                       0x603F0010};
-  map_tpdo_in_device(tpdo1, tpdo1_entries_to_be_mapped, 255, device);
+  map_tpdo_in_device(TPDO_1, tpdo1_entries_to_be_mapped, 255, device);
   // Device side tpdo2 mapping entries and mapping
   std::vector<uint32_t> tpdo2_entries_to_be_mapped = {0x60640020, 0x30D10220};
-  map_tpdo_in_device(tpdo2, tpdo2_entries_to_be_mapped, 255, device);
+  map_tpdo_in_device(TPDO_2, tpdo2_entries_to_be_mapped, 255, device);
   // Device side tpdo3 mapping entries and mapping
   std::vector<uint32_t> tpdo3_entries_to_be_mapped = {0x60FD0020, 0x60770010,
                                                       0x30D20110};
-  map_tpdo_in_device(tpdo3, tpdo3_entries_to_be_mapped, 255, device);
+  map_tpdo_in_device(TPDO_3, tpdo3_entries_to_be_mapped, 255, device);
 
   /// Device side TPDO mapping ends here;
   /***************** RPDO MAPPING in DEVICE *****************/
@@ -155,7 +155,7 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   std::vector<uint32_t> rpdo1_entries_to_be_mapped = {
       0x60FF0020, 0x60400010,
   };
-  map_rpdo_in_device(rpdo1, rpdo1_entries_to_be_mapped, 255, device);
+  map_rpdo_in_device(RPDO_1, rpdo1_entries_to_be_mapped, 255, device);
   /// Device side RPDO mapping ends here
 
   // Try to clear all possible errors in the CANOpen device

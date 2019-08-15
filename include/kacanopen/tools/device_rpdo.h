@@ -6,10 +6,10 @@
 #include "kacanopen/master/master.h"
 
 enum RPDO_NO {
-  rpdo1,
-  rpdo2,
-  rpdo3,
-  rpdo4
+  RPDO_1,
+  RPDO_2,
+  RPDO_3,
+  RPDO_4
 
 };
 

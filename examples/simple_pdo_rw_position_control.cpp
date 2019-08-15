@@ -110,26 +110,26 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
 
   const std::vector<uint32_t> tpdo1_entries_to_be_mapped{0x21030110,
                                                          0x21030310};
-  map_tpdo_in_device(tpdo1, tpdo1_entries_to_be_mapped, 255, 100, 100, device);
+  map_tpdo_in_device(TPDO_1, tpdo1_entries_to_be_mapped, 255, 100, 100, device);
 
   // Device side tpdo2 mapping entries and mapping
   const std::vector<uint32_t> tpdo3_entries_to_be_mapped{0x21040120,
                                                          0x21040220};
-  map_tpdo_in_device(tpdo3, tpdo3_entries_to_be_mapped, 255, 100, 100, device);
+  map_tpdo_in_device(TPDO_3, tpdo3_entries_to_be_mapped, 255, 100, 100, device);
 
   // Device side tpdo2 mapping entries and mapping
   const std::vector<uint32_t> tpdo2_entries_to_be_mapped{
       0x210D0110, 0x210D0210, 0x210D0310,
       0x21130010};  // {0x210D0110, 0x210D0210, 0x210D0310, 0x21030110}
-  map_tpdo_in_device(tpdo2, tpdo3_entries_to_be_mapped, 255, 100, 100, device);
+  map_tpdo_in_device(TPDO_2, tpdo3_entries_to_be_mapped, 255, 100, 100, device);
 
   // Device side rpdo1 mapping entries and mapping
   const std::vector<uint32_t> rpdo1_entries_to_be_mapped{0x20010120};
-  map_rpdo_in_device(rpdo1, rpdo1_entries_to_be_mapped, 255, device);
+  map_rpdo_in_device(RPDO_1, rpdo1_entries_to_be_mapped, 255, device);
 
   // Device side rpdo2 mapping entries and mapping
   const std::vector<uint32_t> rpdo2_entries_to_be_mapped{0x20010220};
-  map_rpdo_in_device(rpdo2, rpdo2_entries_to_be_mapped, 255, device);
+  map_rpdo_in_device(RPDO_2, rpdo2_entries_to_be_mapped, 255, device);
 }
 
 int main() {

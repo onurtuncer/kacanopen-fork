@@ -6,13 +6,13 @@
 #include <vector>
 
 enum SDO_PARSE_TYPE {
-  unsigned_int32 = 1,
-  signed_int32 = 2,
-  unsigned_int16 = 3,
-  signed_int16 = 4,
-  unsigned_int8 = 5,
-  signed_int8 = 6,
-  string = 7
+  UNSIGNED_INT32 = 1,
+  SIGNED_INT32 = 2,
+  UNSIGNED_INT16 = 3,
+  SIGNED_INT16 = 4,
+  UNSIGNED_INT8 = 5,
+  SIGNED_INT8 = 6,
+  STRING = 7
 };
 
 int32_t parse_sdo_read_as_int(std::vector<uint8_t> sdo_to_read);

@@ -6,10 +6,10 @@
 #include "kacanopen/master/master.h"
 
 enum TPDO_NO {
-  tpdo1,
-  tpdo2,
-  tpdo3,
-  tpdo4
+  TPDO_1,
+  TPDO_2,
+  TPDO_3,
+  TPDO_4
 
 };
 

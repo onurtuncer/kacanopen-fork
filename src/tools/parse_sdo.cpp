@@ -32,33 +32,33 @@ parse_sdo(std::vector<uint8_t> sdo_to_read, SDO_PARSE_TYPE parse_type) {
                                (sdo_read_byte[2] << 16) |
                                (sdo_read_byte[1] << 8) | (sdo_read_byte[0]);
   assert(("The parse_type is unknown",
-          ((parse_type == SDO_PARSE_TYPE::unsigned_int32) ||
-           (parse_type == SDO_PARSE_TYPE::unsigned_int16) ||
-           (parse_type == SDO_PARSE_TYPE::unsigned_int8) ||
-           (parse_type == SDO_PARSE_TYPE::signed_int32) ||
-           (parse_type == SDO_PARSE_TYPE::signed_int16) ||
-           (parse_type == SDO_PARSE_TYPE::signed_int8) ||
-           (parse_type == SDO_PARSE_TYPE::string))));
+          ((parse_type == SDO_PARSE_TYPE::UNSIGNED_INT32) ||
+           (parse_type == SDO_PARSE_TYPE::UNSIGNED_INT16) ||
+           (parse_type == SDO_PARSE_TYPE::UNSIGNED_INT8) ||
+           (parse_type == SDO_PARSE_TYPE::SIGNED_INT32) ||
+           (parse_type == SDO_PARSE_TYPE::SIGNED_INT16) ||
+           (parse_type == SDO_PARSE_TYPE::SIGNED_INT8) ||
+           (parse_type == SDO_PARSE_TYPE::STRING))));
   switch (parse_type) {
-    case unsigned_int32:
+    case UNSIGNED_INT32:
       return sdo_read_dw;
       break;
-    case unsigned_int16:
+    case UNSIGNED_INT16:
       return static_cast<uint16_t>(sdo_read_dw);
       break;
-    case unsigned_int8:
+    case UNSIGNED_INT8:
       return static_cast<uint8_t>(sdo_read_dw);
       break;
-    case signed_int32:
+    case SIGNED_INT32:
       return sdo_read_dw_as_int;
       break;
-    case signed_int16:
+    case SIGNED_INT16:
       return static_cast<int16_t>(sdo_read_dw_as_int);
       break;
-    case signed_int8:
+    case SIGNED_INT8:
       return static_cast<int8_t>(sdo_read_dw_as_int);
       break;
-    case string:
+    case STRING:
       return reinterpret_cast<char const*>(sdo_read_byte);
       break;
   }
