@@ -1,6 +1,6 @@
 #include "kacanopen/tools/parse_sdo.h"
 
-int32_t parse_sdo_read_as_int(std::vector<uint8_t> sdo_to_read) {
+int32_t parseSDOreadAsInt(std::vector<uint8_t> sdo_to_read) {
   unsigned char sdo_read_byte[] = {0x00, 0x00, 0x00, 0x00};
   for (unsigned int i = 0; i < sdo_to_read.size(); i++) {
     sdo_read_byte[i] = sdo_to_read.at(i);
@@ -17,7 +17,7 @@ int32_t parse_sdo_read_as_int(std::vector<uint8_t> sdo_to_read) {
 
 boost::variant<int32_t, uint32_t, uint16_t, int16_t, uint8_t, int8_t,
                std::string>
-parse_sdo(std::vector<uint8_t> sdo_to_read, SDO_PARSE_TYPE parse_type) {
+parseSDO(std::vector<uint8_t> sdo_to_read, SDO_PARSE_TYPE parse_type) {
   unsigned char sdo_read_byte[] = {0x00, 0x00, 0x00, 0x00};
   for (unsigned int i = 0; i < sdo_to_read.size(); i++) {
     sdo_read_byte[i] = sdo_to_read.at(i);

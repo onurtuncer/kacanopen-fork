@@ -15,8 +15,8 @@ enum SDO_PARSE_TYPE {
   STRING = 7
 };
 
-int32_t parse_sdo_read_as_int(std::vector<uint8_t> sdo_to_read);
+int32_t parseSDOreadAsInt(std::vector<uint8_t> sdo_to_read);
 
 boost::variant<int32_t, uint32_t, uint16_t, int16_t, uint8_t, int8_t,
                std::string>
-parse_sdo(std::vector<uint8_t> sdo_to_read, SDO_PARSE_TYPE parse_type);
+parseSDO(std::vector<uint8_t> sdo_to_read, SDO_PARSE_TYPE parse_type);
