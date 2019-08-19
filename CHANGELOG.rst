@@ -2,8 +2,8 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.6 (2019-08-19)
+------------------
 * method naming convention fix
 * renamed enums
 * Contributors: Musarraf
