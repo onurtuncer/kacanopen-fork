@@ -2,6 +2,12 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* method naming convention fix
+* renamed enums
+* Contributors: Musarraf
+
 0.2.5 (2019-04-01)
 ------------------
 * added more pdo mapping entries
