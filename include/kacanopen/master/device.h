@@ -319,6 +319,13 @@ class Device {
   ///aliasing the above function for consumer heartbeat by a wrapper
   void  send_consumer_heartbeat(uint8_t node_id, uint16_t heartbeat_interval,
                                 bool rtr, NMT::State state);
+
+  /// stop sending the heartbeat request and close the thread
+  void stop_request_heartbeat();
+
+  /// stop sending the consumder heartbeat and close the thread
+  void  stop_send_consumer_heartbeat();
+
   ///@}
 
  private:

@@ -53,12 +53,7 @@ Device::Device(Core& core, uint8_t node_id)
 
 Device::~Device() {
   for (auto& cob_id : cob_ids_) m_core.pdo.remove_pdo_received_callback(cob_id);
-  terminating_ = true;
-  if (thread_created_) {
-    if (request_heartbeat_thread_->joinable())
-      request_heartbeat_thread_->join();
-    thread_created_ = false;
-  }
+  stop_request_heartbeat();
 }
 
 void Device::start() {
@@ -736,10 +731,21 @@ void Device::request_heartbeat(uint8_t node_id, uint16_t heartbeat_interval,
   }
 }
 
+void Device::stop_request_heartbeat() {
+  terminating_ = true;
+  if (thread_created_) {
+    if (request_heartbeat_thread_->joinable())
+      request_heartbeat_thread_->join();
+    thread_created_ = false;
+  }
+}
+
 void Device::send_consumer_heartbeat(uint8_t node_id,
                                      uint16_t heartbeat_interval, bool rtr,
                                      NMT::State state) {
   request_heartbeat(node_id, heartbeat_interval, rtr, state);
 }
+
+void Device::stop_send_consumer_heartbeat() { stop_request_heartbeat(); }
 
 }  // end namespace kaco
