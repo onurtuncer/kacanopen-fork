@@ -601,20 +601,22 @@ void Device::load_dictionary_from_eds(const std::string& path) {
 
   // Load generic names from the standard CiA profiles on top of the existing
   // dictionary.
-  if (m_eds_library.ready()) {
-    // Wo know nothing about the EDS... No mandatory entries here. At least
-    // 0x1000 is required for load_cia_dictionary():
-    if (!has_entry(0x1000)) {
-      add_entry(0x1000, 0, "device_type", Type::uint32, AccessType::read_only);
-    }
-    Config::eds_reader_just_add_mappings = true;
-    load_cia_dictionary();
-    Config::eds_reader_just_add_mappings = false;
-  } else {
-    WARN(
-        "[Device::load_dictionary_from_eds] Cannot load generic entry names "
-        "because EDS library is not available.");
-  }
+  //  if (m_eds_library.ready()) {
+  //    // Wo know nothing about the EDS... No mandatory entries here. At least
+  //    // 0x1000 is required for load_cia_dictionary():
+  //    if (!has_entry(0x1000)) {
+  //      add_entry(0x1000, 0, "device_type", Type::uint32,
+  //      AccessType::read_only);
+  //    }
+  //    Config::eds_reader_just_add_mappings = true;
+  //    load_cia_dictionary();
+  //    Config::eds_reader_just_add_mappings = false;
+  //  } else {
+  //    WARN(
+  //        "[Device::load_dictionary_from_eds] Cannot load generic entry names
+  //        "
+  //        "because EDS library is not available.");
+  //  }
 }
 
 bool Device::load_operations() {
@@ -733,10 +735,9 @@ void Device::request_heartbeat(uint8_t node_id, uint16_t heartbeat_interval,
 
 void Device::stop_request_heartbeat() {
   terminating_ = true;
-  if (thread_created_) {
+  if (request_heartbeat_thread_) {
     if (request_heartbeat_thread_->joinable())
       request_heartbeat_thread_->join();
-    thread_created_ = false;
   }
 }
 
