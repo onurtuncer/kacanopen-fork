@@ -311,12 +311,14 @@ class Device {
   /// example be printed via print_dictionary().
   void read_complete_dictionary();
 
-  /// Creates a separate transmit tread to send heartbeat request to the
-  /// connected
-  /// slave by sendig the COB_ID as 700 with RTR bit true
+  /// Creates a separate transmit thread to send heartbeat request or consumer
+  /// heartbeat to the slave
   void request_heartbeat(uint8_t node_id, uint16_t heartbeat_interval,
                          bool rtr, NMT::State state);
 
+  ///aliasing the above function for consumer heartbeat by a wrapper
+  void  send_consumer_heartbeat(uint8_t node_id, uint16_t heartbeat_interval,
+                                bool rtr, NMT::State state);
   ///@}
 
  private:

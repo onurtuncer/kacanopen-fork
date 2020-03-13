@@ -724,6 +724,7 @@ void Device::send_heartbeat(uint8_t node_id, uint16_t heartbeat_interval,
     std::this_thread::sleep_for(std::chrono::milliseconds(heartbeat_interval));
   }
 }
+
 void Device::request_heartbeat(uint8_t node_id, uint16_t heartbeat_interval,
                                bool rtr, NMT::State state) {
   if (heartbeat_interval) {
@@ -734,4 +735,11 @@ void Device::request_heartbeat(uint8_t node_id, uint16_t heartbeat_interval,
     }
   }
 }
+
+void Device::send_consumer_heartbeat(uint8_t node_id,
+                                     uint16_t heartbeat_interval, bool rtr,
+                                     NMT::State state) {
+  request_heartbeat(node_id, heartbeat_interval, rtr, state);
+}
+
 }  // end namespace kaco
