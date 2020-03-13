@@ -133,12 +133,12 @@ bool initializeDevice(std::shared_ptr<kaco::Device> device,
   if (legacy_mode) {
     const std::vector<uint32_t> tpdo1_entries_to_be_mapped{0x21030110,
                                                            0x21030210};
-    mapTPDOinDevice(TPDO_1, tpdo1_entries_to_be_mapped, 255, 100, 250,
+    map_tpdo_in_device(TPDO_1, tpdo1_entries_to_be_mapped, 255, 100, 250,
                        device);
   } else {
     const std::vector<uint32_t> tpdo1_entries_to_be_mapped{0x21030120,
                                                            0x21030220};
-    mapTPDOinDevice(TPDO_1, tpdo1_entries_to_be_mapped, 255, 100, 250,
+    map_tpdo_in_device(TPDO_1, tpdo1_entries_to_be_mapped, 255, 100, 250,
                        device);
   }
 
@@ -146,19 +146,19 @@ bool initializeDevice(std::shared_ptr<kaco::Device> device,
   const std::vector<uint32_t> tpdo2_entries_to_be_mapped{
       0x21040120, 0x21040220,
   };
-  mapTPDOinDevice(TPDO_2, tpdo2_entries_to_be_mapped, 255, 100, 250, device);
+  map_tpdo_in_device(TPDO_2, tpdo2_entries_to_be_mapped, 255, 100, 250, device);
 
   // Device side tpdo3 mapping entries and mapping
   const std::vector<uint32_t> tpdo3_entries_to_be_mapped{
       0x210D0110, 0x210D0210, 0x210D0310, 0x210F0208, 0x210F0308};
   const std::vector<uint32_t> tpdo3_test_entries{0x210D0110, 0x210D0210,
                                                  0x210D0110, 0x210D0210};
-  mapTPDOinDevice(TPDO_3, tpdo3_entries_to_be_mapped, 255, 100, 250, device);
+  map_tpdo_in_device(TPDO_3, tpdo3_entries_to_be_mapped, 255, 100, 250, device);
 
   // Device side tpdo4 mapping entries and mapping
   const std::vector<uint32_t> tpdo4_entries_to_be_mapped{
       0x21000110, 0x21000210, 0x21020110, 0x21020210};
-  mapTPDOinDevice(TPDO_4, tpdo4_entries_to_be_mapped, 255, 100, 250, device);
+  map_tpdo_in_device(TPDO_4, tpdo4_entries_to_be_mapped, 255, 100, 250, device);
   /// Device side TPDO mapping ends here.
 
   /// Master side TPDO mapping starts here.This must be in line with device
@@ -206,20 +206,20 @@ bool initializeDevice(std::shared_ptr<kaco::Device> device,
   if (1 == ch1_mode /*Close Loop Speed Mode*/) {
     // Device side rpdo1 mapping entries and mapping
     const std::vector<uint32_t> rpdo1_entries_to_be_mapped{0x20000120};
-    mapRPDOInDevice(RPDO_1, rpdo1_entries_to_be_mapped, 255, device);
+    map_rpdo_in_device(RPDO_1, rpdo1_entries_to_be_mapped, 255, device);
   } else if (3 == ch1_mode /*Close Loop Position Count Mode*/) {
     // Device side rpdo1 mapping entries and mapping
     const std::vector<uint32_t> rpdo1_entries_to_be_mapped{0x20010120};
-    mapRPDOInDevice(RPDO_1, rpdo1_entries_to_be_mapped, 255, device);
+    map_rpdo_in_device(RPDO_1, rpdo1_entries_to_be_mapped, 255, device);
   }
   if (1 == ch2_mode /*Close Loop Speed Mode*/) {
     // Device side rpdo2 mapping entries and mapping
     const std::vector<uint32_t> rpdo2_entries_to_be_mapped{0x20000220};
-    mapRPDOInDevice(RPDO_2, rpdo2_entries_to_be_mapped, 255, device);
+    map_rpdo_in_device(RPDO_2, rpdo2_entries_to_be_mapped, 255, device);
   } else if (3 == ch2_mode /*Close Loop Position Count Mode*/) {
     // Device side rpdo2 mapping entries and mapping
     const std::vector<uint32_t> rpdo2_entries_to_be_mapped{0x20010220};
-    mapRPDOInDevice(RPDO_2, rpdo2_entries_to_be_mapped, 255, device);
+    map_rpdo_in_device(RPDO_2, rpdo2_entries_to_be_mapped, 255, device);
   }
 
   initialized = true;

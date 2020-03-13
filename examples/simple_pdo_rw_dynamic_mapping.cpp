@@ -127,11 +127,11 @@ int main() {
                 0x210C0110, 0x210C0210, 0x210C0110, 0x210C0210};
             // map_tpdo_in_device(tpdo4, entries_to_be_mapped, 255, 100, 500,
             // device,node_id);
-            mapTPDOinDevice(TPDO_3, entries_to_be_mapped, 255, 100, 500,
+            map_tpdo_in_device(TPDO_3, entries_to_be_mapped, 255, 100, 500,
                                device);
-            mapTPDOinDevice(TPDO_2, entries_to_be_mapped, 255, 100, 500,
+            map_tpdo_in_device(TPDO_2, entries_to_be_mapped, 255, 100, 500,
                                device);
-            mapTPDOinDevice(TPDO_1, entries_to_be_mapped, 255, 100, 500,
+            map_tpdo_in_device(TPDO_1, entries_to_be_mapped, 255, 100, 500,
                                device);
             node_initialized = true;
           }

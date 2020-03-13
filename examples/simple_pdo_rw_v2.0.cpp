@@ -130,33 +130,33 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   // Device side tpdo1 mapping entries and mapping
   const std::vector<uint32_t> tpdo1_entries_to_be_mapped{0x21030120,
                                                          0x21030220};
-  mapTPDOinDevice(TPDO_1, tpdo1_entries_to_be_mapped, 255, 100, 250, device);
+  map_tpdo_in_device(TPDO_1, tpdo1_entries_to_be_mapped, 255, 100, 250, device);
 
   // Device side tpdo2 mapping entries and mapping
   const std::vector<uint32_t> tpdo2_entries_to_be_mapped{
       0x21040120, 0x21040220,
   };
-  mapTPDOinDevice(TPDO_2, tpdo2_entries_to_be_mapped, 255, 100, 250, device);
+  map_tpdo_in_device(TPDO_2, tpdo2_entries_to_be_mapped, 255, 100, 250, device);
 
   // Device side tpdo3 mapping entries and mapping
   const std::vector<uint32_t> tpdo3_entries_to_be_mapped{
       0x210D0110, 0x210D0210, 0x210D0310, 0x210F0208, 0x210F0308};
   const std::vector<uint32_t> tpdo3_test_entries{0x210D0110, 0x210D0210,
                                                  0x210D0110, 0x210D0210};
-  mapTPDOinDevice(TPDO_3, tpdo3_entries_to_be_mapped, 255, 100, 250, device);
+  map_tpdo_in_device(TPDO_3, tpdo3_entries_to_be_mapped, 255, 100, 250, device);
 
   // Device side tpdo4 mapping entries and mapping
   const std::vector<uint32_t> tpdo4_entries_to_be_mapped{
       0x21000110, 0x21000210, 0x21020110, 0x21020210};
-  mapTPDOinDevice(TPDO_4, tpdo4_entries_to_be_mapped, 255, 100, 250, device);
+  map_tpdo_in_device(TPDO_4, tpdo4_entries_to_be_mapped, 255, 100, 250, device);
 
   // Device side rpdo1 mapping entries and mapping
   const std::vector<uint32_t> rpdo1_entries_to_be_mapped{0x20000120};
-  mapRPDOInDevice(RPDO_1, rpdo1_entries_to_be_mapped, 255, device);
+  map_rpdo_in_device(RPDO_1, rpdo1_entries_to_be_mapped, 255, device);
 
   // Device side rpdo2 mapping entries and mapping
   const std::vector<uint32_t> rpdo2_entries_to_be_mapped{0x20000120};
-  mapRPDOInDevice(RPDO_2, rpdo2_entries_to_be_mapped, 255, device);
+  map_rpdo_in_device(RPDO_2, rpdo2_entries_to_be_mapped, 255, device);
 }
 
 int main() {

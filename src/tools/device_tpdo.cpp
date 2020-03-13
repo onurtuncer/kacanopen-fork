@@ -1,6 +1,6 @@
 #include "kacanopen/tools/device_tpdo.h"
 #include <cstdint>
-void writeEntry(uint16_t index, std::vector<uint32_t> entries,
+void write_entry(uint16_t index, std::vector<uint32_t> entries,
                  std::shared_ptr<kaco::Device> device) {
   uint8_t offset = 0;
   for (uint8_t i = 0; i < entries.size(); i++) {
@@ -9,7 +9,7 @@ void writeEntry(uint16_t index, std::vector<uint32_t> entries,
                       kaco::WriteAccessMethod::sdo);
   }
 }
-void mapTPDOinDevice(TPDO_NO tpdo_no,
+void map_tpdo_in_device(TPDO_NO tpdo_no,
                         std::vector<uint32_t> entries_to_be_mapped,
                         uint8_t transmit_type, uint16_t inhibit_time,
                         uint16_t event_timer,
@@ -28,7 +28,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
       device->set_entry(0x1A00, 0x00, static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1A00, entries_to_be_mapped, device);
+      write_entry(0x1A00, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1A00, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -62,7 +62,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1A01, entries_to_be_mapped, device);
+      write_entry(0x1A01, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1A01, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -97,7 +97,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1A02, entries_to_be_mapped, device);
+      write_entry(0x1A02, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1A02, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -131,7 +131,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1A03, entries_to_be_mapped, device);
+      write_entry(0x1A03, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1A03, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -158,7 +158,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
   }
 }
 
-void mapTPDOinDevice(TPDO_NO tpdo_no,
+void map_tpdo_in_device(TPDO_NO tpdo_no,
                         std::vector<uint32_t> entries_to_be_mapped,
                         uint8_t transmit_type, uint16_t inhibit_time,
                         std::shared_ptr<kaco::Device> device) {
@@ -178,7 +178,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1A00, entries_to_be_mapped, device);
+      write_entry(0x1A00, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1A00, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -209,7 +209,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1A01, entries_to_be_mapped, device);
+      write_entry(0x1A01, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1A01, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -241,7 +241,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1A02, entries_to_be_mapped, device);
+      write_entry(0x1A02, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1A02, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -272,7 +272,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1A03, entries_to_be_mapped, device);
+      write_entry(0x1A03, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1A03, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -296,7 +296,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
   }
 }
 
-void mapTPDOinDevice(TPDO_NO tpdo_no,
+void map_tpdo_in_device(TPDO_NO tpdo_no,
                         std::vector<uint32_t> entries_to_be_mapped,
                         uint8_t transmit_type,
                         std::shared_ptr<kaco::Device> device) {
@@ -316,7 +316,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1A00, entries_to_be_mapped, device);
+      write_entry(0x1A00, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1A00, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -344,7 +344,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1A01, entries_to_be_mapped, device);
+      write_entry(0x1A01, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1A01, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -373,7 +373,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1A02, entries_to_be_mapped, device);
+      write_entry(0x1A02, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1A02, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -401,7 +401,7 @@ void mapTPDOinDevice(TPDO_NO tpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1A03, entries_to_be_mapped, device);
+      write_entry(0x1A03, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1A03, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),

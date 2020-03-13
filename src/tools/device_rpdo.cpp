@@ -1,7 +1,7 @@
 #include "kacanopen/tools/device_rpdo.h"
 #include <cstdint>
 #include "kacanopen/tools/device_tpdo.h"
-void mapRPDOInDevice(RPDO_NO rpdo_no,
+void map_rpdo_in_device(RPDO_NO rpdo_no,
                         std::vector<uint32_t> entries_to_be_mapped,
                         uint8_t transmit_type,
                         std::shared_ptr<kaco::Device> device) {
@@ -21,7 +21,7 @@ void mapRPDOInDevice(RPDO_NO rpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1600, entries_to_be_mapped, device);
+      write_entry(0x1600, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1600, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -49,7 +49,7 @@ void mapRPDOInDevice(RPDO_NO rpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1601, entries_to_be_mapped, device);
+      write_entry(0x1601, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1601, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -77,7 +77,7 @@ void mapRPDOInDevice(RPDO_NO rpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1602, entries_to_be_mapped, device);
+      write_entry(0x1602, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1602, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),
@@ -105,7 +105,7 @@ void mapRPDOInDevice(RPDO_NO rpdo_no,
                         static_cast<uint8_t>(0x00),
                         kaco::WriteAccessMethod::sdo);
       // add new mapping
-      writeEntry(0x1603, entries_to_be_mapped, device);
+      write_entry(0x1603, entries_to_be_mapped, device);
       // update no. of mapped entries
       device->set_entry(0x1603, static_cast<uint8_t>(0x00),
                         static_cast<uint8_t>(entries_to_be_mapped.size()),

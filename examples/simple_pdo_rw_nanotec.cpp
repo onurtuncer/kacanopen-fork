@@ -57,7 +57,7 @@ bool printDeviceInfo(std::shared_ptr<kaco::Device> device, kaco::Core &core,
     std::vector<uint8_t> device_type_vector =
         core.sdo.upload(node_id, 0x1000, 0x0);
     uint32_t device_type = boost::get<uint32_t>(
-        parseSDO(device_type_vector, SDO_PARSE_TYPE::UNSIGNED_INT32));
+        parse_sdo(device_type_vector, SDO_PARSE_TYPE::UNSIGNED_INT32));
     std::vector<uint8_t> name_vector = core.sdo.upload(node_id, 0x1008, 0x00);
     std::string device_name(name_vector.begin(), name_vector.end());
     std::vector<uint8_t> hw_ver_vector = core.sdo.upload(node_id, 0x1009, 0x00);
@@ -134,14 +134,14 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   // Device side tpdo1 mapping entries and mapping
   std::vector<uint32_t> tpdo1_entries_to_be_mapped = {0x606C0020, 0x60410010,
                                                       0x603F0010};
-  mapTPDOinDevice(TPDO_1, tpdo1_entries_to_be_mapped, 255, device);
+  map_tpdo_in_device(TPDO_1, tpdo1_entries_to_be_mapped, 255, device);
   // Device side tpdo2 mapping entries and mapping
   std::vector<uint32_t> tpdo2_entries_to_be_mapped = {0x60640020, 0x60640020};
-  mapTPDOinDevice(TPDO_2, tpdo2_entries_to_be_mapped, 255, device);
+  map_tpdo_in_device(TPDO_2, tpdo2_entries_to_be_mapped, 255, device);
   // Device side tpdo3 mapping entries and mapping
   std::vector<uint32_t> tpdo3_entries_to_be_mapped = {0x60FD0020, 0x60770010,
                                                       0x60770010};
-  mapTPDOinDevice(TPDO_3, tpdo3_entries_to_be_mapped, 255, device);
+  map_tpdo_in_device(TPDO_3, tpdo3_entries_to_be_mapped, 255, device);
 
   /// Device side TPDO mapping ends here;
   /***************** RPDO MAPPING in DEVICE *****************/
@@ -150,7 +150,7 @@ void initializeDevice(std::shared_ptr<kaco::Device> device,
   std::vector<uint32_t> rpdo1_entries_to_be_mapped = {
       0x60FF0020, 0x60400010,
   };
-  mapRPDOInDevice(RPDO_1, rpdo1_entries_to_be_mapped, 255, device);
+  map_rpdo_in_device(RPDO_1, rpdo1_entries_to_be_mapped, 255, device);
   /// Device side RPDO mapping ends here
 
   // Try to clear all possible errors in the CANOpen device
