@@ -314,7 +314,8 @@ class Device {
   /// Creates a separate transmit tread to send heartbeat request to the
   /// connected
   /// slave by sendig the COB_ID as 700 with RTR bit true
-  void request_heartbeat(uint16_t heartbeat_interval);
+  void request_heartbeat(uint8_t node_id, uint16_t heartbeat_interval,
+                         bool rtr, NMT::State state);
 
   ///@}
 
@@ -345,7 +346,8 @@ class Device {
 
   void pdo_received_callback(const ReceivePDOMapping& mapping,
                              std::vector<uint8_t> data);
-  void send_heartbeat(uint16_t heartbeat_interval);
+  void send_heartbeat(uint8_t node_id, uint16_t heartbeat_interval,
+                      bool rtr, NMT::State state);
 
   static const bool debug = false;
 

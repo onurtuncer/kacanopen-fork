@@ -246,7 +246,8 @@ int main() {
           int8_t set_mode_of_operation = 3;
           device->set_entry(0x6060, 0x00, set_mode_of_operation,
                             kaco::WriteAccessMethod::sdo);
-          device->request_heartbeat(heartbeat_interval);
+          device->request_heartbeat(node_id, heartbeat_interval, true,
+                                    kaco::NMT::State::operational);
           device->start();
           printDeviceInfo(device);
           device_connected = true;

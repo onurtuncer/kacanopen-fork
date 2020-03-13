@@ -712,19 +712,25 @@ void Device::read_complete_dictionary() {
 
 const Value Device::m_dummy_value = Value();
 
-void Device::send_heartbeat(uint16_t heartbeat_interval) {
+void Device::send_heartbeat(uint8_t node_id, uint16_t heartbeat_interval,
+                            bool rtr, NMT::State state) {
   const kaco::Message request_heartbeat = {
-      static_cast<uint16_t>(0x700 + m_node_id), 0x01, 0x00, {0x00}};
+      static_cast<uint16_t>(0x700 + node_id),
+      rtr,
+      0x01,
+      {static_cast<uint8_t>(state)}};
   while (!terminating_) {
     m_core.send(request_heartbeat);
     std::this_thread::sleep_for(std::chrono::milliseconds(heartbeat_interval));
   }
 }
-void Device::request_heartbeat(uint16_t heartbeat_interval) {
+void Device::request_heartbeat(uint8_t node_id, uint16_t heartbeat_interval,
+                               bool rtr, NMT::State state) {
   if (heartbeat_interval) {
     if (!request_heartbeat_thread_) {
       request_heartbeat_thread_.reset(
-          new std::thread(&Device::send_heartbeat, this, heartbeat_interval));
+          new std::thread(&Device::send_heartbeat, this, node_id,
+                          heartbeat_interval, rtr, state));
     }
   }
 }
