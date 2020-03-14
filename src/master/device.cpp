@@ -605,8 +605,7 @@ void Device::load_dictionary_from_eds(const std::string& path) {
     // Wo know nothing about the EDS... No mandatory entries here. At least
     // 0x1000 is required for load_cia_dictionary():
     if (!has_entry(0x1000)) {
-      add_entry(0x1000, 0, "device_type", Type::uint32,
-      AccessType::read_only);
+      add_entry(0x1000, 0, "device_type", Type::uint32, AccessType::read_only);
     }
     Config::eds_reader_just_add_mappings = true;
     load_cia_dictionary();
