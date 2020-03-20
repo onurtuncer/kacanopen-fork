@@ -21,6 +21,7 @@ endif()
 ##  Catkin  ##
 ##############
 find_package(catkin REQUIRED COMPONENTS
+  backward_ros
   roscpp
   roslib
   sensor_msgs
@@ -38,6 +39,7 @@ catkin_package(
     ${PROJECT_NAME}_ros_bridge
     ${PROJECT_NAME}_tools
   CATKIN_DEPENDS
+    backward_ros
     roscpp
     roslib
     sensor_msgs
