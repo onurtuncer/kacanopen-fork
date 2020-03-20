@@ -55,7 +55,7 @@ enum class ReadAccessMethod {
 
   /// Send a PDO request for a PDO which is associated with
   /// this entry (if there is such a mapping), wait for the
-  // result and return it.
+  /// result and return it.
   pdo_request_and_wait
 
 };
