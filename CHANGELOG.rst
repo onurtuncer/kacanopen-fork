@@ -2,6 +2,25 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merged in bugfix/datatype-mismatch (pull request #4)
+  Bugfix/datatype mismatch
+  Approved-by: Musarraf Hossain Sekh <mhs@blue-ocean-robotics.com>
+* Guarding get entry from invalid entries
+* Guarding the get value from ivnalid entries
+* NOT loading default EDS files at device->start(). This seems to be causing the original bug
+* added backwards_ros
+* disabled unnecessary eds loading warning
+* reverted the temporary changes of defult CiA eds entries
+* disabled default CiA dictionary
+* heartbeat sending thread closing exposed as public menthod
+* added send_consumer_heartbeat method
+* reverted to original author's naming convention
+* cleaned up send_heartbeat method to make it generic
+* added nanotec example
+* Contributors: Jorge Rodriguez, Musarraf, Musarraf Hossain, Seto
+
 0.2.6 (2019-08-19)
 ------------------
 * method naming convention fix
