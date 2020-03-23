@@ -2,8 +2,8 @@
 Changelog for package kacanopen
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.0 (2020-03-23)
+------------------
 * Merged in bugfix/datatype-mismatch (pull request #4)
   Bugfix/datatype mismatch
   Approved-by: Musarraf Hossain Sekh <mhs@blue-ocean-robotics.com>
