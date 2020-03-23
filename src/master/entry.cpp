@@ -96,7 +96,8 @@ void Entry::set_value(const Value& value) {
 const Value& Entry::get_value() const {
   std::lock_guard<std::recursive_mutex> lock(*m_read_write_mutex);
   if (!valid()) {
-    throw canopen_error("[Entry::get_value] Value is not valid.");
+    throw canopen_error("[Entry::get_value] Value of entry '" + name +
+                        "' is not valid.");
   }
   return m_value;
 }

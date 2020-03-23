@@ -123,6 +123,9 @@ class Device {
   /// \throws canopen_error if the EDS file cannot be loaded.
   void load_dictionary_from_eds(const std::string& path);
 
+  /// Loads the default EDS files
+  void load_default_eds_files();
+
   /// Loads convenience operations associated with the device profile.
   /// \returns true, if successful
   bool load_operations();

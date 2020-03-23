@@ -57,26 +57,16 @@ Device::~Device() {
 }
 
 void Device::start() {
-  m_core.nmt.send_nmt_message(m_node_id, NMT::Command::start_node);
-
-  if (!m_eds_library.lookup_library()) {
-    throw canopen_error(
-        "[Device::start] EDS library not found. If and only if you make sure "
-        "for yourself, that mandatory"
-        " entries and operations are available, you can catch this error and "
-        "go on.");
-  }
-
-  if (!m_eds_library.load_mandatory_entries()) {
-    throw canopen_error(
-        "[Device::start] Could not load mandatory dictionary entries."
-        " If and only if you make sure for yourself, that mandatory"
-        " entries and operations are available, you can catch this error and "
-        "go on.");
-  }
-
   load_operations();
   load_constants();
+
+  // NOTE: Loading these files SOMETIMES causes a inbalance between m_dictionary
+  // and m_name_to_address which causes segfaults when parsing messages at
+  // runtime
+
+  // load_default_eds_files();
+
+  m_core.nmt.send_nmt_message(m_node_id, NMT::Command::start_node);
 }
 
 uint8_t Device::get_node_id() const { return m_node_id; }
@@ -133,6 +123,15 @@ const Value& Device::get_entry(const uint16_t index, const uint8_t subindex,
     DEBUG_LOG("[Device::get_entry] SDO update on read.");
     entry.set_value(get_entry_via_sdo(entry.index, entry.subindex, entry.type));
   }
+  // NOTE: If not, it has to be a PDO. The PDO caching or waiting is not
+  // implemented, so the entry can be Invalid at init time. We force then an
+  // update through SDO
+  //  else {
+  //    if (entry.get_value().type == kaco::Type::invalid) {
+  //      entry.set_value(
+  //          get_entry_via_sdo(entry.index, entry.subindex, entry.type));
+  //    }
+  //  }
   return entry.get_value();
 }
 
@@ -156,10 +155,10 @@ void Device::set_entry(const uint16_t index, const uint8_t subindex,
   }
   Entry& entry = m_dictionary[Address{index, subindex}];
   if (value.type != entry.type) {
-    throw dictionary_error(dictionary_error::type::wrong_type, index_string,
-                           "Entry type: " + Utils::type_to_string(entry.type) +
-                               ", given type: " +
-                               Utils::type_to_string(value.type));
+    throw dictionary_error(
+        dictionary_error::type::wrong_type, index_string,
+        "Entry type: " + Utils::type_to_string(entry.type) +
+            ", given type: " + Utils::type_to_string(value.type));
   }
   entry.set_value(value);
   if (access_method == WriteAccessMethod::sdo ||
@@ -425,6 +424,12 @@ void Device::pdo_received_callback(const ReceivePDOMapping& mapping,
   const uint8_t offset = mapping.offset;
   const uint8_t type_size = Utils::get_type_size(entry.type);
 
+  if (entry.type == Type::invalid) {
+    ERROR("[Device::pdo_received_callback] Entry '" + entry_name +
+          "' fetched from m_dicctionary is invalid");
+    return;
+  }
+
   if (data.size() < offset + type_size) {
     // We don't throw an exception here, because this could be a network error.
     WARN("[Device::pdo_received_callback] PDO has wrong size. Ignoring it...");
@@ -469,12 +474,12 @@ Value Device::get_entry_via_sdo(uint32_t index, uint8_t subindex, Type type) {
     }
   }
 
-  throw sdo_error(sdo_error::type::response_timeout,
-                  "Device::get_entry_via_sdo() device " +
-                      std::to_string(m_node_id) + " failed after " +
-                      std::to_string(Config::repeats_on_sdo_timeout + 1) +
-                      " repeats. Last error: " +
-                      std::string(last_error.what()));
+  throw sdo_error(
+      sdo_error::type::response_timeout,
+      "Device::get_entry_via_sdo() device " + std::to_string(m_node_id) +
+          " failed after " +
+          std::to_string(Config::repeats_on_sdo_timeout + 1) +
+          " repeats. Last error: " + std::string(last_error.what()));
 }
 
 void Device::set_entry_via_sdo(uint32_t index, uint8_t subindex,
@@ -499,12 +504,12 @@ void Device::set_entry_via_sdo(uint32_t index, uint8_t subindex,
     }
   }
 
-  throw sdo_error(sdo_error::type::response_timeout,
-                  "Device::set_entry_via_sdo() device " +
-                      std::to_string(m_node_id) + " failed after " +
-                      std::to_string(Config::repeats_on_sdo_timeout + 1) +
-                      " repeats. Last error: " +
-                      std::string(last_error.what()));
+  throw sdo_error(
+      sdo_error::type::response_timeout,
+      "Device::set_entry_via_sdo() device " + std::to_string(m_node_id) +
+          " failed after " +
+          std::to_string(Config::repeats_on_sdo_timeout + 1) +
+          " repeats. Last error: " + std::string(last_error.what()));
 }
 
 std::string Device::load_dictionary_from_library() {
@@ -612,8 +617,26 @@ void Device::load_dictionary_from_eds(const std::string& path) {
     Config::eds_reader_just_add_mappings = false;
   } else {
     WARN(
-        "[Device::load_dictionary_from_eds] Cannot load generic entry names"
+        "[Device::load_dictionary_from_eds] Cannot load generic entry names "
         "because EDS library is not available.");
+  }
+}
+
+void Device::load_default_eds_files() {
+  if (!m_eds_library.lookup_library()) {
+    throw canopen_error(
+        "[Device::start] EDS library not found. If and only if you make sure "
+        "for yourself, that mandatory"
+        " entries and operations are available, you can catch this error and "
+        "go on.");
+  }
+
+  if (!m_eds_library.load_mandatory_entries()) {
+    throw canopen_error(
+        "[Device::start] Could not load mandatory dictionary entries."
+        " If and only if you make sure for yourself, that mandatory"
+        " entries and operations are available, you can catch this error and "
+        "go on.");
   }
 }
 
