@@ -6,7 +6,6 @@ Changelog for package kacanopen
 ------------------
 * Merged in bugfix/datatype-mismatch (pull request #4)
   Bugfix/datatype mismatch
-  Approved-by: Musarraf Hossain Sekh <mhs@blue-ocean-robotics.com>
 * Guarding get entry from invalid entries
 * Guarding the get value from ivnalid entries
 * NOT loading default EDS files at device->start(). This seems to be causing the original bug
@@ -19,13 +18,11 @@ Changelog for package kacanopen
 * reverted to original author's naming convention
 * cleaned up send_heartbeat method to make it generic
 * added nanotec example
-* Contributors: Jorge Rodriguez, Musarraf, Musarraf Hossain, Seto
 
 0.2.6 (2019-08-19)
 ------------------
 * method naming convention fix
 * renamed enums
-* Contributors: Musarraf
 
 0.2.5 (2019-04-01)
 ------------------
@@ -34,7 +31,6 @@ Changelog for package kacanopen
 * cleaned up and added generic sdo parsing
 * fixed the eds path
 * fixed the speed index
-* Contributors: Musarraf
 
 0.2.4 (2019-02-15)
 ------------------
@@ -43,20 +39,15 @@ Changelog for package kacanopen
 * general cleanup and some casting fix
 * thread_created flag is now false after the thread is joined
 * renamed the method and corrected compiler warning
-* Contributors: Musarraf
 
 0.2.3 (2019-02-13)
 ------------------
 * request_heartbeat thread closing was corrected for the devices only  which has created the thread
 * added legacy mode and firmware check
-* Contributors: Musarraf
 
 0.2.2 (2019-02-07)
 ------------------
 * Merged in feature (pull request #3)
-  Feature
-  Approved-by: Aswin Thomas <ata@blue-ocean-robotics.com>
-  Approved-by: Naveed Usmani <nu@blue-ocean-robotics.com>
 * fixed PR review comments
 * moved the object dictionary to the appropriate folder
 * added backward compatible example for roboteq firmware v2.0 beta and v2.0 RC
@@ -71,7 +62,6 @@ Changelog for package kacanopen
 * some minor cleanup
 * moved the object dictionary file to the appropriate folder
 * added roboteq eds released on 30-01-2019
-* Contributors: Musarraf, Musarraf Hossain, Musarraf Hossain Sekh
 
 0.2.1 (2019-01-30)
 ------------------
@@ -88,7 +78,6 @@ Changelog for package kacanopen
 * replaced "CMAKE_BUILD_TYPE EQUAL" with "CMAKE_BUILD_TYPE STREQUAL" to fix the example sub directory build issue
 * overloaded map_tpdo_in_device to support maxon EPOS series
 * added new eds file for Maxon EPOS4
-* Contributors: Musarraf, Musarraf Hossain
 
 0.2.0 (2018-10-28)
 ------------------
@@ -451,4 +440,3 @@ Changelog for package kacanopen
   - Renaming defines.h to logger.h and including it _only\_ in .cpp-files -> reducing macro pollution.
 * Fixing typos in README.md.
 * Initial commit. The work on KaCanOpen originally started on October 16, 2015. See README.md for details.
-* Contributors: Adrian Weiler, Aswin Thomas, Jorge Rodriguez, Julien Mintenbeck, Musarraf, Musarraf Hossain Sekh, Thomas Keh, ahb, clio, thk1
