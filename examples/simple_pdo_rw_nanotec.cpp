@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <ros/package.h>
+// #include <ros/package.h>
 #include <signal.h>
 #include <boost/filesystem.hpp>
 #include <chrono>
@@ -233,9 +233,9 @@ int main() {
           device.reset(new kaco::Device(core, node_id));
           std::this_thread::sleep_for(std::chrono::milliseconds(100));
           printDeviceInfo(device, core, node_id);
-          std::string path = ros::package::getPath("kacanopen");
+          // std::string path = ros::package::getPath("kacanopen");
           boost::filesystem::path full_path =
-              path + "/resources/eds_library/nanotec/CL4-E-2-12.eds";
+            /* path + */ "/resources/eds_library/nanotec/CL4-E-2-12.eds";
           device->load_dictionary_from_eds(full_path.string());
           std::cout << "Printing Device Object Dictionary" << std::endl;
           device->print_dictionary();

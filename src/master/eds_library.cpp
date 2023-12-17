@@ -46,7 +46,7 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>  // property_tree
 
-#include <ros/package.h>
+// #include <ros/package.h>
 
 namespace kaco {
 
@@ -67,9 +67,9 @@ bool EDSLibrary::lookup_library(std::string path) {
     paths.push_back(path + "/eds_files.json");
   }
 
-  std::string package_path = ros::package::getPath("kacanopen");
-  paths.push_back(package_path + "/resources/eds_library/eds_files.json");
-  paths.push_back(package_path + "/resources/eds_library/eds_files.json");
+  // std::string package_path = ros::package::getPath("kacanopen");
+  paths.push_back(/*package_path +*/ "/resources/eds_library/eds_files.json");
+  paths.push_back(/*package_path + */"/resources/eds_library/eds_files.json");
   paths.push_back(
       "/usr/local/share/kacanopen/resources/eds_library/eds_files.json");
   paths.push_back("/usr/share/kacanopen/resources/eds_library/eds_files.json");

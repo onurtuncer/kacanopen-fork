@@ -30,7 +30,7 @@
  */
 
 #include "kacanopen/master/eds_reader.h"
-#include <ros/package.h>
+// #include <ros/package.h>
 #include "kacanopen/core/logger.h"
 
 #include <algorithm>
@@ -52,8 +52,8 @@ int main(int argc, char** argv) {
     success = reader.load_file(path);
 
   } else {
-    std::string package_path = ros::package::getPath("kacanopen");
-    path = package_path + "/resources/eds_library/example.eds";
+    // std::string package_path = ros::package::getPath("kacanopen");
+    path = /*package_path + */ "/resources/eds_library/example.eds";
     PRINT("Loading default EDS file from " << path);
     success = reader.load_file(path);
   }

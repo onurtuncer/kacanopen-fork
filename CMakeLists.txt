@@ -17,34 +17,35 @@ if(${EXHAUSTIVE_DEBUGGING})
   add_definitions("-DEXHAUSTIVE_DEBUGGING")
 endif()
 
-##############
-##  Catkin  ##
-##############
-find_package(catkin REQUIRED COMPONENTS
-  backward_ros
-  roscpp
-  roslib
-  sensor_msgs
-  std_msgs
-)
+# ##############
+# ##  Catkin  ##
+# ##############
+# find_package(catkin REQUIRED COMPONENTS
+#   backward_ros
+#   roscpp
+#   roslib
+#   sensor_msgs
+#   std_msgs
+# )
+
 find_package(Threads)
 find_package(Boost 1.46.1 COMPONENTS system filesystem REQUIRED)
-catkin_package(
-  INCLUDE_DIRS
-    include
-  LIBRARIES
-    ${PROJECT_NAME}_driver
-    ${PROJECT_NAME}_core
-    ${PROJECT_NAME}_master
-    ${PROJECT_NAME}_ros_bridge
-    ${PROJECT_NAME}_tools
-  CATKIN_DEPENDS
-    backward_ros
-    roscpp
-    roslib
-    sensor_msgs
-    std_msgs
-)
+# catkin_package(
+#   INCLUDE_DIRS
+#     include
+#   LIBRARIES
+#     ${PROJECT_NAME}_driver
+#     ${PROJECT_NAME}_core
+#     ${PROJECT_NAME}_master
+#     ${PROJECT_NAME}_ros_bridge
+#     ${PROJECT_NAME}_tools
+#   CATKIN_DEPENDS
+#     backward_ros
+#     roscpp
+#     roslib
+#     sensor_msgs
+#     std_msgs
+# )
 
 #############
 ##  Build  ##
@@ -52,7 +53,7 @@ catkin_package(
 include_directories(
   include
   ${Boost_INCLUDE_DIRS}
-  ${catkin_INCLUDE_DIRS}
+  # ${catkin_INCLUDE_DIRS}
 )
 
 # Driver
@@ -78,13 +79,13 @@ target_link_libraries(${PROJECT_NAME}_master
   ${PROJECT_NAME}_core
 )
 
-# Ros bridge
-file(GLOB ROS_BRIDGE_SRC "src/ros_bridge/*.cpp")
-add_library(${PROJECT_NAME}_ros_bridge SHARED ${ROS_BRIDGE_SRC})
-target_link_libraries(${PROJECT_NAME}_ros_bridge
-  ${PROJECT_NAME}_master
-  ${catkin_LIBRARIES}
-)
+# # Ros bridge
+# file(GLOB ROS_BRIDGE_SRC "src/ros_bridge/*.cpp")
+# add_library(${PROJECT_NAME}_ros_bridge SHARED ${ROS_BRIDGE_SRC})
+# target_link_libraries(${PROJECT_NAME}_ros_bridge
+#   ${PROJECT_NAME}_master
+#   ${catkin_LIBRARIES}
+# )
 
 # Tools
 file(GLOB TOOLS_SRC "src/tools/*.cpp")
@@ -103,32 +104,32 @@ else()
   message("\n-- Add -DCMAKE_BUILD_TYPE=Debug to build the examples.\n")
 endif()
 
-#############
-## Install ##
-#############
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-)
+# #############
+# ## Install ##
+# #############
+# install(DIRECTORY include/${PROJECT_NAME}/
+#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+# )
 
 install(
   TARGETS
     ${PROJECT_NAME}_driver
     ${PROJECT_NAME}_core
     ${PROJECT_NAME}_master
-    ${PROJECT_NAME}_ros_bridge
+    # ${PROJECT_NAME}_ros_bridge
     ${PROJECT_NAME}_tools
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
+  # ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  # LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  # RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
 )
 
-install(
-  DIRECTORY resources
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+# install(
+#   DIRECTORY resources
+#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+# )
 
-file(GLOB SCRIPTS "scripts/*")
-install(
-  PROGRAMS ${SCRIPTS}
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+# file(GLOB SCRIPTS "scripts/*")
+# install(
+#   PROGRAMS ${SCRIPTS}
+#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )

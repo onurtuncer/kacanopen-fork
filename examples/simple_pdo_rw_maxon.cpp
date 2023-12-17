@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <ros/package.h>
+// #include <ros/package.h>
 #include <signal.h>
 #include <boost/filesystem.hpp>
 #include <chrono>
@@ -222,7 +222,7 @@ int main() {
   // make sure that the node is reset and goes back to NMT preoperational
   core.nmt.send_nmt_message(node_id, kaco::NMT::Command::reset_node);
   core.nmt.register_device_alive_callback([&](const uint8_t new_node_id) {
-    // Check if this is the node we are looking for.
+    // Check if this is the node we are looking for. // std::string path = ros::package::getPath("kacanopen");
     if (new_node_id == node_id) {
       // lock
       if (!found_node) {
@@ -232,9 +232,9 @@ int main() {
         try {
           // Initialize the device
           device.reset(new kaco::Device(core, node_id));
-          std::string path = ros::package::getPath("kacanopen");
+          // std::string path = ros::package::getPath("kacanopen");
           boost::filesystem::path full_path =
-              path + "/resources/eds_library/MaxonMotor/maxon_motor_EPOS4.eds";
+            /*  path + */ "/resources/eds_library/MaxonMotor/maxon_motor_EPOS4.eds";
           device->load_dictionary_from_eds(full_path.string());
           std::cout << "Printing Device Object Dictionary" << std::endl;
           device->print_dictionary();

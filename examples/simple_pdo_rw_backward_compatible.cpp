@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <ros/package.h>
+// #include <ros/package.h>
 #include <signal.h>
 #include <boost/filesystem.hpp>
 #include <chrono>
@@ -299,10 +299,10 @@ int main() {
                                     kaco::NMT::Command::enter_preoperational);
           // Load eds file. The eds file must be in the same folder in which the
           // binary is being executed.
-          std::string path = ros::package::getPath("kacanopen");
+          // std::string path = ros::package::getPath("kacanopen");
           if (!legacy_mode) {
             boost::filesystem::path full_path =
-                path +
+              /*  path + */
                 "/resources/eds_library/Roboteq/"
                 "roboteq_motor_controllers_v2.0-30-01-"
                 "2019.eds";
@@ -310,7 +310,7 @@ int main() {
           } else {
             std::cout << "Legacy Mode is enabled" << std::endl;
             boost::filesystem::path full_path =
-                path +
+               /* path + */
                 "/resources/eds_library/Roboteq/"
                 "roboteq_motor_controllers_v80beta.eds";
             device->load_dictionary_from_eds(full_path.string());
