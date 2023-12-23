@@ -31,7 +31,7 @@
 
 // #include <ros/package.h>
 #include <signal.h>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <chrono>
 #include <iostream>
 #include <memory>
@@ -115,7 +115,7 @@ int main() {
         // Load eds file. The eds file must be in the same folder in which the
         // binary is being executed.
         // std::string path = ros::package::getPath("kacanopen");
-        boost::filesystem::path full_path =
+        std::filesystem::path full_path =
           /*  path +  */ "/resources/eds_library/MaxonMotor/maxon_motor_EPOS4.eds";
         device->load_dictionary_from_eds(full_path.string());
         device->start();

@@ -31,11 +31,12 @@
 
 // #include <ros/package.h>
 #include <signal.h>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <chrono>
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <sstream>
 #include "kacanopen/core/core.h"
 #include "kacanopen/core/logger.h"
 #include "kacanopen/master/device.h"
@@ -106,9 +107,12 @@ int main() {
   // -------------- //
   // Create core.
   kaco::Core core;
-  std::cout << "Starting Core (connect to the driver and start the receiver "
+  std::stringstream ss;
+  ss << "Starting Core (connect to the driver and start the receiver "
                "thread)..."
             << std::endl;
+  std::cout << ss.str();
+  
   if (!core.start(busname, baudrate)) {
     std::cout << "Starting core failed." << std::endl;
     return EXIT_FAILURE;
@@ -131,7 +135,7 @@ int main() {
         // Load eds file. The eds file must be in the same folder in which the
         // binary is being executed.
         // std::string path = ros::package::getPath("kacanopen");
-        boost::filesystem::path full_path = /*path + */
+        std::filesystem::path full_path = /*path + */
                                             "/resources/eds_library/Roboteq/"
                                             "roboteq_motor_controllers_v80beta."
                                             "eds";
@@ -147,35 +151,34 @@ int main() {
         std::vector<uint8_t> read_firmware_version =
             core.sdo.upload(node_id, 0x100A, 0x0);
         uint16_t profile = parse_sdo_read_as_int(read_device_type);
-        std::cout << "" << std::endl;
-        std::cout << "" << std::endl;
-        std::cout << "*******************************************************"
-                  << std::endl;
-        std::cout << "*******************************************************"
-                  << std::endl;
-        std::cout << "* Device Profile number found CiA-" << std::dec << profile
-                  << "" << std::endl;
+
+        std::stringstream ss;
+        ss << "" << "\n";
+        ss << "" << "\n";
+        ss << "*******************************************************" << "\n";
+        ss << "*******************************************************" << "\n";
+        ss << "* Device Profile number found CiA-" << std::dec << profile << "" << "\n";
         std::cout << "* Device Name found as '";
         std::string device_name(
             reinterpret_cast<char const*>(read_device_name.data()),
             read_device_name.size());
-        std::cout << device_name << "'" << std::endl;
-        std::cout << "* Hardware version=";
+        ss << device_name << "'" << std::endl;
+        ss << "* Hardware version=";
         std::string hardware_version(
             reinterpret_cast<char const*>(read_hardware_version.data()),
             read_hardware_version.size());
-        std::cout << hardware_version << "" << std::endl;
-        std::cout << "* Firmware version=";
+        ss << hardware_version << "" << std::endl;
+        ss << "* Firmware version=";
         std::string firmware_version(
             reinterpret_cast<char const*>(read_firmware_version.data()),
             read_firmware_version.size());
-        std::cout << hardware_version << "" << std::endl;
-        std::cout << "*******************************************************"
-                  << std::endl;
-        std::cout << "*******************************************************"
-                  << std::endl;
-        std::cout << "" << std::endl;
-        std::cout << "" << std::endl;
+        ss << hardware_version << "" << std::endl;
+        ss << "*******************************************************" << "\n";
+        ss << "*******************************************************" << "\n";
+        ss << "" << "\n";
+        ss << "" << "\n";
+
+        std::cout << ss.str();
 
         std::cout << "Dumping Manufacturer device name " << std::endl;
         DUMP(device->get_entry(

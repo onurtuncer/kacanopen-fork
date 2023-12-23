@@ -42,7 +42,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>  // property_tree
 
@@ -50,7 +50,7 @@
 
 namespace kaco {
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 EDSLibrary::EDSLibrary(
     std::unordered_map<Address, Entry>& dictionary,

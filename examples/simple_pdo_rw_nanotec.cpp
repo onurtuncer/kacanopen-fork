@@ -31,7 +31,7 @@
 
 // #include <ros/package.h>
 #include <signal.h>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <chrono>
 #include <iostream>
 #include <memory>
@@ -56,7 +56,7 @@ bool printDeviceInfo(std::shared_ptr<kaco::Device> device, kaco::Core &core,
   try {
     std::vector<uint8_t> device_type_vector =
         core.sdo.upload(node_id, 0x1000, 0x0);
-    uint32_t device_type = boost::get<uint32_t>(
+    uint32_t device_type = std::get<uint32_t>(
         parse_sdo(device_type_vector, SDO_PARSE_TYPE::UNSIGNED_INT32));
     std::vector<uint8_t> name_vector = core.sdo.upload(node_id, 0x1008, 0x00);
     std::string device_name(name_vector.begin(), name_vector.end());
@@ -234,7 +234,7 @@ int main() {
           std::this_thread::sleep_for(std::chrono::milliseconds(100));
           printDeviceInfo(device, core, node_id);
           // std::string path = ros::package::getPath("kacanopen");
-          boost::filesystem::path full_path =
+          std::filesystem::path full_path =
             /* path + */ "/resources/eds_library/nanotec/CL4-E-2-12.eds";
           device->load_dictionary_from_eds(full_path.string());
           std::cout << "Printing Device Object Dictionary" << std::endl;

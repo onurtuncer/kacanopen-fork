@@ -31,7 +31,7 @@
 
 // #include <ros/package.h>
 #include <signal.h>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <chrono>
 #include <iostream>
 #include <memory>
@@ -233,7 +233,7 @@ int main() {
           // Initialize the device
           device.reset(new kaco::Device(core, node_id));
           // std::string path = ros::package::getPath("kacanopen");
-          boost::filesystem::path full_path =
+          std::filesystem::path full_path =
             /*  path + */ "/resources/eds_library/MaxonMotor/maxon_motor_EPOS4.eds";
           device->load_dictionary_from_eds(full_path.string());
           std::cout << "Printing Device Object Dictionary" << std::endl;

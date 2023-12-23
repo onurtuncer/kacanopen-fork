@@ -33,6 +33,8 @@
 #include <chrono>
 #include <iostream>
 #include <vector>
+#include <sstream>
+
 int main() {
   // ----------- //
   // Preferences //
@@ -63,15 +65,18 @@ int main() {
   // -------------- //
   // Initialization //
   // -------------- //
-  std::cout << "This is an example which shows the usage of the Core library."
+  std::stringstream ss;
+  ss << "This is an example which shows the usage of the Core library."
             << std::endl;
+  std::cout << ss.str();
   // Create core.
   kaco::Core core;
   // This will be set to true by the callback below.
   bool found_node = false;
-  std::cout << "Registering a callback which is called when a device is "
+  ss << "Registering a callback which is called when a device is "
                "detected via NMT..."
             << std::endl;
+  std::cout << ss.str();
   core.nmt.register_device_alive_callback([&](const uint8_t new_node_id) {
     std::cout << "Device says it's alive! ID = " << (unsigned)new_node_id
               << std::endl;

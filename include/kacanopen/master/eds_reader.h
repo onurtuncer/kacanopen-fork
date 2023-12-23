@@ -76,7 +76,7 @@ class EDSReader {
 
   /// This property tree represents the EDS file imported in load_file().
   /// EDS files have the same syntax like Windows INI files.
-  boost::property_tree::ptree m_ini;
+  boost::property_tree::ptree m_ini; // TODO Onur use https://github.com/brofield/simpleini library instead of boost property tree
 
   /// Parse an index section (e.g. [1000])
   bool parse_index(const std::string& section, uint16_t index);

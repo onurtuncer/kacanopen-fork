@@ -30,7 +30,7 @@
  */
 
 #include <signal.h>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <chrono>
 #include <iostream>
 #include <memory>
@@ -102,7 +102,7 @@ int main() {
             // Load eds file. The eds file must be in the same folder in which
             // the binary is being executed.
             // std::string path = ros::package::getPath("kacanopen");
-            boost::filesystem::path full_path =
+            std::filesystem::path full_path =
               /*  path + */
                 "resources/eds_library/roboteq_motor_controllers_v80beta.eds";
             device->load_dictionary_from_eds(full_path.string());

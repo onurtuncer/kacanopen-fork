@@ -31,7 +31,7 @@
 
 // #include <ros/package.h>
 #include <signal.h>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <chrono>
 #include <iostream>
 #include <memory>
@@ -301,7 +301,7 @@ int main() {
           // binary is being executed.
           // std::string path = ros::package::getPath("kacanopen");
           if (!legacy_mode) {
-            boost::filesystem::path full_path =
+            std::filesystem::path full_path =
               /*  path + */
                 "/resources/eds_library/Roboteq/"
                 "roboteq_motor_controllers_v2.0-30-01-"
@@ -309,7 +309,7 @@ int main() {
             device->load_dictionary_from_eds(full_path.string());
           } else {
             std::cout << "Legacy Mode is enabled" << std::endl;
-            boost::filesystem::path full_path =
+            std::filesystem::path full_path =
                /* path + */
                 "/resources/eds_library/Roboteq/"
                 "roboteq_motor_controllers_v80beta.eds";
