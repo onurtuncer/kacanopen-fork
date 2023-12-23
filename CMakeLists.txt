@@ -1,21 +1,54 @@
 cmake_minimum_required(VERSION 3.11)
 project(kacanopen)
 
-#############
-##  Flags  ##
-#############
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 ################
 ##  Settings  ##
 ################
+
+option (GIT_SUBMODULE    "Check submodules during build"               ON)
+option (BOOTSTRAP_VCPKG  "Bootstrap vcpkg"                             OFF)
+
 # Debug
 option(EXHAUSTIVE_DEBUGGING "Enable exhaustive debugging." OFF)
 if(${EXHAUSTIVE_DEBUGGING})
   message(STATUS "Enabled exhaustive debugging.")
   add_definitions("-DEXHAUSTIVE_DEBUGGING")
 endif()
+
+message(STATUS "CHECK GIT SUBMODULES       :" ${GIT_SUBMODULE})
+
+find_package(Git QUIET)
+if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+  execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+                  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+                  OUTPUT_VARIABLE PACKAGE_GIT_VERSION
+                  ERROR_QUIET
+                  OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+      if(GIT_SUBMODULE)
+          message(STATUS "Submodule update")
+          execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+                          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                          RESULT_VARIABLE GIT_SUBMOD_RESULT)
+          if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+              message(WARNING "git submodule update --init --recursive failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+          endif()
+      endif()
+endif()
+
+if(BOOTSTRAP_VCPKG)
+  message(STATUS "Bootstrapping vcpkg")
+  execute_process(COMMAND bootstrap-vcpkg.sh -useSystemBinaries
+                          WORKING_DIRECTORY "${3RD_PARTY_DIR}/vcpkg")
+endif()
+
+#############
+##  Flags  ##
+#############
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+
 
 # ##############
 # ##  Catkin  ##

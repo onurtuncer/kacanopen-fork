@@ -53,14 +53,10 @@ void intHandler(int dummy) {
 
 bool printDeviceInfo(std::shared_ptr<kaco::Device> device_) {
   try {
-    auto device_type =
-        device_->get_entry(0x1000, 0x0, kaco::ReadAccessMethod::sdo);
-    auto device_name =
-        device_->get_entry(0x1008, 0x0, kaco::ReadAccessMethod::sdo);
-    auto hardware_version =
-        device_->get_entry(0x1009, 0x0, kaco::ReadAccessMethod::sdo);
-    auto firmware_version =
-        device_->get_entry(0x100A, 0x0, kaco::ReadAccessMethod::sdo);
+    auto device_type      = device_->get_entry(0x1000, 0x0, kaco::ReadAccessMethod::sdo);
+    auto device_name      = device_->get_entry(0x1008, 0x0, kaco::ReadAccessMethod::sdo);
+    auto hardware_version = device_->get_entry(0x1009, 0x0, kaco::ReadAccessMethod::sdo);
+    auto firmware_version = device_->get_entry(0x100A, 0x0, kaco::ReadAccessMethod::sdo);
     std::cout << "" << std::endl;
     std::cout << "" << std::endl;
     std::cout << "*************************************************************"
@@ -285,18 +281,10 @@ int main() {
               ->set_entry("cmd_cango/cmd_cango_1",
                           static_cast<int>(channel1_speed_ref),
                           kaco::WriteAccessMethod::pdo);
-          std::cout << "Channel 1 speed command = " << std::dec
-                    << channel1_speed_ref << std::endl;
-          int16_t ch1_speed_feedback =
-              DeviceMap.at(node_id[i])
-                  ->get_entry("qry_abspeed/channel_1",
-                              kaco::ReadAccessMethod::pdo_request_and_wait);
-          std::cout << "Channel 1 speed feedback = " << std::dec
-                    << (ch1_speed_feedback) << std::endl;
-          DeviceMap.at(node_id[i])
-              ->set_entry("cmd_cango/cmd_cango_2",
-                          static_cast<int>(channel2_speed_ref),
-                          kaco::WriteAccessMethod::pdo);
+          std::cout << "Channel 1 speed command = " << std::dec << channel1_speed_ref << std::endl;
+          int16_t ch1_speed_feedback = DeviceMap.at(node_id[i])->get_entry("qry_abspeed/channel_1", kaco::ReadAccessMethod::pdo_request_and_wait);
+          std::cout << "Channel 1 speed feedback = " << std::dec << (ch1_speed_feedback) << std::endl;
+          DeviceMap.at(node_id[i])->set_entry("cmd_cango/cmd_cango_2", static_cast<int>(channel2_speed_ref),kaco::WriteAccessMethod::pdo);
           std::cout << "Channel 2 speed command = " << std::dec
                     << channel1_speed_ref << std::endl;
           int16_t ch2_speed_feedback =
@@ -333,8 +321,7 @@ int main() {
               DeviceMap.at(node_id[i])
                   ->get_entry("qry_digout",
                               kaco::ReadAccessMethod::pdo_request_and_wait);
-          std::cout << "Status of Digital Outs = " << std::hex << digout << ""
-                    << std::endl;
+          std::cout << "Status of Digital Outs = " << std::hex << digout << "" << std::endl;
         } catch (...) {
           std::cout << "Exception in main!" << std::endl;
         }
@@ -342,6 +329,7 @@ int main() {
     }
 
     for (uint8_t i = 0; i < sizeof(node_id); i++) {
+
       auto temp = DeviceMap.find(node_id[i]);
       if (temp != DeviceMap.end()) {
         std::cout << "Node id=0x" << node_id[i] << " is connected" << std::endl;

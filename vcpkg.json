@@ -1,0 +1,12 @@
+{
+    "name": "kacanopen-fork",
+    "version-string": "1.0",
+    "dependencies": [
+        "spdlog",
+        "name": "boost",
+	"features": [
+		"algorithm"
+	]
+     
+    ]
+}
